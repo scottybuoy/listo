@@ -1,5 +1,5 @@
 const { User, List, Item } = require('../models');
-// const { signToken } = require('../utils/auth');
+const { signToken } = require('../utils/auth');
 
 // create new user
 const createUser = async ({ body }, res) => {
@@ -8,8 +8,8 @@ const createUser = async ({ body }, res) => {
     if (!user) {
         return res.status(400).json({ message: 'Failed to create user'});
     }
-    // const token = signToken(user);
-    res.status(200).json(user);
+    const token = signToken(user);
+    res.status(200).json({ token, user });
 };
 
 // get user by id
@@ -22,6 +22,27 @@ const getUser = async (req, res) => {
 
     res.json(foundUser);
 };
+
+const login = async (req, res) => {
+    const user = await User.findOne({ username: req.body.username });
+    console.log('REQ', req.user);
+
+    if (!user) {
+        return res.status(400).json({ message: 'Unable to find this user' });
+    }
+    console.log('found user by req.body.id')
+    const correctPW = await user.isCorrectPassword(req.body.password);
+
+    if (!correctPW) {
+        return res.status(400).json({ message: 'Incorrect password' });
+    }
+
+    console.log('SUCCESSFUL LOGIN');
+   
+    const token = signToken(user);
+    res.json({ token, user });
+
+}
 
 const getAllUsers = async (req, res) => {
     const users = await User.find({})
@@ -66,4 +87,26 @@ const addItemToList = async ( { params, body }, res) => {
     return res.status(200).json(updatedList)
 }
 
-module.exports = { createUser, getUser, getAllUsers, createList, addItemToList}
+const getUserLists = async (req, res) => {
+    const user = await User.findById(req.params.userId)
+
+    if (!user) {
+        return res.status(400).json({ message: 'Cannot fiind user'})
+    }
+
+    const listIds = user.lists;
+
+    console.log('USER', user);
+    console.log('LISTS', listIds);
+
+    const userLists = await List.find({'_id': { $in: listIds}})
+
+    if (!userLists) {
+        return res.status(400).json({ message: 'Cannot find lists'});
+    }
+
+
+    return res.status(200).json(userLists);
+}
+
+module.exports = { createUser, getUser, getAllUsers, createList, addItemToList, login, getUserLists}

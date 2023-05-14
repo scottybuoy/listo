@@ -8,6 +8,8 @@ const {
     createList,
     addItemToList,
     getUserLists,
+    getList,
+    deleteItem,
 } = require('../../controllers/user-controller');
 
 const { authMiddleWare } = require('../../utils/auth');
@@ -18,8 +20,10 @@ router.route('/login').post(login);
 
 router.route('/:id').get(getUser).post(createList);
 
-router.route('/:userId/lists').get(getUserLists)
+router.route('/:userId/lists').get(getUserLists);
 
-router.route('/lists/:listId').post(addItemToList)
+router.route('/:userId/list/:listId').get(getList);
+
+router.route('/lists/:listId').post(addItemToList).delete(deleteItem);
 
 module.exports = router;

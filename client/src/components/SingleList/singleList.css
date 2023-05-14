@@ -1,0 +1,34 @@
+.list-title-cont {
+    background-color: rgb(47, 99, 255);
+    padding: 30px;
+}
+
+.list-title {
+    color: white;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.list-item {
+    color: rgb(57, 57, 57);
+}
+
+.item-details {
+    justify-content: space-between;
+    width: 50%;
+    align-items: center;
+}
+
+.trash-can {
+    width: 25px;
+}
+
+.notes-btn{
+    background-color: rgb(211, 219, 222);
+    border-radius: 100px;
+    border-style: none;
+    padding: 5px;
+    color: rgb(57, 57, 57);
+    width: 70px;
+}

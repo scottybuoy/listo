@@ -30,6 +30,7 @@ const Home = () => {
                 <Lists
                 lists={listData}
                 test={'test'}
+                userId={userId}
                 />
             ) : (
                 <LoginForm />

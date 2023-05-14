@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Nav from './components/Nav/Nav'
 import LoginForm from './components/LoginForm.js/LoginForm';
-import Home from './components/Home/Home'
+import Home from './components/Home/Home';
+import SingleList from './components/SingleList/SingleList';
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
         <Route
           path='/login'
           element={<LoginForm />}
+        />
+        <Route
+          path='/:userId/list/:listId'
+          element={<SingleList />}
         />
       </Routes>
 

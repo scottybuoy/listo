@@ -109,4 +109,32 @@ const getUserLists = async (req, res) => {
     return res.status(200).json(userLists);
 }
 
-module.exports = { createUser, getUser, getAllUsers, createList, addItemToList, login, getUserLists}
+const getList = async (req, res) => {
+
+    const list = await List.findById(req.params.listId)
+
+    if (!list) {
+        return res.status(400).json({ message: 'Cannot find list'})
+    }
+
+    return res.status(200).json(list);
+
+
+}
+
+const deleteItem = async (req, res) => {
+    const updatedList = await List.findOneAndUpdate(
+        { _id: req.params.listId},
+        { $pull: { items: { _id: req.body.itemId } } },
+        { new: true }
+    );
+   
+    if (!updatedList) {
+        return res.status(400).json({ message: 'Cannot remove item'})
+    };
+
+    return res.status(200).json(updatedList)
+
+};
+
+module.exports = { createUser, getUser, getAllUsers, createList, addItemToList, login, getUserLists, getList, deleteItem}

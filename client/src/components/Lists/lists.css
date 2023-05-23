@@ -9,6 +9,17 @@
     width: 120px;
 }
 
+.new-list-btn {
+    padding: 10px;
+    border-style: none;
+    border-radius: 50px;
+    width: 65px;
+    background-color: rgb(47, 99, 255);
+    color: white;
+    font-weight:bold;
+    font-size: 30px;
+}
+
 /* .list-cont {
     display: flex;
     flex-direction: column;

@@ -11,7 +11,7 @@ const SingleList = () => {
 
     const listDataLength = Object.keys(listData).length;
 
-    // toggle notesOpen field in notesObjState state variable
+    // toggle notesOpen field in notesObjState state variable;
     const logNotes = (item) => {
        console.log('before update', notesObjState)
         setNotesObjState({...notesObjState, [item]: {notesOpen: !notesObjState[item.notesOpen]}})
@@ -27,6 +27,8 @@ const SingleList = () => {
     }
 
     useEffect(() => {
+
+        console.log('hey');
         
         const findList = async () => {
             const response = await getSingleList(userId, listId)

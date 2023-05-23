@@ -5,6 +5,16 @@ import './lists.css'
 const Lists = ({ lists, userId }) => {
     console.log('why so many', userId)
     return (
+        <>
+        <div className='d-flex justify-content-end mx-3'>
+            <Link
+                className='link'
+                to={`/${userId}/newList`}
+            >
+                <button className='new-list-btn'>+</button>
+            </Link>
+            
+        </div>
         <div className='d-flex justify-content-center my-5'>
             <div className='btn-container'>
                 {lists.map((list) => (
@@ -24,6 +34,7 @@ const Lists = ({ lists, userId }) => {
             </div>
 
         </div>
+        </>
     )
 }
 

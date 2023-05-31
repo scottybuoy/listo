@@ -35,6 +35,16 @@ export const newList = (userId, listFormData) => {
     window.location.href=`http://localhost:3000/home/${userId}`
 };
 
+export const addItem = (listId, newItemData) => {
+    return fetch(`/api/user/lists/${listId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newItemData)
+    })
+}
+
 export const deleteItem = (itemId, listId) => {
     return fetch(`/api/user/lists/${listId}`, {
         method: 'DELETE',

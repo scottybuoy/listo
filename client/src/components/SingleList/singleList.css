@@ -10,8 +10,18 @@
     font-size: 30px;
 }
 
+.list-cont {
+    
+}
+
 .list-item {
     color: rgb(57, 57, 57);
+    margin-bottom: 0px;
+    
+}
+
+.item-qty {
+    margin-bottom: 0px;
 }
 
 .item-details {
@@ -31,4 +41,41 @@
     padding: 5px;
     color: rgb(57, 57, 57);
     width: 70px;
+}
+
+.new-item-btn {
+    padding: 10px;
+    border-style: none;
+    border-radius: 50px;
+    width: 65px;
+    background-color: white;
+    color: rgb(47, 99, 255);
+    font-weight:bold;
+    font-size: 30px;
+    
+}
+
+.new-item-form {
+    height: 100px;
+    background-color: rgb(222, 231, 253);
+}
+
+#new-item-input {
+    border-style: none;
+    height: 35px;
+    border-radius: 15px;
+}
+
+#new-item-btn {
+    border-style: none;
+    border-radius: 25px;
+    color: white;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(47, 99, 255);
+}
+
+.items-container {
+    height: 50px;
+    align-items: center;
 }

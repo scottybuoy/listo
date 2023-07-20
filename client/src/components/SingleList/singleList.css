@@ -1,6 +1,8 @@
 .list-title-cont {
     background-color: rgb(47, 99, 255);
     padding: 30px;
+    position: relative;
+    z-index: 2
 }
 
 .list-title {
@@ -15,6 +17,7 @@
 }
 
 .list-item {
+    width: 40%;
     color: rgb(57, 57, 57);
     margin-bottom: 0px;
     
@@ -32,6 +35,10 @@
 
 .trash-can {
     width: 25px;
+}
+
+.edit-pencil {
+    width: 30px;
 }
 
 .notes-btn{
@@ -55,6 +62,22 @@
     
 }
 
+.new-item-form-cont {
+    position: relative;
+    animation-duration: .5s;
+    animation-name: newItemFormSlideIn;
+}
+
+@keyframes newItemFormSlideIn {
+    from {
+        top: -100px;
+    }
+
+    to {
+        top: 0px;
+    }
+}
+
 .new-item-form {
     height: 100px;
     background-color: rgb(222, 231, 253);
@@ -67,6 +90,7 @@
 }
 
 #new-item-btn {
+    vertical-align: middle;
     border-style: none;
     border-radius: 25px;
     color: white;
@@ -78,4 +102,29 @@
 .items-container {
     height: 50px;
     align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.notes-container {
+    z-index: -1;
+    position: relative;
+    animation-duration: .5s;
+    animation-name: notesSlideIn;
+    align-items: center;
+    color: rgb(98, 98, 98);
+    font-style: italic;
+    background-color: rgb(236, 236, 236);
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+@keyframes notesSlideIn {
+    from {
+        top: -30px;
+    }
+
+    to {
+        top: 0px;
+    }
 }

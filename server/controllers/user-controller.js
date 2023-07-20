@@ -122,6 +122,27 @@ const getList = async (req, res) => {
 
 }
 
+const updateItem = async (req, res) => {
+
+    const list = await List.findById(req.params.listId);
+
+    if (!list) {
+        return res.status(400).json({ message: 'Cannot find list' });
+    }
+
+    const item = list.items.id(req.body.itemId);
+
+    item.itemName = req.body.itemName;
+    item.quantity = req.body.quantity;
+    item.notes = req.body.notes;
+
+    const updatedList = await list.save();
+
+
+    return res.status(200).json(updatedList);
+
+}
+
 const deleteItem = async (req, res) => {
     const updatedList = await List.findOneAndUpdate(
         { _id: req.params.listId},
@@ -137,4 +158,15 @@ const deleteItem = async (req, res) => {
 
 };
 
-module.exports = { createUser, getUser, getAllUsers, createList, addItemToList, login, getUserLists, getList, deleteItem}
+module.exports = { 
+                    createUser,
+                    getUser,
+                    getAllUsers,
+                    createList,
+                    addItemToList,
+                    login,
+                    getUserLists,
+                    getList,
+                    updateItem,
+                    deleteItem
+                }

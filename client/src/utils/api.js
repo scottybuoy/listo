@@ -45,6 +45,16 @@ export const addItem = (listId, newItemData) => {
     })
 }
 
+export const updateItem = (listId, updateItemData) => {
+    return fetch(`/api/user/lists/${listId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateItemData)
+    })
+}
+
 export const deleteItem = (itemId, listId) => {
     return fetch(`/api/user/lists/${listId}`, {
         method: 'DELETE',

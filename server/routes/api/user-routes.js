@@ -9,6 +9,7 @@ const {
     addItemToList,
     getUserLists,
     getList,
+    updateItem,
     deleteItem,
 } = require('../../controllers/user-controller');
 
@@ -24,6 +25,6 @@ router.route('/:userId/lists').get(getUserLists);
 
 router.route('/:userId/list/:listId').get(getList);
 
-router.route('/lists/:listId').post(addItemToList).delete(deleteItem);
+router.route('/lists/:listId').post(addItemToList).put(updateItem).delete(deleteItem);
 
 module.exports = router;

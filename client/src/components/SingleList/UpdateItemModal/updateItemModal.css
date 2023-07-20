@@ -1,0 +1,44 @@
+.modal-cont {
+    height: 200px;
+    width: 300px;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* right: 50%;
+    bottom: 50%; */
+    background-color: rgb(200, 218, 251);
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    
+    
+
+}
+
+.dec-button {
+    background: rgb(239, 239, 239);
+    text-align: center;
+    width: 30px;
+    /* border-style: solid;
+    border-color: rgb(189, 189, 189);
+    border-width: 1px; */
+    border-radius: 8px 0px 0px 8px
+}
+.inc-button {
+    background: rgb(239, 239, 239);
+    text-align: center;
+    width: 30px;
+    /* border-style: solid;
+    border-color: rgb(189, 189, 189);
+    border-width: 1px; */
+    border-radius: 0px 8px 8px 0px
+}
+
+.item-qty {
+    width: 30px;
+    text-align: center;
+    background: white;
+}

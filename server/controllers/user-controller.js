@@ -93,12 +93,11 @@ const addItemToListWithCategory = async (req, res) => {
 
     const categories = list.categories;
 
+    // check for existence of submitted category before creating new one
     for (const category of categories) {
         const foundCategory = await Category.findById(category);
 
         if (foundCategory.categoryName === req.body.category) {
-            console.log('CATEGORY ALREADY EXISTS')
-            console.log('CAT ITEMS', foundCategory.items)
 
             const updatedCategory = await Category.findOneAndUpdate(
                 { _id: category },
@@ -117,8 +116,6 @@ const addItemToListWithCategory = async (req, res) => {
             return res.status(200).json({ message: 'Added item to existing category', updatedCategory})
         }
     }
-
-    console.log('list of CATS', categories)
 
     const category = await Category.create({ categoryName: req.body.category })
 
@@ -154,7 +151,7 @@ const addItemToListWithCategory = async (req, res) => {
         return res.status(400).json({ message: 'Failed to add items to category' });
     }
 
-    return res.status(200).json(updatedCategory)
+    return res.status(200).json({ message: 'Add item to new category', updatedList})
 
 };
 
@@ -191,6 +188,27 @@ const getList = async (req, res) => {
     return res.status(200).json(list);
 
 
+};
+
+const getListCategories = async (req, res) => {
+    const list = await List.findById(req.params.listId);
+
+    if (!list) {
+        res.status(400).json({ message: 'Failed to find list' });
+    }
+
+    const categoryIds = list.categories;
+    console.log('CATS IN GET LIST CATS', categoryIds)
+
+    const categories = await Category.find(
+        {
+            _id: {
+                $in: categoryIds
+            }
+        }
+    );
+
+    return res.status(200).json({ message: 'found list categories', categories})
 }
 
 const updateItem = async (req, res) => {
@@ -236,6 +254,7 @@ module.exports = {
                     createList,
                     addItemToList,
                     addItemToListWithCategory,
+                    getListCategories,
                     login,
                     getUserLists,
                     getList,

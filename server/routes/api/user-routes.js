@@ -8,6 +8,7 @@ const {
     createList,
     addItemToList,
     addItemToListWithCategory,
+    getListCategories,
     getUserLists,
     getList,
     updateItem,
@@ -26,6 +27,6 @@ router.route('/:userId/lists').get(getUserLists);
 
 router.route('/:userId/list/:listId').get(getList);
 
-router.route('/lists/:listId').post(addItemToListWithCategory).put(updateItem).delete(deleteItem);
+router.route('/lists/:listId').get(getListCategories).post(addItemToListWithCategory).put(updateItem).delete(deleteItem);
 
 module.exports = router;

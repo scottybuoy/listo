@@ -1,12 +1,17 @@
 const { Schema, model } = require('mongoose');
-const itemSchema = require('./Item');
+
 
 const listSchema = new Schema(
     {
         listTitle: {
             type: String
         },
-        items: [itemSchema]
+        categories: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Category',
+            }
+        ]
     },
     {
         toJSON: {

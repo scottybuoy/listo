@@ -1,4 +1,4 @@
-const { User, List, Item } = require('../models');
+const { User, List, Category, Item } = require('../models');
 const { signToken } = require('../utils/auth');
 
 // create new user
@@ -71,7 +71,7 @@ const createList = async (req, res) => {
         return res.status(400).json({ message: 'Failed to add list to user'});
     }
     return res.status(200).json(updatedUser)
-}
+};
 
 const addItemToList = async ( { params, body }, res) => {
     const updatedList = await List.findOneAndUpdate(
@@ -85,7 +85,78 @@ const addItemToList = async ( { params, body }, res) => {
     }
 
     return res.status(200).json(updatedList)
-}
+};
+
+const addItemToListWithCategory = async (req, res) => {
+
+    const list = await List.findById(req.params.listId);
+
+    const categories = list.categories;
+
+    for (const category of categories) {
+        const foundCategory = await Category.findById(category);
+
+        if (foundCategory.categoryName === req.body.category) {
+            console.log('CATEGORY ALREADY EXISTS')
+            console.log('CAT ITEMS', foundCategory.items)
+
+            const updatedCategory = await Category.findOneAndUpdate(
+                { _id: category },
+                { 
+                    $addToSet: { 
+                        items: {
+                            itemName: req.body.itemName,
+                            quantity: req.body.quantity,
+                            notes: req.body.notes
+                        }
+                    }
+                },
+                { new: true, runvalidators: true }
+            );
+
+            return res.status(200).json({ message: 'Added item to existing category', updatedCategory})
+        }
+    }
+
+    console.log('list of CATS', categories)
+
+    const category = await Category.create({ categoryName: req.body.category })
+
+    if (!category) {
+        return res.status(400).json({ message: 'Failed to create category' });
+    }
+
+    const updatedList = await List.findOneAndUpdate(
+        { _id: req.params.listId },
+        { $addToSet: { categories: category } },
+        { new: true, runValidators: true }
+    );
+
+    if (!updatedList) {
+        return res.status(400).json({ message: 'Failed to add category to list'});
+    }
+
+    const updatedCategory = await Category.findOneAndUpdate(
+        { categoryName: req.body.category },
+        { 
+            $addToSet: { 
+                items: {
+                    itemName: req.body.itemName,
+                    quantity: req.body.quantity,
+                    notes: req.body.notes
+                }
+            }
+        },
+        { new: true, runvalidators: true }
+    );
+
+    if (!updatedCategory) {
+        return res.status(400).json({ message: 'Failed to add items to category' });
+    }
+
+    return res.status(200).json(updatedCategory)
+
+};
 
 const getUserLists = async (req, res) => {
     const user = await User.findById(req.params.userId)
@@ -141,7 +212,7 @@ const updateItem = async (req, res) => {
 
     return res.status(200).json(updatedList);
 
-}
+};
 
 const deleteItem = async (req, res) => {
     const updatedList = await List.findOneAndUpdate(
@@ -164,6 +235,7 @@ module.exports = {
                     getAllUsers,
                     createList,
                     addItemToList,
+                    addItemToListWithCategory,
                     login,
                     getUserLists,
                     getList,

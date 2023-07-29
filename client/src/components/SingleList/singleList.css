@@ -16,6 +16,26 @@
     
 }
 
+#category-name {
+    font-weight: 200;
+    font-style: italic;
+    color: grey;
+}
+
+#category-cont {
+  
+}
+
+.category-items-cont {
+    /* background-color: aliceblue; */
+    padding: 0px 10px;
+}
+
+#category-item {
+    margin-bottom: 30px;
+    background-color: aliceblue;
+}
+
 .list-item {
     width: 40%;
     color: rgb(57, 57, 57);
@@ -87,6 +107,14 @@
     border-style: none;
     height: 35px;
     border-radius: 15px;
+    padding-left: 10px;
+}
+
+#category-menu {
+    border-style: none;
+    height: 35px;
+    border-radius: 15px;
+    padding: 0px 10px;
 }
 
 #new-item-btn {

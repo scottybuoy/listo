@@ -24,6 +24,14 @@ export const getSingleList = (userId, listId) => {
     });
 };
 
+export const getListCategories = async (listId) => {
+    return fetch(`/api/user/lists/${listId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
 export const newList = (userId, listFormData) => {
     fetch(`/api/user/${userId}`, {
         method: 'POST',
@@ -36,6 +44,16 @@ export const newList = (userId, listFormData) => {
 };
 
 export const addItem = (listId, newItemData) => {
+    return fetch(`/api/user/lists/${listId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newItemData)
+    })
+};
+
+export const addItemWithCategory = (listId, newItemData) => {
     return fetch(`/api/user/lists/${listId}`, {
         method: 'POST',
         headers: {

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSingleList, deleteItem, addItem } from "../../utils/api";
+import { getSingleList, deleteItem, addItem, addItemWithCategory, getListCategories } from "../../utils/api";
 import './singleList.css';
 import UpdateItemModal from './UpdateItemModal/UpdateItemModal';
+import allCategories from './CategoryMenu/CategoryMenu';
 
 
 const SingleList = () => {
-   
+
     // HOOKS
     const { userId, listId } = useParams();
     const [listData, setListData] = useState({});
@@ -39,6 +40,13 @@ const SingleList = () => {
         setNewItemForm(!newItemForm);
     }
 
+    const handleAddItemWithCategory = async () => {
+        const response = await addItemWithCategory(listId, newItemData);
+        const newItem = await response.json();
+        setListData(newItem);
+        setNewItemForm(!newItemForm);
+    }
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (!e.target.value) {
@@ -46,6 +54,7 @@ const SingleList = () => {
             return
         }
         setNewItemData({ ...newItemData, [name]: value });
+        console.log('HANDLE CHANGE', newItemData);
     }
 
     // const closeModal = (e) => {
@@ -59,11 +68,18 @@ const SingleList = () => {
 
         console.log('hey');
 
-        const findList = async () => {
-            const response = await getSingleList(userId, listId)
-            const list = await response.json();
-            setListData(list);
+        // const findList = async () => {
+        //     const response = await getSingleList(userId, listId)
+        //     const list = await response.json();
+        //     setListData(list);
 
+        // }
+
+        const findCategories = async () => {
+            const response = await getListCategories(listId);
+            const categories = await response.json();
+            setListData(categories);
+            console.log('find cats', listData);
         }
 
         const createNotesObj = (listData) => {
@@ -84,7 +100,8 @@ const SingleList = () => {
 
         }
 
-        findList();
+        // findList();
+        findCategories();
         createNotesObj(listData);
 
     }, [listDataLength]);
@@ -94,9 +111,9 @@ const SingleList = () => {
 
         // HEADER
 
-        <div 
+        <div
             className='container-fluid'
-            // onClick={closeModal}
+        // onClick={closeModal}
         >
             <div className='row'>
                 <div className='col-sm-12 list-title-cont d-flex justify-content-between align-items-center'>
@@ -120,7 +137,13 @@ const SingleList = () => {
                             onChange={handleChange}
                         >
                         </input>
-                        <button id='new-item-btn' onClick={handleAddItem}>add!</button>
+                        <select id='category-menu' name='category' onChange={handleChange}>
+                            {allCategories.map((category) => (
+                                <option key={category}>{category}</option>
+                            ))}
+                        </select>
+
+                        <button id='new-item-btn' onClick={handleAddItemWithCategory}>add!</button>
                     </div>
                 </div>
             ) : (
@@ -128,55 +151,94 @@ const SingleList = () => {
             )}
 
             {/* LIST CONTAINER */}
-
+            {/* og containter */}
+            {/* <div className='row'>
+                <div className='col-12 list-cont d-flex flex-column align-items-center my-3'> */}
             <div className='row'>
-                <div className='col-12 list-cont d-flex flex-column align-items-center my-3'>
+                <div className='col-12 list-cont d-flex flex-column my-3'>
 
-                    {!listData.items ? (
+                    {!listData.categories ? (
                         <div>fetching list!</div>
                     ) : (
-                        listData.items.map((item) => (
+                        // listData.items.map((item) => (
 
-                            // ITEM
+                        //     // ITEM
 
-                            <div key={item._id} className='col-12 col-md-8 col-lg-6 d-flex justify-content-between items-container'>
-                                <p className='list-item'>{item.itemName}</p>
-                                <div className='d-flex item-details'>
-                                    <p className='item-qty'>{item.quantity ? item.quantity : 1}</p>
-                                    <button key={item._id} value={item.itemName} onClick={() => logNotes(item.itemName)} className='notes-btn'>notes</button>
-                                    
-                                    {/* UPDATE BUTTON */}
-                                    <img
-                                        className='edit-pencil'
-                                        src='/images/edit-pencil.png'
-                                        alt='trash can icon'
-                                        onClick={ () => { 
-                                            setToggleUpdateItemModal(true);
-                                            setItemForUpdate({ itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes})
-                                            }}>
-                                    </img>
+                        //     <div key={item._id} className='col-12 col-md-8 col-lg-6 d-flex justify-content-between items-container'>
+                        //         <p className='list-item'>{item.itemName}</p>
+                        //         <div className='d-flex item-details'>
+                        //             <p className='item-qty'>{item.quantity ? item.quantity : 1}</p>
+                        //             <button key={item._id} value={item.itemName} onClick={() => logNotes(item.itemName)} className='notes-btn'>notes</button>
 
-                                    {/* DELETE BUTTON */}
-                                    <img
-                                        className='trash-can'
-                                        src='/images/trashCan.png'
-                                        alt='trash can icon'
-                                        onClick={() => { handleItemDelete(item._id, listId) }}>
-                                    </img>
+                        //             {/* UPDATE BUTTON */}
+                        //             <img
+                        //                 className='edit-pencil'
+                        //                 src='/images/edit-pencil.png'
+                        //                 alt='trash can icon'
+                        //                 onClick={ () => { 
+                        //                     setToggleUpdateItemModal(true);
+                        //                     setItemForUpdate({ itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes})
+                        //                     }}>
+                        //             </img>
+
+                        //             {/* DELETE BUTTON */}
+                        //             <img
+                        //                 className='trash-can'
+                        //                 src='/images/trashCan.png'
+                        //                 alt='trash can icon'
+                        //                 onClick={() => { handleItemDelete(item._id, listId) }}>
+                        //             </img>
+                        //         </div>
+
+                        //         {/* {!notesObjState[item.itemName].notesOpen ? (
+                        //           <div>loading notes!</div> 
+                        //         ) : (
+                        //              <div className='notes-container d-flex align-items-center'>
+                        //                 <p>{item.notes}</p>
+                        //             </div>
+                        //         )} */}
+
+
+
+                        //     </div>
+
+                        // ))
+                        listData.categories.map((category) => (
+                            <div key={category._id} id='category-cont'>
+                                <h3 id='category-name'>{category.categoryName}</h3>
+                                <hr></hr>
+                                <div className='d-flex flex-column category-items-cont'>
+                                    {category.items.map((item) =>
+                                        <div className='d-flex justify-content-between'>
+                                            <p key={item._id}>{item.itemName}</p>
+                                            <div className='d-flex item-details'>
+                                                <p className='item-qty'>{item.quantity ? item.quantity : 1}</p>
+                                                <button key={item._id} value={item.itemName} onClick={() => logNotes(item.itemName)} className='notes-btn'>notes</button>
+
+                                                {/* EDIT BUTTON */}
+                                                <img
+                                                    className='edit-pencil'
+                                                    src='/images/edit-pencil.png'
+                                                    alt='trash can icon'
+                                                    onClick={() => {
+                                                        setToggleUpdateItemModal(true);
+                                                        setItemForUpdate({ itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
+                                                    }}>
+                                                </img>
+
+                                                {/* DELETE BUTTON */}
+                                                <img
+                                                    className='trash-can'
+                                                    src='/images/trashCan.png'
+                                                    alt='trash can icon'
+                                                    onClick={() => { handleItemDelete(item._id, listId) }}>
+                                                </img>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
-                                {/* {!notesObjState[item.itemName].notesOpen ? (
-                                  <div>loading notes!</div> 
-                                ) : (
-                                     <div className='notes-container d-flex align-items-center'>
-                                        <p>{item.notes}</p>
-                                    </div>
-                                )} */}
-
-
-
                             </div>
-
                         ))
                     )}
 

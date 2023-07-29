@@ -110,10 +110,10 @@ const addItemToListWithCategory = async (req, res) => {
                         }
                     }
                 },
-                { new: true, runvalidators: true }
+                { new: true, runValidators: true }
             );
 
-            return res.status(200).json({ message: 'Added item to existing category', updatedCategory})
+            return res.status(200).json(updatedCategory)
         }
     }
 
@@ -193,6 +193,8 @@ const getList = async (req, res) => {
 const getListCategories = async (req, res) => {
     const list = await List.findById(req.params.listId);
 
+    const listTitle = list.listTitle;
+
     if (!list) {
         res.status(400).json({ message: 'Failed to find list' });
     }
@@ -208,7 +210,7 @@ const getListCategories = async (req, res) => {
         }
     );
 
-    return res.status(200).json({ message: 'found list categories', categories})
+    return res.status(200).json({listTitle, categories})
 }
 
 const updateItem = async (req, res) => {

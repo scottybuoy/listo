@@ -9,7 +9,7 @@ import allCategories from './CategoryMenu/CategoryMenu';
 const SingleList = () => {
 
     // HOOKS
-    const { userId, listId } = useParams();
+    const { listId } = useParams();
     const [listData, setListData] = useState({});
     const [notesObjState, setNotesObjState] = useState({})
     const [newItemForm, setNewItemForm] = useState(false);
@@ -26,8 +26,8 @@ const SingleList = () => {
         // console.log('state object', notesObjState);
     }
 
-    const handleItemDelete = async (itemId, listId) => {
-        const response = await deleteItem(itemId, listId);
+    const handleItemDelete = async (itemId, listId, categoryId) => {
+        const response = await deleteItem(itemId, listId, categoryId);
         const updatedList = await response.json();
         setListData(updatedList);
 
@@ -43,6 +43,7 @@ const SingleList = () => {
     const handleAddItemWithCategory = async () => {
         const response = await addItemWithCategory(listId, newItemData);
         const newItem = await response.json();
+        console.log('NEW ITEM', newItem);
         setListData(newItem);
         setNewItemForm(!newItemForm);
     }
@@ -106,7 +107,7 @@ const SingleList = () => {
 
     }, [listDataLength]);
 
-    console.log(notesObjState)
+    // console.log(notesObjState)
     return (
 
         // HEADER
@@ -160,56 +161,15 @@ const SingleList = () => {
                     {!listData.categories ? (
                         <div>fetching list!</div>
                     ) : (
-                        // listData.items.map((item) => (
-
-                        //     // ITEM
-
-                        //     <div key={item._id} className='col-12 col-md-8 col-lg-6 d-flex justify-content-between items-container'>
-                        //         <p className='list-item'>{item.itemName}</p>
-                        //         <div className='d-flex item-details'>
-                        //             <p className='item-qty'>{item.quantity ? item.quantity : 1}</p>
-                        //             <button key={item._id} value={item.itemName} onClick={() => logNotes(item.itemName)} className='notes-btn'>notes</button>
-
-                        //             {/* UPDATE BUTTON */}
-                        //             <img
-                        //                 className='edit-pencil'
-                        //                 src='/images/edit-pencil.png'
-                        //                 alt='trash can icon'
-                        //                 onClick={ () => { 
-                        //                     setToggleUpdateItemModal(true);
-                        //                     setItemForUpdate({ itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes})
-                        //                     }}>
-                        //             </img>
-
-                        //             {/* DELETE BUTTON */}
-                        //             <img
-                        //                 className='trash-can'
-                        //                 src='/images/trashCan.png'
-                        //                 alt='trash can icon'
-                        //                 onClick={() => { handleItemDelete(item._id, listId) }}>
-                        //             </img>
-                        //         </div>
-
-                        //         {/* {!notesObjState[item.itemName].notesOpen ? (
-                        //           <div>loading notes!</div> 
-                        //         ) : (
-                        //              <div className='notes-container d-flex align-items-center'>
-                        //                 <p>{item.notes}</p>
-                        //             </div>
-                        //         )} */}
-
-
-
-                        //     </div>
-
-                        // ))
+                        
                         listData.categories.map((category) => (
-                            <div key={category._id} id='category-cont'>
+                            category.items.length? (
+                                <div key={category._id} id='category-cont'>
                                 <h3 id='category-name'>{category.categoryName}</h3>
                                 <hr></hr>
                                 <div className='d-flex flex-column category-items-cont'>
                                     {category.items.map((item) =>
-                                        <div className='d-flex justify-content-between'>
+                                        <div key={item._id} className='d-flex justify-content-between'>
                                             <p key={item._id}>{item.itemName}</p>
                                             <div className='d-flex item-details'>
                                                 <p className='item-qty'>{item.quantity ? item.quantity : 1}</p>
@@ -231,7 +191,7 @@ const SingleList = () => {
                                                     className='trash-can'
                                                     src='/images/trashCan.png'
                                                     alt='trash can icon'
-                                                    onClick={() => { handleItemDelete(item._id, listId) }}>
+                                                    onClick={() => { handleItemDelete(item._id, listId, category._id) }}>
                                                 </img>
                                             </div>
                                         </div>
@@ -239,6 +199,10 @@ const SingleList = () => {
                                 </div>
 
                             </div>
+                            ) : (
+                                null
+                            )
+                           
                         ))
                     )}
 

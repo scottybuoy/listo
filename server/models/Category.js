@@ -6,7 +6,7 @@ const categorySchemma = new Schema(
         categoryName: {
             type: String,
             required: true,
-            unique: true,
+            // unique: true,
         },
         items: [itemSchema]
     }
@@ -15,4 +15,3 @@ const categorySchemma = new Schema(
 const Category = model('Category', categorySchemma);
 
 module.exports = Category;
-

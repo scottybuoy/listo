@@ -73,12 +73,22 @@ export const updateItem = (listId, updateItemData) => {
     })
 }
 
-export const deleteItem = (itemId, listId) => {
+// export const deleteItem = (itemId, listId) => {
+//     return fetch(`/api/user/lists/${listId}`, {
+//         method: 'DELETE',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({itemId})
+//     });
+// };
+
+export const deleteItem = (itemId, listId, categoryId) => {
     return fetch(`/api/user/lists/${listId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({itemId})
+        body: JSON.stringify({itemId, categoryId})
     });
 };

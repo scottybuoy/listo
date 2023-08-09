@@ -134,7 +134,7 @@ const addItemToListWithCategory = async (req, res) => {
     }
 
     const updatedCategory = await Category.findOneAndUpdate(
-        { categoryName: req.body.category },
+        { _id: category._id },
         { 
             $addToSet: { 
                 items: {
@@ -151,7 +151,7 @@ const addItemToListWithCategory = async (req, res) => {
         return res.status(400).json({ message: 'Failed to add items to category' });
     }
 
-    return res.status(200).json({ message: 'Add item to new category', updatedList})
+    return res.status(200).json(updatedCategory)
 
 };
 
@@ -200,7 +200,7 @@ const getListCategories = async (req, res) => {
     }
 
     const categoryIds = list.categories;
-    console.log('CATS IN GET LIST CATS', categoryIds)
+    // console.log('CATS IN GET LIST CATS', categoryIds)
 
     const categories = await Category.find(
         {
@@ -234,18 +234,33 @@ const updateItem = async (req, res) => {
 
 };
 
+// const deleteItem = async (req, res) => {
+//     const updatedList = await List.findOneAndUpdate(
+//         { _id: req.params.listId},
+//         { $pull: { items: { _id: req.body.itemId } } },
+//         { new: true }
+//     );
+   
+//     if (!updatedList) {
+//         return res.status(400).json({ message: 'Cannot remove item'})
+//     };
+
+//     return res.status(200).json(updatedList)
+
+// };
+
 const deleteItem = async (req, res) => {
-    const updatedList = await List.findOneAndUpdate(
-        { _id: req.params.listId},
+    const updatedCategory = await Category.findOneAndUpdate(
+        { _id: req.body.categoryId},
         { $pull: { items: { _id: req.body.itemId } } },
         { new: true }
     );
    
-    if (!updatedList) {
+    if (!updatedCategory) {
         return res.status(400).json({ message: 'Cannot remove item'})
     };
 
-    return res.status(200).json(updatedList)
+    return res.status(200).json(updatedCategory)
 
 };
 

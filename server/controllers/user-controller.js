@@ -25,12 +25,12 @@ const getUser = async (req, res) => {
 
 const login = async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
-    console.log('REQ', req.user);
+    // console.log('REQ', req.user);
 
     if (!user) {
         return res.status(400).json({ message: 'Unable to find this user' });
     }
-    console.log('found user by req.body.id')
+    
     const correctPW = await user.isCorrectPassword(req.body.password);
 
     if (!correctPW) {
@@ -164,9 +164,6 @@ const getUserLists = async (req, res) => {
 
     const listIds = user.lists;
 
-    console.log('USER', user);
-    console.log('LISTS', listIds);
-
     const userLists = await List.find({'_id': { $in: listIds}})
 
     if (!userLists) {
@@ -213,24 +210,45 @@ const getListCategories = async (req, res) => {
     return res.status(200).json({listTitle, categories})
 }
 
+// const updateItem = async (req, res) => {
+
+//     const list = await List.findById(req.params.listId);
+
+//     if (!list) {
+//         return res.status(400).json({ message: 'Cannot find list' });
+//     }
+
+//     const item = list.items.id(req.body.itemId);
+
+//     item.itemName = req.body.itemName;
+//     item.quantity = req.body.quantity;
+//     item.notes = req.body.notes;
+
+//     const updatedList = await list.save();
+
+
+//     return res.status(200).json(updatedList);
+
+// };
 const updateItem = async (req, res) => {
 
-    const list = await List.findById(req.params.listId);
+    const category = await Category.findById(req.body.catId);
 
-    if (!list) {
-        return res.status(400).json({ message: 'Cannot find list' });
+    if (!category) {
+        return res.status(400).json({ message: 'Cannot find category' });
     }
 
-    const item = list.items.id(req.body.itemId);
+    const item = category.items.id(req.body.itemId);
 
     item.itemName = req.body.itemName;
     item.quantity = req.body.quantity;
     item.notes = req.body.notes;
 
-    const updatedList = await list.save();
+    const updatedCategory = await category.save();
+    
 
 
-    return res.status(200).json(updatedList);
+    return res.status(200).json(updatedCategory);
 
 };
 

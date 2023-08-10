@@ -63,13 +63,22 @@ export const addItemWithCategory = (listId, newItemData) => {
     })
 }
 
-export const updateItem = (listId, updateItemData) => {
-    return fetch(`/api/user/lists/${listId}`, {
+// export const updateItem = (listId, updateItemData) => {
+//     return fetch(`/api/user/lists/${listId}`, {
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(updateItemData)
+//     })
+// }
+export const updateItem = (catId, updateItemData) => {
+    return fetch(`/api/user/lists/${catId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updateItemData)
+        body: JSON.stringify({...updateItemData, catId})
     })
 }
 

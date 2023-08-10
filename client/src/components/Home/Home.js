@@ -6,7 +6,6 @@ import { getUserLists } from '../../utils/api';
 
 
 const userId = Auth.getProfile().data._id;
-console.log('USER ID', userId);
 
 const Home = () => {
     const [listData, setListData] = useState([]);

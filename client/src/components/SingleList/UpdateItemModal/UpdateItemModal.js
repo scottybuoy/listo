@@ -12,7 +12,9 @@ const UpdateItemModal = ({ item }) => {
 
     // HOOKS
     const [itemFormData, setItemFormData] = useState()
-    const { listId } = useParams();
+    // const { listId } = useParams();
+    const catId = item.catId;
+    console.log('CATID', catId);
 
     
     const handleChange = (e) => {
@@ -28,7 +30,7 @@ const UpdateItemModal = ({ item }) => {
 
         let editBody = {...itemFormData, itemId: item.itemId}
 
-        const response = await updateItem(listId, editBody);
+        const response = await updateItem(catId, editBody);
         const updatedItem = await response.json();
 
         setItemFormData(updatedItem);

@@ -6,6 +6,16 @@ const listSchema = new Schema(
         listTitle: {
             type: String
         },
+
+        listType: {
+            type: String
+        },
+
+        dateCreated: {
+            type: Date,
+            default: Date.now,
+        },
+
         categories: [
             {
                 type: Schema.Types.ObjectId,

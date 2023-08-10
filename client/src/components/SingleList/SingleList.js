@@ -117,7 +117,7 @@ const SingleList = () => {
         // onClick={closeModal}
         >
             <div className='row'>
-                <div className='col-sm-12 list-title-cont d-flex justify-content-between align-items-center'>
+                <div className='col-12 list-title-cont d-flex justify-content-between align-items-center'>
                     <h3 className='list-title'>{listData.listTitle}</h3>
                     <button
                         className='new-item-btn d-flex align-items-center justify-content-center'
@@ -155,7 +155,7 @@ const SingleList = () => {
             {/* og containter */}
             {/* <div className='row'>
                 <div className='col-12 list-cont d-flex flex-column align-items-center my-3'> */}
-            <div className='row'>
+            <div className='row d-flex justify-content-center'>
                 <div className='col-12 list-cont d-flex flex-column my-3'>
 
                     {!listData.categories ? (
@@ -182,7 +182,7 @@ const SingleList = () => {
                                                     alt='trash can icon'
                                                     onClick={() => {
                                                         setToggleUpdateItemModal(true);
-                                                        setItemForUpdate({ itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
+                                                        setItemForUpdate({ catId: category._id, itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
                                                     }}>
                                                 </img>
 

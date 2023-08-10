@@ -20,6 +20,15 @@
     font-size: 30px;
 }
 
+.list-info {
+    margin: 0px;
+}
+
+.date {
+    font-style: italic;
+    color: rgb(168, 168, 168);
+}
+
 /* .list-cont {
     display: flex;
     flex-direction: column;

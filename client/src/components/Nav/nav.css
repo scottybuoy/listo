@@ -1,0 +1,22 @@
+.nav {
+    background-color: rgb(47, 99, 255);
+    height: 60px;
+    box-shadow: 0px 2px 8px grey;
+    color: white;
+    position: relative;
+    z-index: 2;
+}
+
+#logo {
+    width: 100px;
+    margin-left: 25px;
+}
+
+.nav-item {
+    margin-bottom: 0px;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+}

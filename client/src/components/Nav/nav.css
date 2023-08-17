@@ -5,6 +5,7 @@
     color: white;
     position: relative;
     z-index: 2;
+    padding-right: 25px;
 }
 
 #logo {

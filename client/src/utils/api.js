@@ -33,14 +33,14 @@ export const getListCategories = async (listId) => {
 }
 
 export const newList = (userId, listFormData) => {
-    fetch(`/api/user/${userId}`, {
+    return fetch(`/api/user/${userId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(listFormData),
     });
-    window.location.href=`http://localhost:3000/home/${userId}`
+    // window.location.href=`http://localhost:3000/home/${userId}`
 };
 
 export const addItem = (listId, newItemData) => {

@@ -1,3 +1,17 @@
+/* LISTS HEADER */
+.list-title {
+    color: rgb(181, 181, 181);
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.lists-header {
+    background-color: rgb(239, 239, 239);
+    z-index: 1;
+    box-shadow: 0px 1px 8px rgb(220, 220, 220);
+
+}
 .list-btn {
     display: block;
     background-color: rgb(47, 99, 255);
@@ -9,6 +23,8 @@
     width: 120px;
 }
 
+/* NEW LIST FORM */
+
 .new-list-btn {
     padding: 10px;
     border-style: none;
@@ -19,6 +35,45 @@
     font-weight:bold;
     font-size: 30px;
 }
+
+.new-list-form-cont {
+    position: relative;
+    animation-duration: .5s;
+    animation-name: newListFormSlideIn;
+}
+
+.new-list-form {
+    z-index: 0;
+    background-color: rgb(211, 245, 225);
+    height: 100px;
+    padding: 20px;
+}
+
+#new-list-input {
+    border-style: none;
+    height: 35px;
+    border-radius: 15px;
+    padding-left: 10px;
+}
+
+#category-menu {
+    border-style: none;
+    height: 35px;
+    border-radius: 15px;
+    padding: 0px 10px;
+}
+
+#new-list-btn {
+    vertical-align: middle;
+    border-style: none;
+    border-radius: 25px;
+    color: white;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(47, 99, 255);
+}
+
+/* LISTS */
 
 .list-info {
     margin: 0px;
@@ -34,3 +89,14 @@
     flex-direction: column;
 
 } */
+
+/* NEW LIST FORM SLIDE IN */
+@keyframes newListFormSlideIn {
+    from {
+        top: -100px;
+    }
+
+    to {
+        top: 0px;
+    }
+}

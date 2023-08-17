@@ -129,6 +129,8 @@ const SingleList = () => {
                     </button>
                 </div>
             </div>
+
+            {/* NEW ITEM FORM */}
             {newItemForm ? (
                 <div className='row new-item-form-cont'>
                     <div className='col-12 d-flex align-items-center justify-content-between new-item-form'>

@@ -1,0 +1,1 @@
+export const listCategories = ['Grocery', 'Hardware', 'Big-Box', 'Department', 'Pharmacy', 'Other'];

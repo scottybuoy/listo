@@ -101,3 +101,13 @@ export const deleteItem = (itemId, listId, categoryId) => {
         body: JSON.stringify({itemId, categoryId})
     });
 };
+
+export const deleteList = (userId, listId) => {
+    return fetch(`/api/user/${userId}/lists`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({listId})
+    });
+}

@@ -10,15 +10,15 @@ const userId = Auth.getProfile().data._id;
 const Home = () => {
     const [listData, setListData] = useState([]);
 
-    useEffect(() => {
-        const findLists = async () => {
-            const response = await getUserLists(userId);
-            const lists = await response.json();
-            setListData(lists);
-        }
+    // useEffect(() => {
+    //     const findLists = async () => {
+    //         const response = await getUserLists(userId);
+    //         const lists = await response.json();
+    //         setListData(lists);
+    //     }
     
-        findLists();
-    }, []);
+    //     findLists();
+    // }, []);
 
    
   

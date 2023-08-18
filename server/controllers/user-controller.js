@@ -171,7 +171,7 @@ const getUserLists = async (req, res) => {
     }
 
 
-    return res.status(200).json(userLists);
+    return res.status(200).json({userLists});
 }
 
 const getList = async (req, res) => {
@@ -282,6 +282,21 @@ const deleteItem = async (req, res) => {
 
 };
 
+const deleteList = async (req, res) => {
+    const updatedUser = await User.findOneAndUpdate(
+        { _id: req.params.userId},
+        { $pull: { lists: req.body.listId } },
+        { new: true }
+    )
+
+    if (!updatedUser) {
+        return res.status(400).json({message: 'Failed to delete list from user'})
+    }
+
+    console.log('delete list', updatedUser)
+    return res.status(200).json(updatedUser);
+}
+
 module.exports = { 
                     createUser,
                     getUser,
@@ -294,5 +309,6 @@ module.exports = {
                     getUserLists,
                     getList,
                     updateItem,
-                    deleteItem
+                    deleteItem,
+                    deleteList
                 }

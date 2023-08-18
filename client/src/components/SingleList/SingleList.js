@@ -80,7 +80,7 @@ const SingleList = () => {
             const response = await getListCategories(listId);
             const categories = await response.json();
             setListData(categories);
-            console.log('find cats', listData);
+            console.log('find cats', listDataLength, listData);
         }
 
         const createNotesObj = (listData) => {

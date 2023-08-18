@@ -13,6 +13,7 @@ const {
     getList,
     updateItem,
     deleteItem,
+    deleteList
 } = require('../../controllers/user-controller');
 
 const { authMiddleWare } = require('../../utils/auth');
@@ -23,7 +24,7 @@ router.route('/login').post(login);
 
 router.route('/:id').get(getUser).post(createList);
 
-router.route('/:userId/lists').get(getUserLists);
+router.route('/:userId/lists').get(getUserLists).delete(deleteList);
 
 router.route('/:userId/list/:listId').get(getList);
 

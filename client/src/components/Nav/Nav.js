@@ -10,7 +10,7 @@ const Nav = () => {
 
     return (
         <div className = 'container-fluid p-0'>
-            <div className = 'd-flex justify-content-between align-items-center nav'>
+            <div className = 'col-12 d-flex justify-content-between align-items-center nav'>
                 
                 <img alt='listo logo' id='logo' src='/images/listo-sm.png'></img>
                 

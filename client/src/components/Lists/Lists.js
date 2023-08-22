@@ -52,7 +52,7 @@ const Lists = ({ lists, userId }) => {
     return (
         <>
             {/* BUTTON TO OPEN NEW LIST FORM */}
-            <div className='container-fluid p-0'>
+            <div className='row'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
                     {/* <Link
                     className='link'

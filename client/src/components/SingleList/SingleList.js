@@ -181,9 +181,9 @@ const SingleList = () => {
                                                 <img
                                                     className='edit-pencil'
                                                     src='/images/edit-pencil.png'
-                                                    alt='trash can icon'
+                                                    alt='edit icon'
                                                     onClick={() => {
-                                                        setToggleUpdateItemModal(true);
+                                                        setToggleUpdateItemModal(!toggleUpdateItemModal);
                                                         setItemForUpdate({ catId: category._id, itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
                                                     }}>
                                                 </img>
@@ -217,7 +217,10 @@ const SingleList = () => {
 
             {toggleUpdateItemModal ? (
                 <UpdateItemModal
-                    // onClick={() => {closeModal()}}
+                    listData={listData}
+                    setListData={setListData}
+                    toggleUpdateItemModal={toggleUpdateItemModal}
+                    setToggleUpdateItemModal={setToggleUpdateItemModal}
                     item={itemForUpdate}
                 >
 

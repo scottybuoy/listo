@@ -293,7 +293,6 @@ const deleteList = async (req, res) => {
         return res.status(400).json({message: 'Failed to delete list from user'})
     }
 
-    console.log('delete list', updatedUser)
     return res.status(200).json(updatedUser);
 }
 

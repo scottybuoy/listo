@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { updateItem } from '../../../utils/api';
 import './updateItemModal.css';
 
-const UpdateItemModal = ({ item }) => {
+const UpdateItemModal = ({ item, toggleUpdateItemModal, setToggleUpdateItemModal, setListData }) => {
     console.log('ITEM in modal', item)
 
     if (!item.quantity) {
@@ -34,14 +34,16 @@ const UpdateItemModal = ({ item }) => {
         const updatedItem = await response.json();
 
         setItemFormData(updatedItem);
+        setListData(updatedItem)
+        setToggleUpdateItemModal(!toggleUpdateItemModal);
 
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        setItemFormData(item)
+    //     setItemFormData(item)
 
-    },[])
+    // },[])
 
     return (
         <div className='modal-cont'>
@@ -92,6 +94,7 @@ const UpdateItemModal = ({ item }) => {
                     <button
                         id='login-btn'
                         type='submit'
+                        // onClick={() => {setToggleUpdateItemModal(!toggleUpdateItemModal)}}
                     >
                         Edit
                     </button>

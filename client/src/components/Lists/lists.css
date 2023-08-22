@@ -8,10 +8,10 @@
 
 .lists-header {
     /* position: fixed; */
-    padding: 0px 0px;
-    top: 60px;
-    background-color: rgb(239, 239, 239);
     z-index: 1;
+    padding: 0px 0px;
+    /* top: 60px; */
+    background-color: rgb(239, 239, 239);
     box-shadow: 0px 1px 8px rgb(220, 220, 220);
 
 }

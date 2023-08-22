@@ -8,6 +8,7 @@ const itemSchema = new Schema(
         },
         quantity: {
             type: Number,
+            default: 1
         },
         notes: {
             type: String,

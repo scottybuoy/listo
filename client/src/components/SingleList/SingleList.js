@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSingleList, deleteItem, addItem, addItemWithCategory, getListCategories } from "../../utils/api";
+import { deleteItem, addItem, addItemWithCategory, getListCategories } from "../../utils/api";
 import './singleList.css';
 import UpdateItemModal from './UpdateItemModal/UpdateItemModal';
 import allCategories from './CategoryMenu/CategoryMenu';
@@ -33,17 +33,9 @@ const SingleList = () => {
 
     }
 
-    const handleAddItem = async () => {
-        const response = await addItem(listId, newItemData);
-        const newItem = await response.json();
-        setListData(newItem);
-        setNewItemForm(!newItemForm);
-    }
-
     const handleAddItemWithCategory = async () => {
         const response = await addItemWithCategory(listId, newItemData);
         const newItem = await response.json();
-        console.log('NEW ITEM', newItem);
         setListData(newItem);
         setNewItemForm(!newItemForm);
     }
@@ -55,7 +47,6 @@ const SingleList = () => {
             return
         }
         setNewItemData({ ...newItemData, [name]: value });
-        console.log('HANDLE CHANGE', newItemData);
     }
 
     // const closeModal = (e) => {
@@ -67,20 +58,10 @@ const SingleList = () => {
 
     useEffect(() => {
 
-        console.log('hey');
-
-        // const findList = async () => {
-        //     const response = await getSingleList(userId, listId)
-        //     const list = await response.json();
-        //     setListData(list);
-
-        // }
-
         const findCategories = async () => {
             const response = await getListCategories(listId);
             const categories = await response.json();
             setListData(categories);
-            console.log('find cats', listDataLength, listData);
         }
 
         const createNotesObj = (listData) => {
@@ -101,13 +82,11 @@ const SingleList = () => {
 
         }
 
-        // findList();
         findCategories();
         createNotesObj(listData);
 
     }, [listDataLength]);
 
-    // console.log(notesObjState)
     return (
 
         // HEADER
@@ -174,7 +153,7 @@ const SingleList = () => {
                                         <div key={item._id} className='d-flex justify-content-between'>
                                             <p key={item._id}>{item.itemName}</p>
                                             <div className='d-flex item-details'>
-                                                <p className='item-qty'>{item.quantity ? item.quantity : 1}</p>
+                                                <p className='item-qty'>{item.quantity}</p>
                                                 <button key={item._id} value={item.itemName} onClick={() => logNotes(item.itemName)} className='notes-btn'>notes</button>
 
                                                 {/* EDIT BUTTON */}

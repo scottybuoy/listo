@@ -23,8 +23,7 @@
 
 
 .category-items-cont {
-    /* background-color: aliceblue; */
-    padding: 0px 10px;
+
 }
 
 #category-item {
@@ -33,11 +32,20 @@
 }
 
 /* LIST ITEMS */
-.list-item {
+/* .list-item {
     width: 40%;
     color: rgb(57, 57, 57);
     margin-bottom: 0px;
     
+} */
+.item-container {
+    padding: 0px 10px;
+    background-color: white;
+    margin:5px 0px;
+}
+
+.item-name {
+    margin: 0px 0px 0px 0px;
 }
 
 .item-qty {
@@ -136,7 +144,11 @@
     position: relative;
 }
 
-.notes-container {
+.item-notes-container {
+    padding: 0px 15px;
+}
+
+.item-notes {
     z-index: -1;
     position: relative;
     animation-duration: .5s;
@@ -146,7 +158,8 @@
     font-style: italic;
     background-color: rgb(236, 236, 236);
     width: 100%;
-    margin-bottom: 100px;
+    /* margin: 100px 0px 15px 0px; */
+    padding: 15px;
 }
 
 @keyframes notesSlideIn {

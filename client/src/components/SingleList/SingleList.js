@@ -11,7 +11,7 @@ const SingleList = () => {
     // HOOKS
     const { listId } = useParams();
     const [listData, setListData] = useState({});
-    const [notesObjState, setNotesObjState] = useState({})
+    const [notesObjState, setNotesObjState] = useState({});
     const [newItemForm, setNewItemForm] = useState(false);
     const [newItemData, setNewItemData] = useState()
     const [toggleUpdateItemModal, setToggleUpdateItemModal] = useState(false);
@@ -22,7 +22,8 @@ const SingleList = () => {
     // toggle notesOpen field in notesObjState state variable;
     const logNotes = (item) => {
         // console.log('before update', notesObjState)
-        setNotesObjState({ ...notesObjState, [item]: { notesOpen: !notesObjState[item].notesOpen } })
+        console.log('NOTES ITEM', item)
+        // setNotesObjState({ ...notesObjState, [item]: { notesOpen: !notesObjState[item].notesOpen } })
         // console.log('state object', notesObjState);
     }
 
@@ -49,6 +50,45 @@ const SingleList = () => {
         setNewItemData({ ...newItemData, [name]: value });
     }
 
+    // CREATE INITIAL STATE FOR NOTES OBJECT
+    const notesObjPromise = async () => {
+        const buildNotesObj = new Promise((resolve, reject) => {
+            const createNotesObj = (listData) => {
+
+                if (!listData.categories) {
+
+                    return;
+                }
+
+                let notesObj = {};
+
+                for (const category of listData.categories) {
+
+                    for (let i = 0; i < category.items.length; i++) {
+                        notesObj[category.items[i]._id] = { notesOpen: false }
+                    }
+                }
+
+                return notesObj;
+
+            }
+            resolve(createNotesObj(listData));
+            reject('Error');
+
+        })
+
+        const notesObj = await buildNotesObj;
+        console.log('nnotes obj', notesObj)
+        setNotesObjState(notesObj);
+        // console.log('PLEASE NOTERS OBJ FAAACKKK', notesObjState);
+    }
+
+    // const handleSetNotesObjState = (itemId) => {
+    //     let notesOpenState = notesObjState[itemId].notesOpen
+
+
+    // }
+
     // const closeModal = (e) => {
     //     console.log('parent el', e.target.parentElement.className);
     //     // if (!e.target.matches('.modal-cont')) {
@@ -64,28 +104,39 @@ const SingleList = () => {
             setListData(categories);
         }
 
-        const createNotesObj = (listData) => {
-
-            if (!listData.items) {
-
-                return;
-            }
-
-            let notesObj = {};
-
-            for (let i = 0; i < listData.items.length; i++) {
-                notesObj[listData.items[i].itemName] = { notesOpen: false }
-            }
 
 
-            setNotesObjState(notesObj)
+        // const createNotesObj = (listData) => {
 
-        }
+        //     if (!listData.categories) {
+
+        //         return;
+        //     }
+
+        //     let notesObj = {};
+
+        //     for (const category of listData.categories) {
+
+        //         for (let i = 0; i < category.items.length; i++) {
+        //             console.log('yo', category.items[i].itemName)
+        //             notesObj[category.items[i]._id] = { notesOpen: false }
+        //         }
+
+        //     }
+
+        //     setNotesObjState(notesObj);
+
+        // }
+
+
+
+
 
         findCategories();
-        createNotesObj(listData);
-
+        // createNotesObj(listData);
+        notesObjPromise();
     }, [listDataLength]);
+    console.log('NOS', notesObjState)
 
     return (
 
@@ -137,53 +188,70 @@ const SingleList = () => {
             {/* <div className='row'>
                 <div className='col-12 list-cont d-flex flex-column align-items-center my-3'> */}
             <div className='row d-flex justify-content-center'>
-                <div className='col-12 list-cont d-flex flex-column my-3'>
+                <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
 
                     {!listData.categories ? (
                         <div>fetching list!</div>
                     ) : (
-                        
+                        // CATEGORIES
                         listData.categories.map((category) => (
-                            category.items.length? (
+                            category.items.length ? (
                                 <div key={category._id} id='category-cont'>
-                                <h3 id='category-name'>{category.categoryName}</h3>
-                                <hr></hr>
-                                <div className='d-flex flex-column category-items-cont'>
-                                    {category.items.map((item) =>
-                                        <div key={item._id} className='d-flex justify-content-between'>
-                                            <p key={item._id}>{item.itemName}</p>
-                                            <div className='d-flex item-details'>
-                                                <p className='item-qty'>{item.quantity}</p>
-                                                <button key={item._id} value={item.itemName} onClick={() => logNotes(item.itemName)} className='notes-btn'>notes</button>
+                                    <h3 id='category-name'>{category.categoryName}</h3>
+                                    <hr></hr>
+                                    {/* ITEMS */}
+                                    <div className='d-flex flex-column category-items-cont'>
+                                        {category.items.map((item) => (
+                                            < div key={item._id}>
+                                                <div key={item._id} className='d-flex justify-content-between item-container'>
+                                                    <p className='item-name' key={item._id}>{item.itemName}</p>
+                                                    <div className='d-flex item-details'>
+                                                        <p className='item-qty'>{item.quantity}</p>
+                                                        <button
+                                                            key={item._id}
+                                                            value={item.itemName}
+                                                            onClick={() => setNotesObjState({ ...notesObjState, [item._id]: { notesOpen: !notesObjState[item._id].notesOpen } })}
+                                                            className='notes-btn'
+                                                        >
+                                                            notes
+                                                        </button>
 
-                                                {/* EDIT BUTTON */}
-                                                <img
-                                                    className='edit-pencil'
-                                                    src='/images/edit-pencil.png'
-                                                    alt='edit icon'
-                                                    onClick={() => {
-                                                        setToggleUpdateItemModal(!toggleUpdateItemModal);
-                                                        setItemForUpdate({ catId: category._id, itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
-                                                    }}>
-                                                </img>
+                                                        {/* EDIT BUTTON */}
+                                                        <img
+                                                            className='edit-pencil'
+                                                            src='/images/edit-pencil.png'
+                                                            alt='edit icon'
+                                                            onClick={() => {
+                                                                setToggleUpdateItemModal(!toggleUpdateItemModal);
+                                                                setItemForUpdate({ catId: category._id, itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
+                                                            }}>
+                                                        </img>
 
-                                                {/* DELETE BUTTON */}
-                                                <img
-                                                    className='trash-can'
-                                                    src='/images/trashCan.png'
-                                                    alt='trash can icon'
-                                                    onClick={() => { handleItemDelete(item._id, listId, category._id) }}>
-                                                </img>
+                                                        {/* DELETE BUTTON */}
+                                                        <img
+                                                            className='trash-can'
+                                                            src='/images/trashCan.png'
+                                                            alt='trash can icon'
+                                                            onClick={() => { handleItemDelete(item._id, listId, category._id) }}>
+                                                        </img>
+                                                    </div>
+                                                </div>
+                                                {/* NOTES ELEMENT */}
+                                                {notesObjState && notesObjState[item._id].notesOpen && item.notes && (
+                                                    <div className='row item-notes-container my-2'>
+                                                        <div className='col-12 item-notes'>{item.notes}</div>
+                                                    </div>
+
+                                                )}
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
+                                        ))}
+                                    </div>
 
-                            </div>
+                                </div>
                             ) : (
                                 null
                             )
-                           
+
                         ))
                     )}
 

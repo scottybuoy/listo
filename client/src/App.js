@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm.js/LoginForm';
 import Home from './components/Home/Home';
 import SingleList from './components/SingleList/SingleList';
 import NewList from './components/NewList/NewList';
+import Checklist from './components/Checklist/Checklist';
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
         <Route
           path='/:userId/newList'
           element={<NewList />}
+        />
+        <Route
+          path='/checklist'
+          element={<Checklist />}
         />
       </Routes>
 

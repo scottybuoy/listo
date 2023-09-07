@@ -1,0 +1,43 @@
+.todo-cont {
+    padding: 20px;
+    margin: 15px 0px;
+}
+
+.todo-and-check {
+    width: 50%;
+}
+
+.checkbox-cont {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    cursor: pointer;
+    border: 0px none;
+    background-color: red;
+    width: 30px;
+    height: 30px;
+}
+
+input[type="checkbox"]::before {
+    background-color: red;
+}
+
+.task-cont {
+    width: 80%;
+    font-size: 20px;
+}
+
+.todo-details-cont {
+    width: 40%;
+    align-items: center;
+}
+
+.checked {
+    background-color: rgb(237, 248, 242);
+    font-style: italic;
+    color: rgb(161, 161, 161);
+}
+
+

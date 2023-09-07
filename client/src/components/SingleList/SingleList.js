@@ -168,9 +168,7 @@ const SingleList = () => {
             )}
 
             {/* LIST CONTAINER */}
-            {/* og containter */}
-            {/* <div className='row'>
-                <div className='col-12 list-cont d-flex flex-column align-items-center my-3'> */}
+            
             <div className='row d-flex justify-content-center'>
                 <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
 
@@ -191,14 +189,9 @@ const SingleList = () => {
                                                     <p className='item-name' key={item._id}>{item.itemName}</p>
                                                     <div className='d-flex item-details'>
                                                         <p className='item-qty'>{item.quantity}</p>
-                                                        {/* <button
-                                                            key={item._id}
-                                                            value={item.itemName}
-                                                            onClick={() => setNotesObjState({ ...notesObjState, [item._id]: { notesOpen: !notesObjState[item._id].notesOpen } })}
-                                                            className='notes-btn'
-                                                        >
-                                                            notes
-                                                        </button> */}
+
+                                                        {/* NOTES BUTTON */}
+                                                        
                                                         <img
                                                             className='notes-icon'
                                                             src='/images/notes-icon.png'

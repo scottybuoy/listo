@@ -7,10 +7,13 @@ const {
     getAllUsers,
     createList,
     addItemToList,
+    addItemToListWithCategory,
+    getListCategories,
     getUserLists,
     getList,
     updateItem,
     deleteItem,
+    deleteList
 } = require('../../controllers/user-controller');
 
 const { authMiddleWare } = require('../../utils/auth');
@@ -21,10 +24,10 @@ router.route('/login').post(login);
 
 router.route('/:id').get(getUser).post(createList);
 
-router.route('/:userId/lists').get(getUserLists);
+router.route('/:userId/lists').get(getUserLists).delete(deleteList);
 
 router.route('/:userId/list/:listId').get(getList);
 
-router.route('/lists/:listId').post(addItemToList).put(updateItem).delete(deleteItem);
+router.route('/lists/:listId').get(getListCategories).post(addItemToListWithCategory).put(updateItem).delete(deleteItem);
 
 module.exports = router;

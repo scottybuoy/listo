@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { updateItem } from '../../../utils/api';
 import './updateItemModal.css';
 
-const UpdateItemModal = ({ item }) => {
-    console.log('ITEM in modal', item)
-
-    if (!item.quantity) {
-        item.quantity = 1;
-    }
+const UpdateItemModal = ({ item, toggleUpdateItemModal, setToggleUpdateItemModal, setListData }) => {
 
     // HOOKS
-    const [itemFormData, setItemFormData] = useState()
-    const { listId } = useParams();
+    const [itemFormData, setItemFormData] = useState(item)
 
+    const catId = item.catId;
     
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,21 +22,17 @@ const UpdateItemModal = ({ item }) => {
 
         let editBody = {...itemFormData, itemId: item.itemId}
 
-        const response = await updateItem(listId, editBody);
+        const response = await updateItem(catId, editBody);
         const updatedItem = await response.json();
 
         setItemFormData(updatedItem);
+        setListData(updatedItem)
+        setToggleUpdateItemModal(!toggleUpdateItemModal);
 
     }
 
-    useEffect(() => {
-
-        setItemFormData(item)
-
-    },[])
-
     return (
-        <div className='modal-cont'>
+        <div className='modal-cont d-flex justify-content-center align-items-center'>
             <form
                 id='edit-item-form'
                 onSubmit={handleEditItem}
@@ -64,22 +54,26 @@ const UpdateItemModal = ({ item }) => {
                     />
                 </div>
                 <div className='d-flex justify-content-around mt-3'>
+                    {/* QUANTITY BUTTONS */}
                     <div className='d-flex'>
                         <div 
                             className='dec-button'
                             onClick={() => {
-                                setItemFormData({ ...itemFormData, quantity: item.quantity-- })
+                                if (item.quantity === 1) {
+                                    return;
+                                }
+                                setItemFormData({ ...itemFormData, quantity: itemFormData.quantity -1 })
                                 console.log(itemFormData)
                              
                             }}
                         >
                             -
                         </div>
-                        <div className='item-qty'>{item.quantity}</div>
+                        <div className='item-qty'>{itemFormData.quantity}</div>
                         <div 
                             className='inc-button'
                             onClick={() => {
-                                setItemFormData({ ...itemFormData, quantity: item.quantity++ })
+                                setItemFormData({ ...itemFormData, quantity: itemFormData.quantity +1 })
                                 console.log(itemFormData)
                              
                             }}

@@ -1,19 +1,22 @@
 .modal-cont {
-    height: 200px;
+    height: 225px;
     width: 300px;
     padding: 10px;
     position: absolute;
-    top: 50%;
+    top: 30%;
+    /* top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
     /* right: 50%;
     bottom: 50%; */
-    background-color: rgb(200, 218, 251);
+    /* background-color: rgb(47, 99, 255); */
+    background-color: rgb(239, 239, 239);
     border-radius: 10px;
     border-style: solid;
     border-width: 1px;
-    border-color: grey;
+    border-color: rgb(195, 195, 195);
     z-index: 3;
+    box-shadow: 0px 0px 10px rgb(177, 177, 177);
 }
 
 .dec-button {

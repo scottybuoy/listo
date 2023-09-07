@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { deleteItem, addItem, addItemWithCategory, getListCategories } from "../../utils/api";
+import { deleteItem, addItemWithCategory, getListCategories } from "../../utils/api";
 import './singleList.css';
 import UpdateItemModal from './UpdateItemModal/UpdateItemModal';
 import allCategories from './CategoryMenu/CategoryMenu';
@@ -13,19 +13,11 @@ const SingleList = () => {
     const [listData, setListData] = useState({});
     const [notesObjState, setNotesObjState] = useState({});
     const [newItemForm, setNewItemForm] = useState(false);
-    const [newItemData, setNewItemData] = useState()
+    const [newItemData, setNewItemData] = useState({category: 'Misc'})
     const [toggleUpdateItemModal, setToggleUpdateItemModal] = useState(false);
     const [itemForUpdate, setItemForUpdate] = useState({});
 
     const listDataLength = Object.keys(listData).length;
-
-    // toggle notesOpen field in notesObjState state variable;
-    const logNotes = (item) => {
-        // console.log('before update', notesObjState)
-        console.log('NOTES ITEM', item)
-        // setNotesObjState({ ...notesObjState, [item]: { notesOpen: !notesObjState[item].notesOpen } })
-        // console.log('state object', notesObjState);
-    }
 
     const handleItemDelete = async (itemId, listId, categoryId) => {
         const response = await deleteItem(itemId, listId, categoryId);
@@ -35,6 +27,9 @@ const SingleList = () => {
     }
 
     const handleAddItemWithCategory = async () => {
+        if (!newItemData.category && !newItemData.itemName) {
+            return;
+        }
         const response = await addItemWithCategory(listId, newItemData);
         const newItem = await response.json();
         setListData(newItem);
@@ -78,16 +73,8 @@ const SingleList = () => {
         })
 
         const notesObj = await buildNotesObj;
-        console.log('nnotes obj', notesObj)
         setNotesObjState(notesObj);
-        // console.log('PLEASE NOTERS OBJ FAAACKKK', notesObjState);
     }
-
-    // const handleSetNotesObjState = (itemId) => {
-    //     let notesOpenState = notesObjState[itemId].notesOpen
-
-
-    // }
 
     // const closeModal = (e) => {
     //     console.log('parent el', e.target.parentElement.className);
@@ -142,10 +129,7 @@ const SingleList = () => {
 
         // HEADER
 
-        <div
-            className='container-fluid'
-        // onClick={closeModal}
-        >
+        <div className='container-fluid'>
             <div className='row'>
                 <div className='col-12 list-title-cont d-flex justify-content-between align-items-center'>
                     <h3 className='list-title'>{listData.listTitle}</h3>
@@ -207,14 +191,21 @@ const SingleList = () => {
                                                     <p className='item-name' key={item._id}>{item.itemName}</p>
                                                     <div className='d-flex item-details'>
                                                         <p className='item-qty'>{item.quantity}</p>
-                                                        <button
+                                                        {/* <button
                                                             key={item._id}
                                                             value={item.itemName}
                                                             onClick={() => setNotesObjState({ ...notesObjState, [item._id]: { notesOpen: !notesObjState[item._id].notesOpen } })}
                                                             className='notes-btn'
                                                         >
                                                             notes
-                                                        </button>
+                                                        </button> */}
+                                                        <img
+                                                            className='notes-icon'
+                                                            src='/images/notes-icon.png'
+                                                            alt='notes icon'
+                                                            onClick={() => setNotesObjState({ ...notesObjState, [item._id]: { notesOpen: !notesObjState[item._id].notesOpen } })}
+                                                        >
+                                                        </img>
 
                                                         {/* EDIT BUTTON */}
                                                         <img

@@ -61,7 +61,7 @@ const Lists = ({ lists, userId }) => {
                     <button className='new-list-btn my-4' onClick={() => setNewListForm(!newListForm)}>+</button>
                 </Link> */}
                     <h3 className='list-title'>My Lists</h3>
-                    <button className='new-list-btn mx-4 my-4' onClick={() => setNewListForm(!newListForm)}>+</button>
+                    <button className='new-list-btn' onClick={() => setNewListForm(!newListForm)}>+</button>
                 </div>
             </div>
             {/* NEW LIST FORM */}
@@ -84,10 +84,10 @@ const Lists = ({ lists, userId }) => {
             )}
 
             {/* LISTS */}
-            <div className='d-flex justify-content-center my-5'>
+            <div className='my-5'>
                 <div className='col-12 btn-container'>
                     {listData.userLists && listData.userLists.map((list) => (
-                        <>
+                        <div key={list._id}>
                             <div className='d-flex justify-content-around align-items-center'>
                                 <Link
                                     key={list._id}
@@ -111,7 +111,7 @@ const Lists = ({ lists, userId }) => {
                             </div>
 
                             <hr></hr>
-                        </>
+                        </div>
 
                     ))}
                 </div>

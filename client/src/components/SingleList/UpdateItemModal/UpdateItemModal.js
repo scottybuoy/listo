@@ -32,7 +32,7 @@ const UpdateItemModal = ({ item, toggleUpdateItemModal, setToggleUpdateItemModal
     }
 
     return (
-        <div className='modal-cont'>
+        <div className='modal-cont d-flex justify-content-center align-items-center'>
             <form
                 id='edit-item-form'
                 onSubmit={handleEditItem}

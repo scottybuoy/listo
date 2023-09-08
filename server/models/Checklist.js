@@ -1,14 +1,8 @@
 const { Schema, model } = require('mongoose');
 
-
-const listSchema = new Schema(
+const checklistSchema = new Schema(
     {
         listTitle: {
-            type: String,
-            required: true
-        },
-
-        listType: {
             type: String,
             required: true
         },
@@ -18,20 +12,16 @@ const listSchema = new Schema(
             default: Date.now,
         },
 
-        categories: [
+        tasks: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Category',
+                ref: 'Task',
             }
         ]
-    },
-    {
-        toJSON: {
-            virtuals: true,
-        },
+
     }
-);
+)
 
-const List = model('List', listSchema)
+const Checklist = model('Checklist', checklistSchema)
 
-module.exports = List;
+module.exports = Checklist

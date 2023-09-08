@@ -18,6 +18,11 @@ const toDos = [
         notes: 'Black, White, Orange',
         checked: true
     },
+    {
+        task: 'Get money from the bank',
+        notes: 'Black, White, Orange',
+        checked: true
+    },
 ]
 
 export default toDos;

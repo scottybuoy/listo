@@ -8,6 +8,10 @@ const Checklist = () => {
         return toDo.checked ? 'checked' : null;
     }
 
+    const checkedIconClass = (toDo) => {
+        return toDo.checked ? 'checked-task-icon' : null;
+    }
+
     return (
 
         // HEADER
@@ -43,7 +47,7 @@ const Checklist = () => {
                                 {/* NOTES BUTTON */}
 
                                 <img
-                                    className='notes-icon'
+                                    className={`notes-icon ${checkedIconClass(toDo)}`}
                                     src='/images/notes-icon.png'
                                     alt='notes icon'
                                 >
@@ -51,7 +55,7 @@ const Checklist = () => {
 
                                 {/* EDIT BUTTON */}
                                 <img
-                                    className='edit-pencil'
+                                    className={`edit-pencil ${checkedIconClass(toDo)}`}
                                     src='/images/edit-pencil.png'
                                     alt='edit icon'
                                 >
@@ -59,7 +63,7 @@ const Checklist = () => {
 
                                 {/* DELETE BUTTON */}
                                 <img
-                                    className='trash-can'
+                                    className={`trash-can ${checkedIconClass(toDo)}`}
                                     src='/images/trashCan.png'
                                     alt='trash can icon'
                                 >

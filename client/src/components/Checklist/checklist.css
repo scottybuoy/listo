@@ -35,9 +35,14 @@ input[type="checkbox"]::before {
 }
 
 .checked {
-    background-color: rgb(237, 248, 242);
+    background-color: rgb(244, 244, 244);
     font-style: italic;
     color: rgb(161, 161, 161);
 }
 
-
+.checked-task-icon {
+    opacity: .5;
+    filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+  filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+}

@@ -1,3 +1,8 @@
+.nav-cont {
+    position: fixed;
+    bottom: 0px;
+}
+
 .nav {
     background-color: rgb(47, 99, 255);
     height: 60px;

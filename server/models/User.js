@@ -24,7 +24,7 @@ const userSchema = new Schema(
                 ref: 'List',
             }
         ],
-        checkLists: [
+        checklists: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Checklist'

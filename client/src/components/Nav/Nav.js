@@ -5,11 +5,11 @@ import './nav.css';
 
 const Nav = () => {
 
-    const user = Auth.getProfile();
-    const userId = user.data._id;
+    const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
+    // const userId = user.data._id;
 
     return (
-        <div className='container-fluid p-0'>
+        <div className='container-fluid p-0 nav-cont'>
             <div className='col-12 d-flex justify-content-between align-items-center nav'>
 
                 <img alt='listo logo' id='logo' src='/images/listo-sm.png'></img>

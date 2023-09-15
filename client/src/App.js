@@ -2,14 +2,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Nav from './components/Nav/Nav'
 import LoginForm from './components/LoginForm.js/LoginForm';
 import Home from './components/Home/Home';
+import Lists from './components/Lists/Lists'
 import SingleList from './components/SingleList/SingleList';
 import NewList from './components/NewList/NewList';
-import Checklist from './components/Checklist/Checklist';
+import SingleChecklist from './components/SingleChecklist/SingleChecklist';
+import Checklists from './components/Checklists/Checklists';
+import './App.css';
 
 function App() {
   return (
+    <div className=''>
     <Router>
-      <Nav />
+    
       <Routes>
         <Route
           path='/home/:userId'
@@ -24,18 +28,27 @@ function App() {
           element={<SingleList />}
         />
         <Route
+          path='/:userId/my-lists'
+          element={<Lists />}
+        ></Route>
+        <Route
           path='/:userId/newList'
           element={<NewList />}
         />
         <Route
-          path='/checklist'
-          element={<Checklist />}
+          path='/checklists'
+          element={<Checklists />}
         />
+        <Route
+          path='/checklist/:checklistId'
+          element={<SingleChecklist />}
+        >
+        </Route>
       </Routes>
-
+      <Nav />
     </Router>
 
-
+    </div>
   );
 }
 

@@ -63,15 +63,6 @@ export const addItemWithCategory = (listId, newItemData) => {
     })
 }
 
-// export const updateItem = (listId, updateItemData) => {
-//     return fetch(`/api/user/lists/${listId}`, {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(updateItemData)
-//     })
-// }
 export const updateItem = (catId, updateItemData) => {
     return fetch(`/api/user/lists/${catId}`, {
         method: 'PUT',
@@ -81,16 +72,6 @@ export const updateItem = (catId, updateItemData) => {
         body: JSON.stringify({...updateItemData, catId})
     })
 }
-
-// export const deleteItem = (itemId, listId) => {
-//     return fetch(`/api/user/lists/${listId}`, {
-//         method: 'DELETE',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({itemId})
-//     });
-// };
 
 export const deleteItem = (itemId, listId, categoryId) => {
     return fetch(`/api/user/lists/${listId}`, {
@@ -110,4 +91,53 @@ export const deleteList = (userId, listId) => {
         },
         body: JSON.stringify({listId})
     });
+};
+
+export const getUserChecklists = (userId) => {
+    return fetch(`/api/checklist/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // body: JSON.stringify(userId)
+    });
+};
+
+export const createChecklist = (userId, checklistData) => {
+    return fetch(`/api/checklist/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(checklistData)
+    });
+};
+
+export const getSingleChecklist = (userId, checklistId) => {
+    return fetch(`/api/checklist/${userId}/${checklistId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+};
+
+export const addTaskToCheckList = (userId, checklistId, taskData) => {
+    return fetch(`/api/checklist/${userId}/add-task`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({...taskData, checklistId})
+    });
+};
+
+export const deleteTaskFromChecklist = (userId, checklistId, taskId) => {
+    return fetch(`/api/checklist/${userId}/${checklistId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({taskId, checklistId})
+    })
 }

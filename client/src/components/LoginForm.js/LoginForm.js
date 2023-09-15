@@ -15,16 +15,13 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-        console.log(userFormData);
         const response = await login(userFormData);
-        console.log('response', response)
         if (!response.ok) {
             throw new Error('Failed to login')
         }
         
         const { token, user } = await response.json();
-        console.log('login button clicked')
-        console.log('User', user);
+
         let userId = user._id;
         Auth.login(token, userId);
 

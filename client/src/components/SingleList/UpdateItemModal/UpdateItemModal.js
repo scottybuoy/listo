@@ -17,7 +17,6 @@ const UpdateItemModal = ({ item, toggleUpdateItemModal, setToggleUpdateItemModal
     }
 
     const handleEditItem = async (e) => {
-        console.log('whats the item', itemFormData)
         e.preventDefault();
 
         let editBody = {...itemFormData, itemId: item.itemId}

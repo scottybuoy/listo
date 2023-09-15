@@ -27,7 +27,7 @@ const SingleList = () => {
     }
 
     const handleAddItemWithCategory = async () => {
-        if (!newItemData.category && !newItemData.itemName) {
+        if (!newItemData.itemName) {
             return;
         }
         const response = await addItemWithCategory(listId, newItemData);
@@ -75,13 +75,6 @@ const SingleList = () => {
         const notesObj = await buildNotesObj;
         setNotesObjState(notesObj);
     }
-
-    // const closeModal = (e) => {
-    //     console.log('parent el', e.target.parentElement.className);
-    //     // if (!e.target.matches('.modal-cont')) {
-    //     //     setToggleUpdateItemModal(false);
-    //     // }
-    // }
 
     useEffect(() => {
 
@@ -169,7 +162,7 @@ const SingleList = () => {
 
             {/* LIST CONTAINER */}
             
-            <div className='row d-flex justify-content-center'>
+            <div className='row d-flex justify-content-center list-wrapper'>
                 <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
 
                     {!listData.categories ? (

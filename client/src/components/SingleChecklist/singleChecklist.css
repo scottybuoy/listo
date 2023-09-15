@@ -1,3 +1,4 @@
+
 .todo-cont {
     padding: 20px;
     margin: 15px 0px;
@@ -37,7 +38,7 @@ input[type="checkbox"]::before {
 .checked {
     background-color: rgb(244, 244, 244);
     font-style: italic;
-    color: rgb(161, 161, 161);
+    color: rgb(170, 170, 170);
 }
 
 .checked-task-icon {

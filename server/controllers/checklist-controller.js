@@ -136,9 +136,8 @@ const toggleItemCheck = async (req, res) => {
 
     task.save();
 
-    return res.status(200).json(task);
-    
-}
+    return res.status(200).json(task);  
+};
 
 
 

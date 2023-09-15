@@ -1,7 +1,7 @@
 // import toDos from './dummyData'
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSingleChecklist, addTaskToCheckList, deleteTaskFromChecklist } from '../../utils/api';
+import { getSingleChecklist, addTaskToCheckList, deleteTaskFromChecklist, toggleItemCheck } from '../../utils/api';
 import Auth from '../../utils/Auth';
 import './singleChecklist.css';
 
@@ -45,6 +45,14 @@ const Checklist = () => {
         const response = await deleteTaskFromChecklist(userId, checklistId, taskId);
         const updatedChecklist = await response.json();
         setChecklistData(updatedChecklist);
+    }
+
+    const handleTaskCheck = async (e) => {
+        const taskId = e.target.value
+        console.log(typeof taskId);
+        const response = await toggleItemCheck(taskId);
+        const checkedTask = await response.json();
+        setChecklistData(checkedTask);
     }
 
     useEffect(() => {
@@ -97,10 +105,17 @@ const Checklist = () => {
                         <div>loading</div>
                     ) : (
                         checklistData.tasks.map((task) => (
-                            <div key={task._id} onClick={() => { console.log(task._id) }} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
+                            <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
                                 <div className='d-flex justify-content-between todo-and-check'>
                                     <div className='checkbox-cont'>
-                                        <input className='checkbox' type='checkbox'></input>
+                                        <input
+                                        className='checkbox'
+                                        type='checkbox'
+                                        value={task._id}
+                                        onChange={handleTaskCheck}
+                                        checked={task.checked ? 'checked' : ''}
+                                        >
+                                        </input>
                                     </div>
                                     <div className='task-cont'>
                                         <p className='task m-0'>{task.taskItem}</p>

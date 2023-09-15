@@ -12,7 +12,7 @@ export const getUserLists = (userId) => {
     return fetch(`/api/user/${userId}/lists`, {
         headers: {
             'Content-Type': 'application/json',
-          },
+        },
     });
 };
 
@@ -69,7 +69,7 @@ export const updateItem = (catId, updateItemData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...updateItemData, catId})
+        body: JSON.stringify({ ...updateItemData, catId })
     })
 }
 
@@ -79,7 +79,7 @@ export const deleteItem = (itemId, listId, categoryId) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({itemId, categoryId})
+        body: JSON.stringify({ itemId, categoryId })
     });
 };
 
@@ -89,7 +89,7 @@ export const deleteList = (userId, listId) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({listId})
+        body: JSON.stringify({ listId })
     });
 };
 
@@ -128,7 +128,7 @@ export const addTaskToCheckList = (userId, checklistId, taskData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...taskData, checklistId})
+        body: JSON.stringify({ ...taskData, checklistId })
     });
 };
 
@@ -138,6 +138,16 @@ export const deleteTaskFromChecklist = (userId, checklistId, taskId) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({taskId, checklistId})
+        body: JSON.stringify({ taskId, checklistId })
     })
-}
+};
+
+export const toggleItemCheck = (taskId) => {
+    return fetch(`/api/checklist/check-task`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ taskId })
+    });
+};

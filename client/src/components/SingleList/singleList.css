@@ -3,7 +3,6 @@
 .list-title-cont {
     height: 125px;
     background-color: rgb(239, 239, 239);
-    /* padding: 30px 30px!important; */
     position: fixed;
     z-index: 4;
     box-shadow: 0px 1px 8px rgb(220, 220, 220);
@@ -43,6 +42,9 @@
 }
 
 /* LIST ITEMS */
+.category-cont {
+    transition: all 1s;
+}
 
 .list-wrapper {
     margin-bottom: 180px;
@@ -80,6 +82,15 @@
 
 .notes-icon {
     width: 25px;
+}
+
+.notes-icon-disabled {
+    width: 25px;
+    opacity: .5;
+    filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+  filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+
 }
 
 .notes-icon:hover {
@@ -186,6 +197,3 @@
     }
 }
 
-.extra-space {
-    height: 75px;
-}

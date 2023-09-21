@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { deleteItem, addItemWithCategory, getListCategories } from "../../utils/api";
+import Auth from '../../utils/Auth';
 import './singleList.css';
 import UpdateItemModal from './UpdateItemModal/UpdateItemModal';
 import allCategories from './CategoryMenu/CategoryMenu';
@@ -13,9 +14,11 @@ const SingleList = () => {
     const [listData, setListData] = useState({});
     const [notesObjState, setNotesObjState] = useState({});
     const [newItemForm, setNewItemForm] = useState(false);
-    const [newItemData, setNewItemData] = useState({category: 'Misc'})
+    const [newItemData, setNewItemData] = useState({ category: 'Misc' })
     const [toggleUpdateItemModal, setToggleUpdateItemModal] = useState(false);
     const [itemForUpdate, setItemForUpdate] = useState({});
+
+    const userId = Auth.getProfile().data?._id;
 
     const listDataLength = Object.keys(listData).length;
 
@@ -84,39 +87,9 @@ const SingleList = () => {
             setListData(categories);
         }
 
-
-
-        // const createNotesObj = (listData) => {
-
-        //     if (!listData.categories) {
-
-        //         return;
-        //     }
-
-        //     let notesObj = {};
-
-        //     for (const category of listData.categories) {
-
-        //         for (let i = 0; i < category.items.length; i++) {
-        //             console.log('yo', category.items[i].itemName)
-        //             notesObj[category.items[i]._id] = { notesOpen: false }
-        //         }
-
-        //     }
-
-        //     setNotesObjState(notesObj);
-
-        // }
-
-
-
-
-
         findCategories();
-        // createNotesObj(listData);
         notesObjPromise();
     }, [listDataLength]);
-    console.log('NOS', notesObjState)
 
     return (
 
@@ -125,7 +98,14 @@ const SingleList = () => {
         <div className='container-fluid'>
             <div className='row'>
                 <div className='col-12 list-title-cont d-flex justify-content-between align-items-center'>
-                    <h3 className='list-title'>{listData.listTitle}</h3>
+                    <div className='d-flex align-items-center'>
+                        <Link
+                            to={`/${userId}/my-lists`}
+                        >
+                            <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                        </Link>
+                        <h3 className='list-title'>{listData.listTitle}</h3>
+                    </div>
                     <button
                         className='new-item-btn d-flex align-items-center justify-content-center'
                         onClick={() => {
@@ -161,8 +141,11 @@ const SingleList = () => {
             )}
 
             {/* LIST CONTAINER */}
-            
-            <div className='row d-flex justify-content-center list-wrapper'>
+
+            <div
+                className='row d-flex justify-content-center list-wrapper'
+                onClick={() => { if (toggleUpdateItemModal) { setToggleUpdateItemModal(!toggleUpdateItemModal) } }}
+            >
                 <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
 
                     {!listData.categories ? (
@@ -184,9 +167,9 @@ const SingleList = () => {
                                                         <p className='item-qty'>{item.quantity}</p>
 
                                                         {/* NOTES BUTTON */}
-                                                        
+
                                                         <img
-                                                            className='notes-icon'
+                                                            className={item.notes ? 'notes-icon' : 'notes-icon-disabled'}
                                                             src='/images/notes-icon.png'
                                                             alt='notes icon'
                                                             onClick={() => setNotesObjState({ ...notesObjState, [item._id]: { notesOpen: !notesObjState[item._id].notesOpen } })}

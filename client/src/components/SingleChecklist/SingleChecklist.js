@@ -1,6 +1,6 @@
 // import toDos from './dummyData'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getSingleChecklist, addTaskToCheckList, deleteTaskFromChecklist, toggleItemCheck } from '../../utils/api';
 import Auth from '../../utils/Auth';
 import './singleChecklist.css';
@@ -72,7 +72,15 @@ const Checklist = () => {
         <div className='containter-fluid'>
             <div className='row'>
                 <div className='col-12 list-title-cont d-flex justify-content-between align-items-center '>
-                    <h3 className='list-title'>{checklistData.listTitle}</h3>
+                    <div className='d-flex align-items-center'>
+                        <Link
+                            className='link'
+                            to={`/checklists`}
+                        >
+                            <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                        </Link>
+                        <h3 className='list-title'>{checklistData.listTitle}</h3>
+                    </div>
                     <button
                         className='new-item-btn d-flex align-items-center justify-content-center'
                         onClick={() => {
@@ -109,11 +117,11 @@ const Checklist = () => {
                                 <div className='d-flex justify-content-between todo-and-check'>
                                     <div className='checkbox-cont'>
                                         <input
-                                        className='checkbox'
-                                        type='checkbox'
-                                        value={task._id}
-                                        onChange={handleTaskCheck}
-                                        checked={task.checked ? 'checked' : ''}
+                                            className='checkbox'
+                                            type='checkbox'
+                                            value={task._id}
+                                            onChange={handleTaskCheck}
+                                            checked={task.checked ? 'checked' : ''}
                                         >
                                         </input>
                                     </div>

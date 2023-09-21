@@ -16,11 +16,12 @@ const Checklists = () => {
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
-        setNewChecklistFormData({...newChecklistFormData, [name]: value});
+        setNewChecklistFormData({ ...newChecklistFormData, [name]: value });
+        console.log(newChecklistFormData)
     }
 
     const handleFormSubmit = async () => {
-        const response = await createChecklist(userId, checklistData);
+        const response = await createChecklist(userId, newChecklistFormData);
         const newChecklist = await response.json();
         setChecklistData(newChecklist);
     }
@@ -43,7 +44,14 @@ const Checklists = () => {
             {/* HEADER */}
             <div className='row'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
-                    <h3 className='list-title'>My Checklists</h3>
+                    <div className='d-flex align-items-center'>
+                        <Link
+                            to={`/`}
+                        >
+                            <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                        </Link>
+                        <h3 className='list-title'>My Checklists</h3>
+                    </div>
                     <button className='new-list-btn' onClick={() => setNewChecklistForm(!newChecklistForm)}>+</button>
                 </div>
             </div>
@@ -82,7 +90,7 @@ const Checklists = () => {
                                     className='trash-can'
                                     src='/images/trashCan.png'
                                     alt='trash can icon'
-                                   
+
                                 >
                                 </img>
                             </div>

@@ -1,3 +1,13 @@
+export const signup = (signupFormData) => {
+    return fetch(`/api/user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(signupFormData)
+    });
+}
+
 export const login = (userData) => {
     return fetch('/api/user/login', {
         method: 'POST',
@@ -109,7 +119,7 @@ export const createChecklist = (userId, checklistData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(checklistData)
+        body: JSON.stringify({...checklistData, userId})
     });
 };
 

@@ -57,7 +57,15 @@ const Lists = () => {
             {/* HEADER */}
             <div className='row'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
-                    <h3 className='list-title'>My Lists</h3>
+                    <div className='d-flex align-items-center'>
+                    <Link
+                        to={`/`}
+                    >
+                        <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                    </Link>
+                    <h3 className='list-title'>My Shopping Lists</h3>
+
+                    </div>
                     <button className='new-list-btn' onClick={() => setNewListForm(!newListForm)}>+</button>
                 </div>
             </div>

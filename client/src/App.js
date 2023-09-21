@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Nav from './components/Nav/Nav'
-import LoginForm from './components/LoginForm.js/LoginForm';
+import SignupForm from './components/Signup/Signup';
 import Home from './components/Home/Home';
 import Lists from './components/Lists/Lists'
 import SingleList from './components/SingleList/SingleList';
@@ -12,41 +12,41 @@ import './App.css';
 function App() {
   return (
     <div className=''>
-    <Router>
-    
-      <Routes>
-        <Route
-          path='/home/:userId'
-          element={<Home />}
-        />
-        <Route
-          path='/login'
-          element={<LoginForm />}
-        />
-        <Route
-          path='/:userId/list/:listId'
-          element={<SingleList />}
-        />
-        <Route
-          path='/:userId/my-lists'
-          element={<Lists />}
-        ></Route>
-        <Route
-          path='/:userId/newList'
-          element={<NewList />}
-        />
-        <Route
-          path='/checklists'
-          element={<Checklists />}
-        />
-        <Route
-          path='/checklist/:checklistId'
-          element={<SingleChecklist />}
-        >
-        </Route>
-      </Routes>
-      <Nav />
-    </Router>
+      <Router>
+
+        <Routes>
+          <Route
+            path='/signup'
+            element={<SignupForm />}
+          />
+          <Route
+            path='/'
+            element={<Home />}
+          />
+          <Route
+            path='/:userId/list/:listId'
+            element={<SingleList />}
+          />
+          <Route
+            path='/:userId/my-lists'
+            element={<Lists />}
+          ></Route>
+          <Route
+            path='/:userId/newList'
+            element={<NewList />}
+          />
+          <Route
+            path='/checklists'
+            element={<Checklists />}
+          />
+          <Route
+            path='/checklist/:checklistId'
+            element={<SingleChecklist />}
+          >
+          </Route>
+        </Routes>
+        <Nav />
+      </Router>
 
     </div>
   );

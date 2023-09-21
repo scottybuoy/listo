@@ -7,6 +7,7 @@ import SingleList from './components/SingleList/SingleList';
 import NewList from './components/NewList/NewList';
 import SingleChecklist from './components/SingleChecklist/SingleChecklist';
 import Checklists from './components/Checklists/Checklists';
+import ShareListIndex from './components/ShareListIndex/ShareListIndex';
 import './App.css';
 
 function App() {
@@ -42,8 +43,11 @@ function App() {
           <Route
             path='/checklist/:checklistId'
             element={<SingleChecklist />}
-          >
-          </Route>
+          />
+          <Route
+            path='/share-lists'
+            element={<ShareListIndex />}
+          />
         </Routes>
         <Nav />
       </Router>

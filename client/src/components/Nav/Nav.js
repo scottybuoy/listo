@@ -26,7 +26,7 @@ const Nav = () => {
                             </Link>
                         )}
                         <Link
-                            to={`/`}
+                            to={`/share-lists`}
                         >
                             <img alt='messages icon' src='/images/messages-icon.png' id='messages-icon' className='nav-icon'></img>
                         </Link>

@@ -161,3 +161,12 @@ export const toggleItemCheck = (taskId) => {
         body: JSON.stringify({ taskId })
     });
 };
+
+export const getReceivedLists = (recipientId) => {
+    return fetch(`/api/share-lists/${recipientId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}

@@ -3,7 +3,7 @@ const router = require('express').Router();
 const {
     sendList,
     getReceivedLists
-} = require('../../controllers/send-list-controller');
+} = require('../../controllers/share-lists-controller');
 
 router.route('/').post(sendList);
 

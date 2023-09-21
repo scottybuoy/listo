@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { formatDate } from '../../utils/helpers';
 import { getUserLists, newList, deleteList } from '../../utils/api';
 import { listCategories } from './listCategories';
+import Auth from '../../utils/Auth'
 import './lists.css'
 
-const Lists = ({ lists, userId }) => {
+const Lists = () => {
+    const userId = Auth.getProfile().data?._id;
+
 
     // HOOKS
     const [newListForm, setNewListForm] = useState(false);
@@ -17,7 +21,6 @@ const Lists = ({ lists, userId }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setNewListFormData({ ...newListFormData, [name]: value })
-        console.log(newListFormData);
     }
 
     const handleFormSubmit = async () => {
@@ -51,16 +54,18 @@ const Lists = ({ lists, userId }) => {
 
     return (
         <>
-            {/* BUTTON TO OPEN NEW LIST FORM */}
+            {/* HEADER */}
             <div className='row'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
-                    {/* <Link
-                    className='link'
-                    to={`/${userId}/newList`}
-                >
-                    <button className='new-list-btn my-4' onClick={() => setNewListForm(!newListForm)}>+</button>
-                </Link> */}
-                    <h3 className='list-title'>My Lists</h3>
+                    <div className='d-flex align-items-center'>
+                    <Link
+                        to={`/`}
+                    >
+                        <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                    </Link>
+                    <h3 className='list-title'>My Shopping Lists</h3>
+
+                    </div>
                     <button className='new-list-btn' onClick={() => setNewListForm(!newListForm)}>+</button>
                 </div>
             </div>
@@ -84,7 +89,7 @@ const Lists = ({ lists, userId }) => {
             )}
 
             {/* LISTS */}
-            <div className='my-5'>
+            <div className='my-5 all-lists-cont'>
                 <div className='col-12 btn-container'>
                     {listData.userLists && listData.userLists.map((list) => (
                         <div key={list._id}>

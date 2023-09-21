@@ -17,7 +17,6 @@ const UpdateItemModal = ({ item, toggleUpdateItemModal, setToggleUpdateItemModal
     }
 
     const handleEditItem = async (e) => {
-        console.log('whats the item', itemFormData)
         e.preventDefault();
 
         let editBody = {...itemFormData, itemId: item.itemId}
@@ -53,13 +52,13 @@ const UpdateItemModal = ({ item, toggleUpdateItemModal, setToggleUpdateItemModal
                         onChange={handleChange}
                     />
                 </div>
-                <div className='d-flex justify-content-around mt-3'>
+                <div className='d-flex justify-content-around align-items-center mt-3'>
                     {/* QUANTITY BUTTONS */}
                     <div className='d-flex'>
                         <div 
                             className='dec-button'
                             onClick={() => {
-                                if (item.quantity === 1) {
+                                if (itemFormData.quantity === 1) {
                                     return;
                                 }
                                 setItemFormData({ ...itemFormData, quantity: itemFormData.quantity -1 })

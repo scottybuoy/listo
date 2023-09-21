@@ -1,0 +1,47 @@
+#login-form {
+    color: rgb(94, 94, 94);
+    padding: 20px;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(188, 188, 188);
+    background-color: rgb(239, 239, 239);
+    width: 80%;
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-field {
+   width: 65%;
+   margin: 10px 0px;
+}
+
+.label {
+    display: block;
+}
+
+.custom-input {
+    width: 100%;
+    border-style: none;
+    border-radius: 3px;
+}
+
+.sign-up-prompt {
+    font-weight: bold;
+    margin-right:  10px;
+}
+
+.sign-up-link {
+    font-style: italic;
+    color: orange;
+}
+
+.form-buttons {
+    width: 75%;
+}
+
+#login-btn {
+    /* height: 35px; */
+}

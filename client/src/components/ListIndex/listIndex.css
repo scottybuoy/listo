@@ -1,0 +1,33 @@
+.list-index-cont {
+    position: relative;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: 50%;
+    bottom: 50%;
+}
+
+#shopping-list-icon {
+    width: 135px;
+}
+
+#checklist-icon {
+    width: 100px;
+}
+
+.list-type-cont {
+    padding: 32px;
+    /* margin: 30px 0px; */
+}
+
+.icon-cont {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+}
+
+.list-type-title-cont {
+    color: rgb(47, 99, 255);
+    /* text-decoration: underline; */
+    width: 40%;
+}

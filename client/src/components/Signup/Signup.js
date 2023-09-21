@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import './loginform.css';
-import { login } from '../../utils/api';
+import { Link } from 'react-router-dom';
+import './signup.css';
+import { signup } from '../../utils/api';
 import Auth from '../../utils/Auth'
 
-const LoginForm = () => {
+const SignupForm = () => {
 
-    const [userFormData, setUserFormData] = useState({username: '', password: ''})
+    const [userFormData, setUserFormData] = useState({ username: '', password: '' })
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -15,53 +16,59 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-        console.log(userFormData);
-        const response = await login(userFormData);
-        console.log('response', response)
+        const response = await signup(userFormData);
         if (!response.ok) {
-            throw new Error('Failed to login')
+            throw new Error('Failed to sign up :/')
         }
-        
+
         const { token, user } = await response.json();
-        console.log('login button clicked')
-        console.log('User', user);
+
         let userId = user._id;
         Auth.login(token, userId);
 
-        setUserFormData({username: '', password: ''})
+        setUserFormData({ username: '', password: '' })
     }
 
 
     return (
-        <div className="container-fluid my-5">
+        <div className="container-fluid">
             <div className='row d-flex justify-content-center'>
                 <div className='col-sm-12 col-lg-4  d-flex justify-content-center'>
                     <form
                         id='login-form'
                         onSubmit={handleSubmit}
                     >
-                        <div className='d-flex justify-content-center my-2'>
-                            <label>username:</label>
+                        <div className='form-field'>
+                            <label className='label'>username:</label>
                             <input
-                                className='mx-3 custom-input'
+                                className='custom-input'
                                 name='username'
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className='d-flex justify-content-center my-2'>
-                            <label>password:</label>
+                        <div className='form-field'>
+                            <label className='label'>password:</label>
                             <input
-                                className='mx-3 custom-input'
+                                className='custom-input'
                                 name='password'
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className='d-flex justify-content-center mt-3'>
-                            <button 
+                        <div className='d-flex justify-content-around mt-3 form-buttons'>
+                            <div className='align-items-center'>
+                                <h6 className='sign-up-prompt'>Already a user? </h6>
+                                <Link
+                                className='sign-up-link'
+                                    to={`/`}
+                                >
+                                    <h6>Log In</h6>
+                                </Link>
+                            </div>
+                            <button
                                 id='login-btn'
                                 type='submit'
                             >
-                                Login
+                                Sign Up
                             </button>
                         </div>
                     </form>
@@ -71,4 +78,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm;
+export default SignupForm;

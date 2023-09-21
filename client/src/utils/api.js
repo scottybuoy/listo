@@ -1,3 +1,13 @@
+export const signup = (signupFormData) => {
+    return fetch(`/api/user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(signupFormData)
+    });
+}
+
 export const login = (userData) => {
     return fetch('/api/user/login', {
         method: 'POST',
@@ -12,7 +22,7 @@ export const getUserLists = (userId) => {
     return fetch(`/api/user/${userId}/lists`, {
         headers: {
             'Content-Type': 'application/json',
-          },
+        },
     });
 };
 
@@ -63,34 +73,15 @@ export const addItemWithCategory = (listId, newItemData) => {
     })
 }
 
-// export const updateItem = (listId, updateItemData) => {
-//     return fetch(`/api/user/lists/${listId}`, {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(updateItemData)
-//     })
-// }
 export const updateItem = (catId, updateItemData) => {
     return fetch(`/api/user/lists/${catId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...updateItemData, catId})
+        body: JSON.stringify({ ...updateItemData, catId })
     })
 }
-
-// export const deleteItem = (itemId, listId) => {
-//     return fetch(`/api/user/lists/${listId}`, {
-//         method: 'DELETE',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({itemId})
-//     });
-// };
 
 export const deleteItem = (itemId, listId, categoryId) => {
     return fetch(`/api/user/lists/${listId}`, {
@@ -98,7 +89,7 @@ export const deleteItem = (itemId, listId, categoryId) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({itemId, categoryId})
+        body: JSON.stringify({ itemId, categoryId })
     });
 };
 
@@ -108,6 +99,65 @@ export const deleteList = (userId, listId) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({listId})
+        body: JSON.stringify({ listId })
     });
-}
+};
+
+export const getUserChecklists = (userId) => {
+    return fetch(`/api/checklist/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // body: JSON.stringify(userId)
+    });
+};
+
+export const createChecklist = (userId, checklistData) => {
+    return fetch(`/api/checklist/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({...checklistData, userId})
+    });
+};
+
+export const getSingleChecklist = (userId, checklistId) => {
+    return fetch(`/api/checklist/${userId}/${checklistId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+};
+
+export const addTaskToCheckList = (userId, checklistId, taskData) => {
+    return fetch(`/api/checklist/${userId}/add-task`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...taskData, checklistId })
+    });
+};
+
+export const deleteTaskFromChecklist = (userId, checklistId, taskId) => {
+    return fetch(`/api/checklist/${userId}/${checklistId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ taskId, checklistId })
+    })
+};
+
+export const toggleItemCheck = (taskId) => {
+    return fetch(`/api/checklist/check-task`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ taskId })
+    });
+};

@@ -24,6 +24,19 @@ const userSchema = new Schema(
                 ref: 'List',
             }
         ],
+        checklists: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Checklist'
+            }
+        ],
+        receivedLists : [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'List',
+            }
+        ]
+
     },
     {
         toJSON: {

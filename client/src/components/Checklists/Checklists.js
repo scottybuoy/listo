@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Auth from '../../utils/Auth';
 import { getUserChecklists, createChecklist } from '../../utils/api';
 import { formatDate } from '../../utils/helpers';
+import './checklists.css'
 
 const Checklists = () => {
 
@@ -40,7 +41,7 @@ const Checklists = () => {
     }, [checklistDataLength])
 
     return (
-        <>
+        <div className='container-fluid'>
             {/* HEADER */}
             <div className='row'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
@@ -59,7 +60,7 @@ const Checklists = () => {
             {newChecklistForm && (
 
                 <div className='row new-list-form-cont'>
-                    <div className='col-12 d-flex justify-content-between align-items-center new-list-form'>
+                    <div className='col-12 d-flex justify-content-between align-items-center new-item-form'>
                         <input name='listTitle' id='new-list-input' onChange={handleFormChange}></input>
                         <button id='new-list-btn' onClick={() => {
                             handleFormSubmit();
@@ -70,7 +71,7 @@ const Checklists = () => {
             )}
 
             {/* CHECKLISTS */}
-            <div className='my-5 all-lists-cont'>
+            <div className='list-wrapper'>
                 <div className='col-12 btn-container'>
                     {checklistData.checklists && checklistData.checklists.map((list) => (
                         <div key={list._id}>
@@ -102,7 +103,7 @@ const Checklists = () => {
                 </div>
 
             </div>
-        </>
+        </div>
     )
 
 }

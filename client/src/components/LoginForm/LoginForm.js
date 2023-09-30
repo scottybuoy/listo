@@ -16,6 +16,9 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+        if (!userFormData.username || !userFormData.password) {
+            return;
+        }
         const response = await login(userFormData);
         if (!response.ok) {
             throw new Error('Failed to login')
@@ -58,7 +61,7 @@ const LoginForm = () => {
                             <div className='d-flex align-items-center'>
                                 <h6 className='sign-up-prompt'>New here? </h6>
                                 <Link
-                                className='sign-up-link'
+                                    className='sign-up-link'
                                     to={`/signup`}
                                 >
                                     <h6>Sign Up</h6>

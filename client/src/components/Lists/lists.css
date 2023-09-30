@@ -2,6 +2,7 @@
 .list-title {
     color: rgb(181, 181, 181);
     /* margin-left: 20px; */
+    margin-bottom: 0px;
     font-weight: bold;
     font-size: 30px;
 }

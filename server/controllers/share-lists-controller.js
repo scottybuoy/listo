@@ -7,6 +7,9 @@ const sendList = async (req, res) => {
         return res.status(400).json({ message: 'failed to find list' });
     };
 
+    listToSend.sentBy = req.body.sentBy;
+    listToSend.save();
+
     const listRecipient = await User.findOneAndUpdate(
         { _id: req.body.recipientId },
         { $addToSet: { receivedLists: listToSend } },
@@ -25,13 +28,41 @@ const getReceivedLists = async (req, res) => {
         .populate('receivedLists');
 
     if (!receivedLists) {
-        return res.status(400).json({message: 'failed to find received lists'})
+        return res.status(400).json({ message: 'failed to find received lists' })
     }
 
     return res.status(200).json(receivedLists);
-}
+};
+
+const saveReceivedList = async (req, res) => {
+    const updatedList = await List.findById(req.body.receivedList);
+
+    if (!updatedList) {
+        return res.status(400).json({ message: 'could not find received list' })
+    }
+
+    updatedList.sentBy = '';
+    updatedList.save();
+
+    const updatedUser = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $addToSet: { lists: updatedList } },
+        { new: true, runValidotors: true }
+    );
+
+    updatedUser.receivedLists.pull(req.body.receivedList)
+    updatedUser.save();
+
+    if (!updatedUser) {
+        return res.status(400).json({ message: 'failed to add received list to user' })
+    };
+
+    return res.status(200).json(updatedUser);
+
+};
 
 module.exports = {
     sendList,
     getReceivedLists,
+    saveReceivedList,
 }

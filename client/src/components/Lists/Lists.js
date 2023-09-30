@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import { formatDate } from '../../utils/helpers';
 import { getUserLists, newList, deleteList } from '../../utils/api';
 import { listCategories } from './listCategories';
@@ -53,7 +52,7 @@ const Lists = () => {
     }, [listDataLength])
 
     return (
-        <>
+        <div className='container-fluid'>
             {/* HEADER */}
             <div className='row'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
@@ -73,7 +72,7 @@ const Lists = () => {
             {newListForm && (
 
                 <div className='row new-list-form-cont'>
-                    <div className='col-12 d-flex justify-content-between align-items-center new-list-form'>
+                    <div className='col-12 d-flex justify-content-between align-items-center new-item-form'>
                         <input name='listTitle' id='new-list-input' onChange={handleChange}></input>
                         <select name='listType' id='category-menu' onChange={handleChange}>
                             {listCategories.map((category) => (
@@ -89,7 +88,7 @@ const Lists = () => {
             )}
 
             {/* LISTS */}
-            <div className='my-5 all-lists-cont'>
+            <div className='list-wrapper'>
                 <div className='col-12 btn-container'>
                     {listData.userLists && listData.userLists.map((list) => (
                         <div key={list._id}>
@@ -122,7 +121,7 @@ const Lists = () => {
                 </div>
 
             </div>
-        </>
+        </div>
     )
 }
 

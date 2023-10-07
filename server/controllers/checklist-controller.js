@@ -127,7 +127,7 @@ const toggleItemCheck = async (req, res) => {
     const task = await Task.findOne({ _id: req.body.taskId });
 
     if (!task) {
-        return res.status(400).json({message: "unable to find task"})
+        return res.status(400).json({ message: "unable to find task" })
     };
 
     const isChecked = task.checked;
@@ -136,7 +136,21 @@ const toggleItemCheck = async (req, res) => {
 
     task.save();
 
-    return res.status(200).json(task);  
+    return res.status(200).json(task);
+};
+
+const deleteChecklist = async (req, res) => {
+    const updatedUser = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $pull: { checklists: req.body.checklistId } },
+        { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+        return res.status(400).json({message: 'unable to delete checklist from user'});
+    };
+
+    return res.status(200).json(updatedUser);
 };
 
 
@@ -148,5 +162,6 @@ module.exports = {
     getUserChecklists,
     getSingleChecklist,
     removeTaskFromChecklist,
-    toggleItemCheck
+    toggleItemCheck,
+    deleteChecklist,
 }

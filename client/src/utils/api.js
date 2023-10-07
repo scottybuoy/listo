@@ -119,7 +119,7 @@ export const createChecklist = (userId, checklistData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...checklistData, userId})
+        body: JSON.stringify({ ...checklistData, userId })
     });
 };
 
@@ -162,6 +162,16 @@ export const toggleItemCheck = (taskId) => {
     });
 };
 
+export const deleteChecklist = (userId, checklistId) => {
+    return fetch(`/api/checklist/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ checklistId })
+    })
+}
+
 export const getReceivedLists = (recipientId) => {
     return fetch(`/api/share-lists/${recipientId}`, {
         method: 'GET',
@@ -170,3 +180,12 @@ export const getReceivedLists = (recipientId) => {
         },
     });
 }
+
+export const searchForRecipient = (username) => {
+    return fetch(`/api/share-lists/recipient/${username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+};

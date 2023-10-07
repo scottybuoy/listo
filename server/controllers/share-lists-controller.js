@@ -24,6 +24,7 @@ const sendList = async (req, res) => {
 }
 
 const getReceivedLists = async (req, res) => {
+
     const receivedLists = await User.findById(req.params.userId)
         .populate('receivedLists');
 
@@ -61,8 +62,18 @@ const saveReceivedList = async (req, res) => {
 
 };
 
+const findRecipient = async (req, res) => {
+    const user = await User.find({ username: req.params.username });
+    if (!user) {
+        return res.status(400).json({ message: 'unable to find user' });
+    }
+
+    return res.status(200).json(user);
+}
+
 module.exports = {
     sendList,
     getReceivedLists,
     saveReceivedList,
+    findRecipient,
 }

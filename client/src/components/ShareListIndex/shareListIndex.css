@@ -6,3 +6,84 @@
 .sent-by {
     color: grey;
 }
+
+.send-list-form {
+    /* flex-direction: column; */
+    z-index: 2;
+    position: fixed;
+    padding: 0px 40px 0px 20px !important;
+    top: 125px;
+    animation-duration: .5s;
+    animation-name: newItemFormSlideIn;
+    height: 150px;
+    background-color: rgb(211, 245, 225);
+    border-bottom: 1px solid rgb(175, 202, 181);
+    box-shadow: 0px 1px 13px rgb(226, 226, 226);
+}
+
+.send-to-cont {
+    padding-left: 9px;
+    margin-bottom: 5px;
+    width: 250px;
+}
+
+#send-to {
+    margin: 0px;
+    color: grey;
+}
+
+#send-to-input {
+    border-style: none;
+    height: 35px;
+    border-radius: 15px 0px 0px 15px;
+    padding-left: 10px;
+    width: 220px;
+}
+
+.search-for-recipient-button {
+    height: 35px;
+    width: 50px;
+    color: white;
+    background-color: rgb(47, 99, 255);
+    border-style: none;
+    border-radius: 0px 15px 15px 0px
+}
+
+#search-icon {
+    width: 18px;
+}
+
+.search-for-user-message-cont {
+    margin-top: 5px;
+    padding-left: 9px;
+    /* color: green; */
+    font-style: italic;
+    font-size: 14px;
+}
+
+.foundUser {
+    color: green;
+}
+
+.noUser {
+    color: rgb(147, 147, 147);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+}
+
+#find-list-icon {
+    width: 35px;
+}
+
+#find-list-button {
+    background-color: rgb(47,99,255);
+    border-style: none;
+    padding: 15px;
+    border-radius: 20px;
+}

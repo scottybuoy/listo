@@ -97,7 +97,7 @@ const SingleList = () => {
 
         <div className='container-fluid'>
             <div className='row'>
-                <div className='col-12 list-title-cont d-flex justify-content-between align-items-center'>
+                <div className='col-12 lists-header d-flex justify-content-between align-items-center'>
                     <div className='d-flex align-items-center'>
                         <Link
                             to={`/${userId}/my-lists`}
@@ -143,7 +143,7 @@ const SingleList = () => {
             {/* LIST CONTAINER */}
 
             <div
-                className='row d-flex justify-content-center list-wrapper'
+                className='row d-flex justify-content-center shopping-list-wrapper'
                 onClick={() => { if (toggleUpdateItemModal) { setToggleUpdateItemModal(!toggleUpdateItemModal) } }}
             >
                 <div className='col-12 list-cont d-flex flex-column my-3 p-0'>

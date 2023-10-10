@@ -1,4 +1,4 @@
-const { User, List, Category, Item } = require('../models');
+const { User, List, Category, Checklist, Item } = require('../models');
 const { signToken } = require('../utils/auth');
 
 // create new user
@@ -298,6 +298,16 @@ const deleteList = async (req, res) => {
     return res.status(200).json(updatedUser);
 }
 
+const getAllLists = async (req, res) => {
+    const userData = await User.findById(req.params.userId).populate('lists').populate('checklists');
+    if (!userData) {
+        return res.status(400).json({message: 'unable to find users lists'})
+    };
+    const allLists = userData.lists.concat(userData.checklists);
+
+    return res.status(200).json(allLists);
+}
+
 module.exports = { 
                     createUser,
                     getUser,
@@ -311,5 +321,7 @@ module.exports = {
                     getList,
                     updateItem,
                     deleteItem,
-                    deleteList
+                    deleteList,
+                    getAllLists,
+
                 }

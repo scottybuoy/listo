@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../utils/Auth';
-import { getReceivedLists, searchForRecipient, getUserLists } from '../../utils/api';
+import { getReceivedLists, searchForRecipient, getUserLists, getListsToSend } from '../../utils/api';
 import SearchListsModal from './SearchListsModal/SearchListsModal';
 import { formatDate } from '../../utils/helpers';
 import './shareListIndex.css';
@@ -18,6 +18,7 @@ const ShareListIndex = () => {
     const [findlistModal, setFindListModal] = useState(false);
 
     const userId = Auth.getProfile().data?._id;
+    const username = Auth.getProfile().data?.username
 
     const receivedListDataLength = Object.keys(receivedListData).length
 
@@ -32,21 +33,19 @@ const ShareListIndex = () => {
         }
         const response = await searchForRecipient(recipientData.username);
         const recipient = await response.json();
-        // recipient.length ? setSearchForUserMessage('found user!') : setSearchForUserMessage('no user with that name')
         if (recipient.length) {
             setFindUserStatus(true);
+            setRecipientData({ ...recipientData, recipientId: recipient[0]._id })
             setSearchForUserMessage('found user!')
         } else {
             setFindUserStatus(false);
             setSearchForUserMessage('no user with that name');
         }
-        console.log(recipient);
     }
 
     const handleSearchForListsClick = async () => {
-        const response = await getUserLists(userId);
+        const response = await getListsToSend(userId);
         const lists = await response.json();
-        // console.log('LISTS', lists);
         setListData(lists);
         setFindListModal(true);
     }
@@ -56,7 +55,6 @@ const ShareListIndex = () => {
             const response = await getReceivedLists(userId);
             const receivedLists = await response.json();
             setReceivedListData(receivedLists.receivedLists)
-            console.log(receivedListData);
         }
         findReceivedLists();
     }, [receivedListDataLength])
@@ -105,7 +103,7 @@ const ShareListIndex = () => {
                         </div>
                         <div className='list-section'>
                             {/* SEARCH LISTS BUTTON */}
-                            <button id='find-list-button' onClick={() => { handleSearchForListsClick()}}>
+                            <button id='find-list-button' onClick={() => { handleSearchForListsClick() }}>
                                 <img alt='find-list-icon' id='find-list-icon' src='/images/find-list-icon.png'></img>
                             </button>
                         </div>
@@ -115,7 +113,7 @@ const ShareListIndex = () => {
             {/* LISTS */}
             <div className='lists-wrapper'>
                 <div className='col-12 btn-container'>
-                    {receivedListData.length && receivedListData.map((list) => (
+                    {(receivedListData.length > 0) && receivedListData.map((list) => (
                         <div key={list._id}>
                             <div className='d-flex justify-content-around align-items-center'>
                                 <Link
@@ -131,7 +129,6 @@ const ShareListIndex = () => {
                                     <p className='sent-by-label'>sent by:</p>
                                     <p className='sent-by list-info'>{list.sentBy}</p>
                                 </div>
-                                {/* <p className='list-info date'>{formatDate(list.dateCreated)}</p> */}
                                 {/* SAVE BUTTON */}
                                 <img
                                     className='trash-can'
@@ -158,7 +155,15 @@ const ShareListIndex = () => {
 
             </div>
             {findlistModal && (
-                <SearchListsModal lists={listData} />
+                <SearchListsModal
+                    lists={listData}
+                    recipientId={recipientData.recipientId}
+                    findUserStatus={findUserStatus}
+                    username={username}
+                    setReceivedListData={setReceivedListData}
+                    setFindListModal={setFindListModal}
+                    setSendListForm={setSendListForm}
+                />
             )}
         </div>
     )

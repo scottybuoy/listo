@@ -189,3 +189,22 @@ export const searchForRecipient = (username) => {
         }
     });
 };
+
+export const sendList = (sendListData) => {
+    return fetch(`/api/share-lists`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sendListData)
+    });
+};
+
+export const getListsToSend = (userId) => {
+    return fetch(`/api/user/${userId}/allLists`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+};

@@ -16,6 +16,9 @@ const SignupForm = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+        if (!userFormData.username || !userFormData.password) {
+            return;
+        }
         const response = await signup(userFormData);
         if (!response.ok) {
             throw new Error('Failed to sign up :/')

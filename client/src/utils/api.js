@@ -119,7 +119,7 @@ export const createChecklist = (userId, checklistData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...checklistData, userId})
+        body: JSON.stringify({ ...checklistData, userId })
     });
 };
 
@@ -161,3 +161,72 @@ export const toggleItemCheck = (taskId) => {
         body: JSON.stringify({ taskId })
     });
 };
+
+export const deleteChecklist = (userId, checklistId) => {
+    return fetch(`/api/checklist/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ checklistId })
+    })
+}
+
+export const getReceivedLists = (recipientId) => {
+    return fetch(`/api/share-lists/${recipientId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
+export const searchForRecipient = (username) => {
+    return fetch(`/api/share-lists/recipient/${username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+};
+
+export const sendList = (sendListData) => {
+    return fetch(`/api/share-lists`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sendListData)
+    });
+};
+
+export const getListsToSend = (userId) => {
+    return fetch(`/api/user/${userId}/allLists`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+};
+
+export const saveReceivedList = (userId, receivedListId) => {
+    return fetch(`/api/share-lists/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+
+        },
+        body: JSON.stringify({receivedListId})
+    });
+};
+
+export const deleteReceivedList= (userId, receivedListId) => {
+    return fetch(`/api/share-lists/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+
+        },
+        body: JSON.stringify({receivedListId})
+    })
+}

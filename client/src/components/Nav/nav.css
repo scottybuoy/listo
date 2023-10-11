@@ -42,7 +42,11 @@
     width: 30px;
 }
 
-.nav-item:hover, .link:hover {
+#profile-icon {
+    width: 38px;
+}
+
+.nav-icon:hover, .link:hover {
     color: white;
     cursor: pointer;
 }

@@ -120,7 +120,7 @@ const SingleList = () => {
             {/* NEW ITEM FORM */}
             {newItemForm ? (
                 <div className='row new-item-form-cont'>
-                    <div className='col-12 d-flex align-items-center justify-content-between new-item-form'>
+                    <div className={`col-12 d-flex align-items-center justify-content-between ${newItemForm ? 'new-item-form':'new-item-form-closed'}`}>
                         <input
                             id='new-item-input'
                             name='itemName'

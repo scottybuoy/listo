@@ -87,3 +87,10 @@ input:-webkit-autofill:active {
     padding: 15px;
     border-radius: 20px;
 }
+
+#find-list-button-deactivated {
+    background-color: rgb(205, 226, 219);
+    border-style: none;
+    padding: 15px;
+    border-radius: 20px;
+}

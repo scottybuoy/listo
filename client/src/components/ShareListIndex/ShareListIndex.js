@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../utils/Auth';
-import { getReceivedLists, searchForRecipient, getUserLists, getListsToSend } from '../../utils/api';
+import { getReceivedLists, searchForRecipient, saveReceivedList, deleteReceivedList, getListsToSend } from '../../utils/api';
 import SearchListsModal from './SearchListsModal/SearchListsModal';
-import { formatDate } from '../../utils/helpers';
 import './shareListIndex.css';
 
 
@@ -31,6 +30,11 @@ const ShareListIndex = () => {
         if (!recipientData.username) {
             return;
         }
+        if (recipientData.username === username) {
+            setFindUserStatus(false);
+            setSearchForUserMessage('cannot send list to self')
+            return
+        }
         const response = await searchForRecipient(recipientData.username);
         const recipient = await response.json();
         if (recipient.length) {
@@ -44,17 +48,33 @@ const ShareListIndex = () => {
     }
 
     const handleSearchForListsClick = async () => {
+        if (!findUserStatus) {
+            return;
+        }
         const response = await getListsToSend(userId);
         const lists = await response.json();
         setListData(lists);
         setFindListModal(true);
     }
 
+    const handleSaveReceivedList = async (receivedListId) => {
+        const response = await saveReceivedList(userId, receivedListId);
+        const receivedLists = await response.json();
+        setReceivedListData(receivedLists);
+    }
+
+    const handleDeleteReceivedList = async (receivedListId) => {
+        const response = await deleteReceivedList(userId, receivedListId);
+        const receivedLists = await response.json();
+        setReceivedListData(receivedLists);
+    }
+
     useEffect(() => {
         const findReceivedLists = async () => {
             const response = await getReceivedLists(userId);
             const receivedLists = await response.json();
-            setReceivedListData(receivedLists.receivedLists)
+            const allReceivedLists = receivedLists.receivedLists.concat(receivedLists.receivedChecklists)
+            setReceivedListData(allReceivedLists);
         }
         findReceivedLists();
     }, [receivedListDataLength])
@@ -103,7 +123,7 @@ const ShareListIndex = () => {
                         </div>
                         <div className='list-section'>
                             {/* SEARCH LISTS BUTTON */}
-                            <button id='find-list-button' onClick={() => { handleSearchForListsClick() }}>
+                            <button id={findUserStatus ? 'find-list-button' : 'find-list-button-deactivated'} onClick={() => { handleSearchForListsClick() }}>
                                 <img alt='find-list-icon' id='find-list-icon' src='/images/find-list-icon.png'></img>
                             </button>
                         </div>
@@ -134,7 +154,7 @@ const ShareListIndex = () => {
                                     className='trash-can'
                                     src='/images/save-icon2.png'
                                     alt='trash can icon'
-                                // onClick={() => {handleListDelete(list._id)}}
+                                onClick={() => {handleSaveReceivedList(list._id)}}
                                 >
                                 </img>
                                 {/* DELETE BUTTON */}
@@ -142,7 +162,7 @@ const ShareListIndex = () => {
                                     className='trash-can'
                                     src='/images/trashCan.png'
                                     alt='trash can icon'
-                                // onClick={() => {handleListDelete(list._id)}}
+                                onClick={() => {handleDeleteReceivedList(list._id)}}
                                 >
                                 </img>
                             </div>

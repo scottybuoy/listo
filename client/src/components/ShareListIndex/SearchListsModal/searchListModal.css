@@ -19,7 +19,7 @@
 
 .list-to-send-cont {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     padding: 20px;
 }
@@ -32,12 +32,19 @@
     width: 45%;
 }
 
+.search-lists-date-cont {
+    margin: 0px 30px;
+}
+
 #send-list-button {
+    position: relative;
     background-color: rgb(106, 155, 120);
     border-style: none;
     border-radius: 20px;
     color: white;
     padding: 10px;
+    animation-duration: .5s;
+    animation-name: sendButtonSlideIn;
 }
 
 .list-clicked {
@@ -46,4 +53,16 @@
 
 .hr {
     margin: 0px;
+}
+
+@keyframes sendButtonSlideIn {
+    from {
+        left: 25px;
+        opacity: 0%;
+    }
+
+    to {
+        left: 0px;
+        opacity: 100%;
+    }
 }

@@ -1,7 +1,13 @@
 const { User, List, Checklist } = require('../models');
 
 const sendList = async (req, res) => {
-    const listToSend = await List.findById(req.body.listId)
+    let listToSend = null;
+    let fieldToUpdate = null;
+    if (req.body.typeOfList === 'shoppingList') {
+        listToSend = await List.findById(req.body.listId);
+    } else {
+        listToSend = await Checklist.findById(req.body.listId);
+    };
 
     if (!listToSend) {
         return res.status(400).json({ message: 'failed to find list' });
@@ -10,9 +16,12 @@ const sendList = async (req, res) => {
     listToSend.sentBy = req.body.sentBy;
     listToSend.save();
 
+    req.body.typeOfList === 'shoppingList' ? fieldToUpdate = 'receivedLists' : fieldToUpdate = 'receivedChecklists';
+
+
     const listRecipient = await User.findOneAndUpdate(
         { _id: req.body.recipientId },
-        { $addToSet: { receivedLists: listToSend } },
+        { $addToSet: { [fieldToUpdate]: listToSend } },
         { new: true, runValidotors: true }
     );
 
@@ -26,7 +35,7 @@ const sendList = async (req, res) => {
 const getReceivedLists = async (req, res) => {
 
     const receivedLists = await User.findById(req.params.userId)
-        .populate('receivedLists');
+        .populate(['receivedLists', 'receivedChecklists']);
 
     if (!receivedLists) {
         return res.status(400).json({ message: 'failed to find received lists' })
@@ -35,8 +44,22 @@ const getReceivedLists = async (req, res) => {
     return res.status(200).json(receivedLists);
 };
 
+const deleteReceivedList = async (req, res) => {
+    const updatedUser = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $pull: { receivedLists: req.body.receivedListId } },
+        { new: true, runValidotors: true }
+    )
+
+    if (!updatedUser) {
+        return res.status(400).json({ message: 'cannot remove received list from user' })
+    };
+
+    return res.status(200).json(updatedUser);
+}
+
 const saveReceivedList = async (req, res) => {
-    const updatedList = await List.findById(req.body.receivedList);
+    const updatedList = await List.findById(req.body.receivedListId);
 
     if (!updatedList) {
         return res.status(400).json({ message: 'could not find received list' })
@@ -51,7 +74,7 @@ const saveReceivedList = async (req, res) => {
         { new: true, runValidotors: true }
     );
 
-    updatedUser.receivedLists.pull(req.body.receivedList)
+    updatedUser.receivedLists.pull(req.body.receivedListId)
     updatedUser.save();
 
     if (!updatedUser) {
@@ -60,6 +83,29 @@ const saveReceivedList = async (req, res) => {
 
     return res.status(200).json(updatedUser);
 
+};
+
+const saveReceivedChecklist = async (req, res) => {
+    const updatedChecklist = Checklist.findById(req.body.checklistId);
+
+    if (!updatedChecklist) {
+        return res.status(400).json({ message: 'unable to find checklist' })
+    }
+
+    updatedChecklist.sentBy = ''
+    updatedChecklist.save();
+
+    const updatedUser = User.findOneAndUpdate(
+        { _id: req.body.userId },
+        { $addToSet: { checklists: req.body.checklistId } },
+        { new: true, runValidotors: true }
+    );
+
+    if (!updatedUser) {
+        return res.status(400).json({message: 'unable to save received checklist'})
+    };
+
+    return res.status(200).json(updatedUser);
 };
 
 const findRecipient = async (req, res) => {
@@ -75,5 +121,7 @@ module.exports = {
     sendList,
     getReceivedLists,
     saveReceivedList,
+    saveReceivedChecklist,
     findRecipient,
+    deleteReceivedList,
 }

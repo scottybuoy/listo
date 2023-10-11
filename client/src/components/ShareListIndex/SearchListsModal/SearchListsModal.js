@@ -8,7 +8,12 @@ const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setRec
     const [listToSendId, setListToSendId] = useState();
 
     const handleListClick = async (list) => {
-        setSendListData({listId: list._id, recipientId, sentBy: username});
+        const keys = Object.keys(list);
+        if (keys.includes('categories')) {
+            setSendListData({listId: list._id, recipientId, sentBy: username, typeOfList: 'shoppingList'});
+        } else {
+            setSendListData({listId: list._id, recipientId, sentBy: username, typeOfList: 'checklist'});
+        }
         setListToSendId(list._id)
     }
 

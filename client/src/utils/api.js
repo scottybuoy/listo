@@ -209,24 +209,24 @@ export const getListsToSend = (userId) => {
     });
 };
 
-export const saveReceivedList = (userId, receivedListId) => {
+export const saveReceivedList = (userId, receivedListId, typeOfList) => {
     return fetch(`/api/share-lists/${userId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
 
         },
-        body: JSON.stringify({receivedListId})
+        body: JSON.stringify({receivedListId, typeOfList})
     });
 };
 
-export const deleteReceivedList= (userId, receivedListId) => {
+export const deleteReceivedList= (userId, receivedListId, typeOfList) => {
     return fetch(`/api/share-lists/${userId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
 
         },
-        body: JSON.stringify({receivedListId})
+        body: JSON.stringify({receivedListId, typeOfList})
     })
 }

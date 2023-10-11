@@ -97,6 +97,9 @@ const Checklists = () => {
             {/* CHECKLISTS */}
             <div className='lists-wrapper'>
                 <div className='col-12 btn-container'>
+                    {!checklistData.checklists?.length && (
+                        <div className='empty-list'>No checklists yet!</div>
+                    )}
                     {checklistData.checklists && checklistData.checklists.map((list) => (
                         <div key={list._id}>
                             <div className='d-flex justify-content-around align-items-center'>

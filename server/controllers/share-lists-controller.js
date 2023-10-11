@@ -59,7 +59,15 @@ const deleteReceivedList = async (req, res) => {
 }
 
 const saveReceivedList = async (req, res) => {
-    const updatedList = await List.findById(req.body.receivedListId);
+    let updatedList = null;
+    let fieldToUpdate = null;
+    let fieldToPullFrom = null;
+
+    if (req.body.typeOfList === 'shoppingList') {
+        updatedList = await List.findById(req.body.receivedListId);
+    } else {
+        updatedList = await Checklist.findById(req.body.receivedListId);
+    }
 
     if (!updatedList) {
         return res.status(400).json({ message: 'could not find received list' })
@@ -68,13 +76,16 @@ const saveReceivedList = async (req, res) => {
     updatedList.sentBy = '';
     updatedList.save();
 
+    req.body.typeOfList === 'shoppingList' ? fieldToUpdate = 'lists' : fieldToUpdate = 'checklists';
+    req.body.typeOfList === 'shoppingList' ? fieldToPullFrom = 'receivedLists' : fieldToPullFrom = 'receivedChecklists';
+
     const updatedUser = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { lists: updatedList } },
+        { $addToSet: { [fieldToUpdate]: updatedList } },
         { new: true, runValidotors: true }
     );
 
-    updatedUser.receivedLists.pull(req.body.receivedListId)
+    updatedUser[fieldToPullFrom].pull(req.body.receivedListId)
     updatedUser.save();
 
     if (!updatedUser) {
@@ -102,7 +113,7 @@ const saveReceivedChecklist = async (req, res) => {
     );
 
     if (!updatedUser) {
-        return res.status(400).json({message: 'unable to save received checklist'})
+        return res.status(400).json({ message: 'unable to save received checklist' })
     };
 
     return res.status(200).json(updatedUser);

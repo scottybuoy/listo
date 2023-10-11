@@ -148,8 +148,8 @@ const SingleList = () => {
             >
                 <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
 
-                    {!listData.categories ? (
-                        <div>fetching list!</div>
+                    {!listData.categories?.length ? (
+                        <div className='empty-list'>Add some items!</div>
                     ) : (
                         // CATEGORIES
                         listData.categories.map((category) => (

@@ -107,8 +107,8 @@ const Checklist = () => {
 
             <div className='row checklist-wrapper'>
                 <div className='col-12 my-4'>
-                    {!checklistData.tasks ? (
-                        <div>loading</div>
+                    {!checklistData.tasks?.length ? (
+                        <div className='empty-list'>Add some tasks!</div>
                     ) : (
                         checklistData.tasks.map((task) => (
                             <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>

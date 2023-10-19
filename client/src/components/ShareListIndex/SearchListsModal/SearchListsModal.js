@@ -3,16 +3,16 @@ import { formatDate } from '../../../utils/helpers';
 import { sendList } from '../../../utils/api';
 import './searchListModal.css';
 
-const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setReceivedListData, setFindListModal, setSendListForm }) => {
+const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setReceivedListData, setFindListModal, setSendListForm, setMessageModal }) => {
     const [sendListData, setSendListData] = useState({});
     const [listToSendId, setListToSendId] = useState();
 
     const handleListClick = async (list) => {
         const keys = Object.keys(list);
         if (keys.includes('categories')) {
-            setSendListData({listId: list._id, recipientId, sentBy: username, typeOfList: 'shoppingList'});
+            setSendListData({ listId: list._id, recipientId, sentBy: username, typeOfList: 'shoppingList' });
         } else {
-            setSendListData({listId: list._id, recipientId, sentBy: username, typeOfList: 'checklist'});
+            setSendListData({ listId: list._id, recipientId, sentBy: username, typeOfList: 'checklist' });
         }
         setListToSendId(list._id)
     }
@@ -23,6 +23,15 @@ const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setRec
         setReceivedListData(receivedLists);
         setFindListModal(false);
         setSendListForm(false);
+        setMessageModal(true);
+        hideMessageModal();
+    }
+
+    const hideMessageModal = () => {
+        let hideMessage = setTimeout(() => {
+            setMessageModal(false);
+            clearTimeout(hideMessage);
+        }, 1000)
     }
 
     return (
@@ -31,7 +40,7 @@ const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setRec
                 <div key={list._id} className={listToSendId === list._id ? 'list-clicked' : ''}>
                     <div
                         className='list-to-send-cont'
-                        onClick={() => {handleListClick(list)}}
+                        onClick={() => { handleListClick(list) }}
                     >
                         <div className='search-list-btn-cont'>
                             <button
@@ -44,7 +53,7 @@ const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setRec
                             <p className='list-info date'>{formatDate(list.dateCreated)}</p>
                         </div>
                         {findUserStatus && listToSendId === list._id && (
-                            <button id='send-list-button' onClick={() => {handleSendList()}}>Send</button>
+                            <button id='send-list-button' onClick={() => { handleSendList() }}>Send</button>
                         )}
                     </div>
                     <hr className='hr'></hr>

@@ -9,11 +9,14 @@ const {
     removeTaskFromChecklist,
     toggleItemCheck,
     deleteChecklist,
+    editTask,
 } = require('../../controllers/checklist-controller')
+
+// /api/checklist endpoint
 
 router.route('/:userId').get(getUserChecklists).post(createCheckList).delete(deleteChecklist);
 
-router.route('/:userId/add-task').post(addTaskToCheckList);
+router.route('/:userId/task').post(addTaskToCheckList).put(editTask);
 
 router.route('/:userId/:checklistId').get(getSingleChecklist).delete(removeTaskFromChecklist);
 

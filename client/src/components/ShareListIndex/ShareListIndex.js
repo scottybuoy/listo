@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Auth from '../../utils/Auth';
 import { getReceivedLists, searchForRecipient, saveReceivedList, deleteReceivedList, getListsToSend } from '../../utils/api';
 import SearchListsModal from './SearchListsModal/SearchListsModal';
+import MessageModal from '../MessageModal/MessageModal';
 import './shareListIndex.css';
 
 
@@ -15,6 +16,7 @@ const ShareListIndex = () => {
     const [findUserStatus, setFindUserStatus] = useState();
     const [searchForUserMessage, setSearchForUserMessage] = useState();
     const [findlistModal, setFindListModal] = useState(false);
+    const [messageModal, setMessageModal] = useState(false);
 
     const userId = Auth.getProfile().data?._id;
     const username = Auth.getProfile().data?.username
@@ -71,6 +73,7 @@ const ShareListIndex = () => {
         let typeOfList = null;
         const keys = Object.keys(receivedList);
         keys.includes('categories') ? typeOfList = 'shoppingList' : typeOfList = 'checklist';
+        console.log('TOL', typeOfList);
 
         const response = await deleteReceivedList(userId, receivedList._id, typeOfList);
         const receivedLists = await response.json();
@@ -194,7 +197,11 @@ const ShareListIndex = () => {
                     setReceivedListData={setReceivedListData}
                     setFindListModal={setFindListModal}
                     setSendListForm={setSendListForm}
+                    setMessageModal={setMessageModal}
                 />
+            )}
+            {messageModal && (
+                <MessageModal />
             )}
         </div>
     )

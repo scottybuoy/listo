@@ -13,6 +13,7 @@ const SingleList = () => {
     const { listId } = useParams();
     const [listData, setListData] = useState({});
     const [notesObjState, setNotesObjState] = useState({});
+    const [emptyCategories, setEmptyCategories] = useState(true);
     const [newItemForm, setNewItemForm] = useState(false);
     const [newItemData, setNewItemData] = useState({ category: 'Misc' })
     const [toggleUpdateItemModal, setToggleUpdateItemModal] = useState(false);
@@ -46,6 +47,18 @@ const SingleList = () => {
             return
         }
         setNewItemData({ ...newItemData, [name]: value });
+    }
+
+    const displayEmptyMessage = () => {
+        setEmptyCategories(true);
+        if (!listData.categories) {
+            return;
+        }
+        listData.categories.forEach((category) => {
+            if (category.items.length) {
+                setEmptyCategories(false)
+            }
+        })
     }
 
     // CREATE INITIAL STATE FOR NOTES OBJECT
@@ -89,6 +102,8 @@ const SingleList = () => {
 
         findCategories();
         notesObjPromise();
+        displayEmptyMessage();
+        console.log(emptyCategories);
     }, [listDataLength]);
 
     return (
@@ -147,9 +162,11 @@ const SingleList = () => {
                 onClick={() => { if (toggleUpdateItemModal) { setToggleUpdateItemModal(!toggleUpdateItemModal) } }}
             >
                 <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
-
-                    {!listData.categories?.length ? (
+                    {emptyCategories && (
                         <div className='empty-list'>Add some items!</div>
+                    )}
+                    {!listData.categories?.length ? (
+                        null
                     ) : (
                         // CATEGORIES
                         listData.categories.map((category) => (

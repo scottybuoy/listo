@@ -133,7 +133,7 @@ export const getSingleChecklist = (userId, checklistId) => {
 };
 
 export const addTaskToCheckList = (userId, checklistId, taskData) => {
-    return fetch(`/api/checklist/${userId}/add-task`, {
+    return fetch(`/api/checklist/${userId}/task`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -141,6 +141,16 @@ export const addTaskToCheckList = (userId, checklistId, taskData) => {
         body: JSON.stringify({ ...taskData, checklistId })
     });
 };
+
+export const editTask = (userId, taskData) => {
+    return fetch(`/api/checklist/${userId}/task`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskData)
+    })
+}
 
 export const deleteTaskFromChecklist = (userId, checklistId, taskId) => {
     return fetch(`/api/checklist/${userId}/${checklistId}`, {
@@ -228,5 +238,5 @@ export const deleteReceivedList= (userId, receivedListId, typeOfList) => {
 
         },
         body: JSON.stringify({receivedListId, typeOfList})
-    })
+    });
 }

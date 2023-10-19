@@ -45,17 +45,20 @@ const getReceivedLists = async (req, res) => {
 };
 
 const deleteReceivedList = async (req, res) => {
-    const updatedUser = await User.findOneAndUpdate(
-        { _id: req.params.userId },
-        { $pull: { receivedLists: req.body.receivedListId } },
-        { new: true, runValidotors: true }
-    )
+    let fieldToPullFrom = null;
 
-    if (!updatedUser) {
+    req.body.typeOfList === 'shoppingList' ? fieldToPullFrom = 'receivedLists' : fieldToPullFrom = 'receivedChecklists';
+
+    const userToUpdate = await User.findById(req.params.userId);
+
+    if (!userToUpdate) {
         return res.status(400).json({ message: 'cannot remove received list from user' })
     };
 
-    return res.status(200).json(updatedUser);
+    userToUpdate[fieldToPullFrom].pull(req.body.receivedListId);
+    userToUpdate.save();
+
+    return res.status(200).json(userToUpdate);
 }
 
 const saveReceivedList = async (req, res) => {

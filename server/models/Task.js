@@ -10,6 +10,9 @@ const taskSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        notes: {
+            type: String,
+        }
     }
 );
 

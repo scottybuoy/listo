@@ -47,7 +47,6 @@ const Checklist = () => {
 
     const handleTaskCheck = async (e) => {
         const taskId = e.target.value
-        console.log(typeof taskId);
         const response = await toggleItemCheck(taskId);
         const checkedTask = await response.json();
         setChecklistData(checkedTask);
@@ -112,6 +111,7 @@ const Checklist = () => {
                     ) : (
                         checklistData.tasks.map((task) => (
                             <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
+                                {console.log(task._id)}
                                 <div className='d-flex justify-content-between todo-and-check'>
                                     <div className='checkbox-cont'>
                                         <input

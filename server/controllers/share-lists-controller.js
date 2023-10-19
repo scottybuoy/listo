@@ -45,21 +45,32 @@ const getReceivedLists = async (req, res) => {
 };
 
 const deleteReceivedList = async (req, res) => {
-    const updatedUser = await User.findOneAndUpdate(
-        { _id: req.params.userId },
-        { $pull: { receivedLists: req.body.receivedListId } },
-        { new: true, runValidotors: true }
-    )
+    let fieldToPullFrom = null;
 
-    if (!updatedUser) {
+    req.body.typeOfList === 'shoppingList' ? fieldToPullFrom = 'receivedLists' : fieldToPullFrom = 'receivedChecklists';
+
+    const userToUpdate = await User.findById(req.params.userId);
+
+    if (!userToUpdate) {
         return res.status(400).json({ message: 'cannot remove received list from user' })
     };
 
-    return res.status(200).json(updatedUser);
+    userToUpdate[fieldToPullFrom].pull(req.body.receivedListId);
+    userToUpdate.save();
+
+    return res.status(200).json(userToUpdate);
 }
 
 const saveReceivedList = async (req, res) => {
-    const updatedList = await List.findById(req.body.receivedListId);
+    let updatedList = null;
+    let fieldToUpdate = null;
+    let fieldToPullFrom = null;
+
+    if (req.body.typeOfList === 'shoppingList') {
+        updatedList = await List.findById(req.body.receivedListId);
+    } else {
+        updatedList = await Checklist.findById(req.body.receivedListId);
+    }
 
     if (!updatedList) {
         return res.status(400).json({ message: 'could not find received list' })
@@ -68,13 +79,16 @@ const saveReceivedList = async (req, res) => {
     updatedList.sentBy = '';
     updatedList.save();
 
+    req.body.typeOfList === 'shoppingList' ? fieldToUpdate = 'lists' : fieldToUpdate = 'checklists';
+    req.body.typeOfList === 'shoppingList' ? fieldToPullFrom = 'receivedLists' : fieldToPullFrom = 'receivedChecklists';
+
     const updatedUser = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { lists: updatedList } },
+        { $addToSet: { [fieldToUpdate]: updatedList } },
         { new: true, runValidotors: true }
     );
 
-    updatedUser.receivedLists.pull(req.body.receivedListId)
+    updatedUser[fieldToPullFrom].pull(req.body.receivedListId)
     updatedUser.save();
 
     if (!updatedUser) {
@@ -102,7 +116,7 @@ const saveReceivedChecklist = async (req, res) => {
     );
 
     if (!updatedUser) {
-        return res.status(400).json({message: 'unable to save received checklist'})
+        return res.status(400).json({ message: 'unable to save received checklist' })
     };
 
     return res.status(200).json(updatedUser);

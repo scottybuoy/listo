@@ -89,6 +89,9 @@ const Lists = () => {
             {/* LISTS */}
             <div className='lists-wrapper'>
                 <div className='col-12 btn-container'>
+                    {!listData.userLists?.length && (
+                        <div className='empty-list'>No lists yet!</div>
+                    )}
                     {listData.userLists && listData.userLists.map((list) => (
                         <div key={list._id}>
                             <div className='d-flex justify-content-around align-items-center'>

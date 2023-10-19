@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Auth from '../../utils/Auth';
 import { getReceivedLists, searchForRecipient, saveReceivedList, deleteReceivedList, getListsToSend } from '../../utils/api';
 import SearchListsModal from './SearchListsModal/SearchListsModal';
+import MessageModal from '../MessageModal/MessageModal';
 import './shareListIndex.css';
 
 
@@ -15,6 +16,7 @@ const ShareListIndex = () => {
     const [findUserStatus, setFindUserStatus] = useState();
     const [searchForUserMessage, setSearchForUserMessage] = useState();
     const [findlistModal, setFindListModal] = useState(false);
+    const [messageModal, setMessageModal] = useState(false);
 
     const userId = Auth.getProfile().data?._id;
     const username = Auth.getProfile().data?.username
@@ -57,14 +59,23 @@ const ShareListIndex = () => {
         setFindListModal(true);
     }
 
-    const handleSaveReceivedList = async (receivedListId) => {
-        const response = await saveReceivedList(userId, receivedListId);
+    const handleSaveReceivedList = async (receivedList) => {
+        let typeOfList = null;
+        const keys = Object.keys(receivedList);
+        keys.includes('categories') ? typeOfList = 'shoppingList' : typeOfList = 'checklist';
+
+        const response = await saveReceivedList(userId, receivedList._id, typeOfList);
         const receivedLists = await response.json();
         setReceivedListData(receivedLists);
     }
 
-    const handleDeleteReceivedList = async (receivedListId) => {
-        const response = await deleteReceivedList(userId, receivedListId);
+    const handleDeleteReceivedList = async (receivedList) => {
+        let typeOfList = null;
+        const keys = Object.keys(receivedList);
+        keys.includes('categories') ? typeOfList = 'shoppingList' : typeOfList = 'checklist';
+        console.log('TOL', typeOfList);
+
+        const response = await deleteReceivedList(userId, receivedList._id, typeOfList);
         const receivedLists = await response.json();
         setReceivedListData(receivedLists);
     }
@@ -133,6 +144,9 @@ const ShareListIndex = () => {
             {/* LISTS */}
             <div className='lists-wrapper'>
                 <div className='col-12 btn-container'>
+                    {!receivedListData.length && (
+                        <div className='empty-list'>No Received Lists!</div>
+                    )}
                     {(receivedListData.length > 0) && receivedListData.map((list) => (
                         <div key={list._id}>
                             <div className='d-flex justify-content-around align-items-center'>
@@ -154,7 +168,7 @@ const ShareListIndex = () => {
                                     className='trash-can'
                                     src='/images/save-icon2.png'
                                     alt='trash can icon'
-                                onClick={() => {handleSaveReceivedList(list._id)}}
+                                onClick={() => {handleSaveReceivedList(list)}}
                                 >
                                 </img>
                                 {/* DELETE BUTTON */}
@@ -162,7 +176,7 @@ const ShareListIndex = () => {
                                     className='trash-can'
                                     src='/images/trashCan.png'
                                     alt='trash can icon'
-                                onClick={() => {handleDeleteReceivedList(list._id)}}
+                                onClick={() => {handleDeleteReceivedList(list)}}
                                 >
                                 </img>
                             </div>
@@ -183,7 +197,11 @@ const ShareListIndex = () => {
                     setReceivedListData={setReceivedListData}
                     setFindListModal={setFindListModal}
                     setSendListForm={setSendListForm}
+                    setMessageModal={setMessageModal}
                 />
+            )}
+            {messageModal && (
+                <MessageModal />
             )}
         </div>
     )

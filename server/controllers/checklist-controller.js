@@ -147,11 +147,25 @@ const deleteChecklist = async (req, res) => {
     );
 
     if (!updatedUser) {
-        return res.status(400).json({message: 'unable to delete checklist from user'});
+        return res.status(400).json({ message: 'unable to delete checklist from user' });
     };
 
     return res.status(200).json(updatedUser);
 };
+
+const editTask = async (req, res) => {
+    const updatedTask = await Task.findOneAndUpdate(
+        { _id: req.body.taskId },
+        { $set: req.body },
+        { new: true, runValidators: true }
+    );
+
+    if (!updatedTask) {
+        return res.status(400).json({ message: 'unable to edit task' });
+    };
+
+    return res.status(200).json(updatedTask);
+}
 
 
 
@@ -164,4 +178,5 @@ module.exports = {
     removeTaskFromChecklist,
     toggleItemCheck,
     deleteChecklist,
+    editTask,
 }

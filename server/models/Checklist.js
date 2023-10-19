@@ -12,6 +12,10 @@ const checklistSchema = new Schema(
             default: Date.now,
         },
 
+        sentBy: {
+            type: String,
+        },
+
         tasks: [
             {
                 type: Schema.Types.ObjectId,

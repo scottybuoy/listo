@@ -94,3 +94,12 @@ input:-webkit-autofill:active {
     padding: 15px;
     border-radius: 20px;
 }
+
+.empty-list {
+    text-align: center;
+    font-size: 40px;
+    padding: 15px;
+    color: rgb(186, 186, 186);
+    font-style: italic;
+    font-weight: 700;
+}

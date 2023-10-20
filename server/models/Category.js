@@ -6,7 +6,6 @@ const categorySchemma = new Schema(
         categoryName: {
             type: String,
             required: true,
-            // unique: true,
         },
         items: [itemSchema]
     }

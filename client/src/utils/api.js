@@ -50,7 +50,6 @@ export const newList = (userId, listFormData) => {
         },
         body: JSON.stringify(listFormData),
     });
-    // window.location.href=`http://localhost:3000/home/${userId}`
 };
 
 export const addItem = (listId, newItemData) => {
@@ -70,7 +69,17 @@ export const addItemWithCategory = (listId, newItemData) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(newItemData)
-    })
+    });
+}
+
+export const addItemToCategory = (categoryId, itemData) => {
+    return fetch(`/api/user/add-to-category/${categoryId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(itemData)
+    });
 }
 
 export const updateItem = (catId, updateItemData) => {

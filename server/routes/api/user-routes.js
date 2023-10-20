@@ -6,15 +6,16 @@ const {
     getUser,
     getAllUsers,
     createList,
-    addItemToList,
     addItemToListWithCategory,
+    addItemToExistingCategory,
     getListCategories,
     getUserLists,
     getList,
     updateItem,
     deleteItem,
     deleteList,
-    getAllLists
+    getAllLists,
+    getSingleCategory
 } = require('../../controllers/user-controller');
 
 const { authMiddleWare } = require('../../utils/auth');
@@ -34,5 +35,7 @@ router.route('/:userId/list/:listId').get(getList);
 router.route('/lists/:listId').get(getListCategories).post(addItemToListWithCategory).put(updateItem).delete(deleteItem);
 
 router.route('/:userId/allLists').get(getAllLists);
+
+router.route('/add-to-category/:categoryId').post(addItemToExistingCategory);
 
 module.exports = router;

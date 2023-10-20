@@ -158,8 +158,6 @@ const addItemToListWithCategory = async (req, res) => {
 };
 
 const addItemToExistingCategory = async (req, res) => {
-    console.log('CAT ID', req.params.categoryId)
-    console.log(req.body.itemName)
     const updatedCategory = await Category.findOneAndUpdate(
         { _id: req.params.categoryId },
         { $addToSet: { items: { itemName: req.body.itemName } } },

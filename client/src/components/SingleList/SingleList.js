@@ -43,7 +43,6 @@ const SingleList = () => {
     }
 
     const handleAddItemToCategory = async (categoryId) => {
-        console.log('CAT ID', categoryId)
         if (!itemToCategoryData.itemName) {
             return;
         }
@@ -57,7 +56,6 @@ const SingleList = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (!e.target.value) {
-            console.log('must enter item name')
             return
         }
         setNewItemData({ ...newItemData, [name]: value });

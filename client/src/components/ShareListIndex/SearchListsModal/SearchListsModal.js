@@ -3,7 +3,7 @@ import { formatDate } from '../../../utils/helpers';
 import { sendList } from '../../../utils/api';
 import './searchListModal.css';
 
-const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setReceivedListData, setFindListModal, setSendListForm, setMessageModal }) => {
+const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setReceivedListData, setFindListModal, setSendListForm, setMessageModal, setMessage }) => {
     const [sendListData, setSendListData] = useState({});
     const [listToSendId, setListToSendId] = useState();
 
@@ -23,6 +23,7 @@ const SearchListsModal = ({ lists, recipientId, findUserStatus, username, setRec
         setReceivedListData(receivedLists);
         setFindListModal(false);
         setSendListForm(false);
+        setMessage('List Sent!');
         setMessageModal(true);
         hideMessageModal();
     }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { deleteItem, addItemWithCategory, getListCategories } from "../../utils/api";
+import { deleteItem, addItemWithCategory, getListCategories, addItemToCategory } from "../../utils/api";
 import Auth from '../../utils/Auth';
 import './singleList.css';
 import UpdateItemModal from './UpdateItemModal/UpdateItemModal';
@@ -13,9 +13,11 @@ const SingleList = () => {
     const { listId } = useParams();
     const [listData, setListData] = useState({});
     const [notesObjState, setNotesObjState] = useState({});
+    const [addToCategoryForm, setAddToCategoryForm] = useState({})
     const [emptyCategories, setEmptyCategories] = useState(true);
     const [newItemForm, setNewItemForm] = useState(false);
     const [newItemData, setNewItemData] = useState({ category: 'Misc' })
+    const [itemToCategoryData, setItemToCategoryData] = useState()
     const [toggleUpdateItemModal, setToggleUpdateItemModal] = useState(false);
     const [itemForUpdate, setItemForUpdate] = useState({});
 
@@ -40,13 +42,28 @@ const SingleList = () => {
         setNewItemForm(!newItemForm);
     }
 
+    const handleAddItemToCategory = async (categoryId) => {
+        if (!itemToCategoryData.itemName) {
+            return;
+        }
+        const response = await addItemToCategory(categoryId, itemToCategoryData);
+        const category = await response.json();
+        setAddToCategoryForm({});
+        setListData(category);
+
+    }
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (!e.target.value) {
-            console.log('must enter item name')
             return
         }
         setNewItemData({ ...newItemData, [name]: value });
+    }
+
+    const handleAddItemToCategoryChange = (e) => {
+        const { name, value } = e.target;
+        setItemToCategoryData({...itemToCategoryData, [name]: value})
     }
 
     const displayEmptyMessage = () => {
@@ -92,6 +109,10 @@ const SingleList = () => {
         setNotesObjState(notesObj);
     }
 
+    const handleAddItemClick = (category) => {
+        setAddToCategoryForm({ [category]: { formOpen: !addToCategoryForm[category]?.formOpen } })
+    }
+
     useEffect(() => {
 
         const findCategories = async () => {
@@ -99,11 +120,10 @@ const SingleList = () => {
             const categories = await response.json();
             setListData(categories);
         }
-
+        
         findCategories();
         notesObjPromise();
         displayEmptyMessage();
-        console.log(emptyCategories);
     }, [listDataLength]);
 
     return (
@@ -135,7 +155,7 @@ const SingleList = () => {
             {/* NEW ITEM FORM */}
             {newItemForm ? (
                 <div className='row new-item-form-cont'>
-                    <div className={`col-12 d-flex align-items-center justify-content-between ${newItemForm ? 'new-item-form':'new-item-form-closed'}`}>
+                    <div className={`col-12 d-flex align-items-center justify-content-between ${newItemForm ? 'new-item-form' : 'new-item-form-closed'}`}>
                         <input
                             id='new-item-input'
                             name='itemName'
@@ -172,8 +192,28 @@ const SingleList = () => {
                         listData.categories.map((category) => (
                             category.items.length ? (
                                 <div key={category._id} id='category-cont'>
-                                    <h3 id='category-name'>{category.categoryName}</h3>
+                                    <div className='d-flex justify-content-between align-items-center category-header-cont'>
+                                        <div id='category-name-cont'>
+                                            <h3 id='category-name'>{category.categoryName}</h3>
+                                        </div>
+                                        <img
+                                            id='new-item-icon'
+                                            alt='add item icon'
+                                            src='/images/plus-icon-blue.png'
+                                            onClick={() => { handleAddItemClick(category._id) }}
+                                        >
+                                        </img>
+                                    </div>
                                     <hr></hr>
+                                    {/* ADD ITEM TO EXISTING CATEGORY FORM */}
+                                    {
+                                        addToCategoryForm[category._id]?.formOpen && (
+                                            <div className='add-item-cont'>
+                                                <input id='new-item-input' name='itemName' onChange={handleAddItemToCategoryChange}></input>
+                                                <button id='new-item-btn' onClick={() => { handleAddItemToCategory(category._id) }}>add!</button>
+                                            </div>
+                                        )
+                                    }
                                     {/* ITEMS */}
                                     <div className='d-flex flex-column category-items-cont'>
                                         {category.items.map((item) => (
@@ -215,8 +255,8 @@ const SingleList = () => {
                                                 </div>
                                                 {/* NOTES ELEMENT */}
                                                 {notesObjState && notesObjState[item._id].notesOpen && item.notes && (
-                                                    <div className='row item-notes-container my-2'>
-                                                        <div className='col-12 item-notes'>{item.notes}</div>
+                                                    <div className='item-notes-container my-2'>
+                                                        <div className='item-notes'>{item.notes}</div>
                                                     </div>
 
                                                 )}

@@ -65,6 +65,7 @@ const saveReceivedList = async (req, res) => {
     let updatedList = null;
     let fieldToUpdate = null;
     let fieldToPullFrom = null;
+    let listCopy = null;
 
     if (req.body.typeOfList === 'shoppingList') {
         updatedList = await List.findById(req.body.receivedListId);
@@ -78,13 +79,18 @@ const saveReceivedList = async (req, res) => {
 
     updatedList.sentBy = '';
     updatedList.save();
+    let obj = updatedList.toObject();
+    delete obj._id;
+    req.body.typeOfList === 'shoppingList' ? listCopy = await List.create(obj) : listCopy = await Checklist.create(obj);
+
+    console.log('COMPARE', req.receivedListId, listCopy)
 
     req.body.typeOfList === 'shoppingList' ? fieldToUpdate = 'lists' : fieldToUpdate = 'checklists';
     req.body.typeOfList === 'shoppingList' ? fieldToPullFrom = 'receivedLists' : fieldToPullFrom = 'receivedChecklists';
 
     const updatedUser = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { [fieldToUpdate]: updatedList } },
+        { $addToSet: { [fieldToUpdate]: listCopy } },
         { new: true, runValidotors: true }
     );
 

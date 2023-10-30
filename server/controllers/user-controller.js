@@ -25,7 +25,6 @@ const getUser = async (req, res) => {
 
 const login = async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
-    // console.log('REQ', req.user);
 
     if (!user) {
         return res.status(400).json({ message: 'Unable to find this user' });
@@ -36,8 +35,6 @@ const login = async (req, res) => {
     if (!correctPW) {
         return res.status(400).json({ message: 'Incorrect password' });
     }
-
-    console.log('SUCCESSFUL LOGIN');
 
     const token = signToken(user);
     res.json({ token, user });

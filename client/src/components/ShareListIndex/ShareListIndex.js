@@ -17,6 +17,7 @@ const ShareListIndex = () => {
     const [searchForUserMessage, setSearchForUserMessage] = useState();
     const [findlistModal, setFindListModal] = useState(false);
     const [messageModal, setMessageModal] = useState(false);
+    const [message, setMessage] = useState('');
 
     const userId = Auth.getProfile().data?._id;
     const username = Auth.getProfile().data?.username
@@ -67,6 +68,9 @@ const ShareListIndex = () => {
         const response = await saveReceivedList(userId, receivedList._id, typeOfList);
         const receivedLists = await response.json();
         setReceivedListData(receivedLists);
+        setMessage('List Saved!')
+        setMessageModal(true);
+        hideMessageModal();
     }
 
     const handleDeleteReceivedList = async (receivedList) => {
@@ -78,6 +82,13 @@ const ShareListIndex = () => {
         const response = await deleteReceivedList(userId, receivedList._id, typeOfList);
         const receivedLists = await response.json();
         setReceivedListData(receivedLists);
+    }
+
+    const hideMessageModal = () => {
+        let hideMessage = setTimeout(() => {
+            setMessageModal(false);
+            clearTimeout(hideMessage);
+        }, 1000)
     }
 
     useEffect(() => {
@@ -168,7 +179,7 @@ const ShareListIndex = () => {
                                     className='trash-can'
                                     src='/images/save-icon2.png'
                                     alt='trash can icon'
-                                onClick={() => {handleSaveReceivedList(list)}}
+                                    onClick={() => { handleSaveReceivedList(list) }}
                                 >
                                 </img>
                                 {/* DELETE BUTTON */}
@@ -176,7 +187,7 @@ const ShareListIndex = () => {
                                     className='trash-can'
                                     src='/images/trashCan.png'
                                     alt='trash can icon'
-                                onClick={() => {handleDeleteReceivedList(list)}}
+                                    onClick={() => { handleDeleteReceivedList(list) }}
                                 >
                                 </img>
                             </div>
@@ -198,10 +209,11 @@ const ShareListIndex = () => {
                     setFindListModal={setFindListModal}
                     setSendListForm={setSendListForm}
                     setMessageModal={setMessageModal}
+                    setMessage={setMessage}
                 />
             )}
             {messageModal && (
-                <MessageModal />
+                <MessageModal message={message} />
             )}
         </div>
     )

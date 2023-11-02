@@ -31,6 +31,7 @@ const Lists = () => {
         const response = await newList(userId, newListFormData);
         const list = await response.json();
         setListData(list);
+        setNewListForm(!newListForm)
     }
 
     const handleListDelete = async (listId) => {
@@ -80,7 +81,6 @@ const Lists = () => {
                         </select>
                         <button id='new-list-btn' onClick={() => {
                             handleFormSubmit();
-                            setNewListForm(!newListForm)
                         }}>add!</button>
                     </div>
                 </div>

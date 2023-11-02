@@ -30,16 +30,9 @@
     justify-content: space-between;
     }
 
-    /* .lists-header {
-      width: 100%;
-      position: relative;
-      top: 0px;
-    } */
 
-    .sticky {
-      position: sticky;
-      top: 0px;
-      /* z-index: 1; */
+    .lists-header {
+ 
     }
 
     .lists-wrapper {
@@ -55,6 +48,5 @@
   }
     .nav-cont {
       position: sticky;
-      bottom: 0px;
     }
 }

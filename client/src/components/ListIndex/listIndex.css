@@ -1,18 +1,55 @@
 .list-index-cont {
-    position: relative;
+    /* position: relative;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     right: 50%;
-    bottom: 50%;
+    bottom: 50%; */
+
 }
 
+.list-index-header {
+    /* position: absolute;
+    top: 20px; */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 40px;
+}
+
+#listo-logo {
+    width: 150px;
+}
+
+.greeting {
+    border-left: solid rgb(163, 163, 163) 2px;
+    padding: 0px 20px 0px 13px;
+}
+
+.hello {
+    color: grey;
+    font-size: 24px;
+}
+
+#username {
+    color: rgb(47, 99, 255);
+    font-size: 31px;
+    font-weight: 700;
+}
+ .list-type-btn {
+    background-color: rgb(47, 99, 255);
+    border: none;
+    border-radius: 100%;
+    padding: 10px;
+    width: 150px;
+    height: 150px;
+ }
+
 #shopping-list-icon {
-    width: 135px;
+    width: 90px;
 }
 
 #checklist-icon {
-    width: 100px;
+    width: 65px;
 }
 
 .list-type-cont {

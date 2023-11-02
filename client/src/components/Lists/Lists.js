@@ -51,7 +51,7 @@ const Lists = () => {
     }, [listDataLength])
 
     return (
-        <div className='container'>
+        <div className='container-fluid'>
             {/* HEADER */}
             <div className='row'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>

@@ -57,7 +57,7 @@ const ShareListIndex = () => {
         const response = await getListsToSend(userId);
         const lists = await response.json();
         setListData(lists);
-        setFindListModal(true);
+        setFindListModal(!findlistModal);
     }
 
     const handleSaveReceivedList = async (receivedList) => {

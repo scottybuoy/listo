@@ -43,7 +43,7 @@ const SingleList = () => {
     }
 
     const handleAddItemToCategory = async (categoryId) => {
-        if (!itemToCategoryData.itemName) {
+        if (!itemToCategoryData?.itemName) {
             return;
         }
         const response = await addItemToCategory(categoryId, itemToCategoryData);
@@ -131,7 +131,7 @@ const SingleList = () => {
         // HEADER
 
         <div className='container-fluid'>
-            <div className='row'>
+            <div className='row sticky'>
                 <div className='col-12 lists-header d-flex justify-content-between align-items-center'>
                     <div className='d-flex align-items-center'>
                         <Link

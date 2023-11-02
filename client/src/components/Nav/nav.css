@@ -14,8 +14,7 @@
     height: 100px;
     box-shadow: 0px 2px 8px grey;
     color: white;
-    position: relative;
-    /* position: fixed; */
+    /* position: relative; */
     z-index: 5;
     padding-right: 25px;
 }

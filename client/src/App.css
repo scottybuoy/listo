@@ -30,21 +30,32 @@
     justify-content: space-between;
     }
 
+    .stick-target {
+      contain: layout;
+      position: relative;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      contain: layout;
+    }
 
     .lists-header {
- 
+      position: sticky;
     }
 
     .lists-wrapper {
-      margin-bottom: 100px;
+      margin-bottom: 0px;
       position: relative;
-      top: 175px;
+      top: 25px;
   }
     
     .shopping-list-wrapper {
-      margin-bottom: 130px;
+      margin-bottom: 40px;
       position: relative;
-      top: 125px;
+      top: 20px;
   }
     .nav-cont {
       position: sticky;

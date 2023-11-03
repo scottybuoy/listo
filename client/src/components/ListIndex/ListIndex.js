@@ -4,7 +4,7 @@ import Auth from '../../utils/Auth'
 import './listIndex.css';
 
 const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
-const username = Auth.getProfile().data?.username;
+const username = Auth.loggedIn() ? Auth.getProfile().data?.username : null;
 
 
 const ListIndex = () => {

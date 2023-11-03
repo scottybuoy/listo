@@ -130,8 +130,8 @@ const SingleList = () => {
 
         // HEADER
 
-        <div className='container-fluid'>
-            <div className='row'>
+        <div className='container-fluid stick-target'>
+            <div className='row sticky'>
                 <div className='col-12 lists-header d-flex justify-content-between align-items-center'>
                     <div className='d-flex align-items-center'>
                         <Link
@@ -150,9 +150,6 @@ const SingleList = () => {
                         +
                     </button>
                 </div>
-            </div>
-
-            {/* NEW ITEM FORM */}
             {newItemForm ? (
                 <div className='row new-item-form-cont'>
                     <div className={`col-12 d-flex align-items-center justify-content-between ${newItemForm ? 'new-item-form' : 'new-item-form-closed'}`}>
@@ -174,6 +171,9 @@ const SingleList = () => {
             ) : (
                 null
             )}
+            </div>
+
+            {/* NEW ITEM FORM */}
 
             {/* LIST CONTAINER */}
 

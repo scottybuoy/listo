@@ -1,13 +1,4 @@
-/* .app-cont {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-} */
 
-/* .component-content {
-  background-color: pink;
-  height: 100%;
-} */
 
 @media screen and (min-width: 800px) {
   #root {
@@ -20,7 +11,7 @@
     box-shadow: 0px 0px 20px rgb(230, 230, 230);
     border: solid 1px rgb(177, 177, 177);
     border-radius: 9px;
-    contain: layout;
+    /* contain: layout; */
     margin: auto;
     width: 450px;
     height: 850px;
@@ -28,11 +19,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    }
-
-    .stick-target {
-      contain: layout;
-      position: relative;
     }
 
     .sticky {

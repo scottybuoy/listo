@@ -129,7 +129,7 @@ const SingleList = () => {
     return (
 
         // HEADER
-
+        <>
         <div className='container-fluid stick-target'>
             <div className='row sticky'>
                 <div className='col-12 lists-header d-flex justify-content-between align-items-center'>
@@ -277,6 +277,8 @@ const SingleList = () => {
                 </div>
             </div>
 
+
+        </div>
             {/* EDIT ITEM MODAL */}
 
             {toggleUpdateItemModal ? (
@@ -292,8 +294,7 @@ const SingleList = () => {
             ) : (
                 null
             )}
-
-        </div>
+        </>
 
     )
 }

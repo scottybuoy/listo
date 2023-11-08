@@ -1,7 +1,7 @@
 .list-index-cont {
-    width: 100%;
+    width: 450px;
     position: absolute;
-    top: 32%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     right: 50%;

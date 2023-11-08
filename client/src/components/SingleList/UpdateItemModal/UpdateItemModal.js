@@ -13,7 +13,6 @@ const UpdateItemModal = ({ item, toggleUpdateItemModal, setToggleUpdateItemModal
         const { name, value } = e.target;
 
         setItemFormData({ ...itemFormData, [name]: value });
-        console.log('handle change', itemFormData)
     }
 
     const handleEditItem = async (e) => {

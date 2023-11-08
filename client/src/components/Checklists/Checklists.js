@@ -67,7 +67,7 @@ const Checklists = () => {
     return (
         <div className='container-fluid'>
             {/* HEADER */}
-            <div className='row'>
+            <div className='row sticky'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
                     <div className='d-flex align-items-center'>
                         <Link
@@ -79,7 +79,6 @@ const Checklists = () => {
                     </div>
                     <button className='new-list-btn' onClick={() => setNewChecklistForm(!newChecklistForm)}>+</button>
                 </div>
-            </div>
             {/* NEW LIST FORM */}
             {newChecklistForm && (
 
@@ -93,6 +92,7 @@ const Checklists = () => {
                     </div>
                 </div>
             )}
+            </div>
 
             {/* CHECKLISTS */}
             <div className='lists-wrapper'>

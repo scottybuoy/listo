@@ -1,3 +1,49 @@
-.app-cont {
-  height: 100vh;
+
+
+@media screen and (min-width: 800px) {
+  #root {
+    height: 100vh;
+    display: flex;
+  }
+
+  .app-cont {
+    background-color: white;
+    box-shadow: 0px 0px 20px rgb(230, 230, 230);
+    border: solid 1px rgb(177, 177, 177);
+    border-radius: 9px;
+    /* contain: layout; */
+    margin: auto;
+    width: 450px;
+    height: 850px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      contain: layout;
+    }
+
+    .lists-header {
+      position: sticky;
+    }
+
+    .lists-wrapper {
+      margin-bottom: 0px;
+      position: relative;
+      top: 25px;
+  }
+    
+    .shopping-list-wrapper {
+      margin-bottom: 40px;
+      position: relative;
+      top: 20px;
+  }
+    .nav-cont {
+      position: sticky;
+    }
 }

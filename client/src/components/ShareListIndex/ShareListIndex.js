@@ -57,7 +57,7 @@ const ShareListIndex = () => {
         const response = await getListsToSend(userId);
         const lists = await response.json();
         setListData(lists);
-        setFindListModal(true);
+        setFindListModal(!findlistModal);
     }
 
     const handleSaveReceivedList = async (receivedList) => {
@@ -104,7 +104,7 @@ const ShareListIndex = () => {
     return (
         <div className='container-fluid'>
             {/* HEADER */}
-            <div className='row'>
+            <div className='row sticky'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
                     <h3 className='list-title'>Received Lists</h3>
                     <button
@@ -122,7 +122,6 @@ const ShareListIndex = () => {
                         +
                     </button>
                 </div>
-            </div>
             {/* SEND LIST FORM */}
             {sendListForm && (
                 <div className='row'>
@@ -152,6 +151,7 @@ const ShareListIndex = () => {
                     </div>
                 </div>
             )}
+            </div>
             {/* LISTS */}
             <div className='lists-wrapper'>
                 <div className='col-12 btn-container'>

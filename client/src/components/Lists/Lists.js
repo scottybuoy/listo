@@ -31,6 +31,7 @@ const Lists = () => {
         const response = await newList(userId, newListFormData);
         const list = await response.json();
         setListData(list);
+        setNewListForm(!newListForm)
     }
 
     const handleListDelete = async (listId) => {
@@ -51,9 +52,9 @@ const Lists = () => {
     }, [listDataLength])
 
     return (
-        <div className='container'>
+        <div className='container-fluid'>
             {/* HEADER */}
-            <div className='row'>
+            <div className='row sticky'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
                     <div className='d-flex align-items-center'>
                     <Link
@@ -66,7 +67,6 @@ const Lists = () => {
                     </div>
                     <button className='new-list-btn' onClick={() => setNewListForm(!newListForm)}>+</button>
                 </div>
-            </div>
             {/* NEW LIST FORM */}
             {newListForm && (
 
@@ -80,11 +80,11 @@ const Lists = () => {
                         </select>
                         <button id='new-list-btn' onClick={() => {
                             handleFormSubmit();
-                            setNewListForm(!newListForm)
                         }}>add!</button>
                     </div>
                 </div>
             )}
+            </div>
 
             {/* LISTS */}
             <div className='lists-wrapper'>

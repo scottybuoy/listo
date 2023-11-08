@@ -42,16 +42,6 @@ const Nav = () => {
                         >
                         </img>
                     </Link>
-                    {/* {Auth.loggedIn() ? (
-                        <h6 className='nav-item' onClick={() => { Auth.logout(); }}>logout</h6>
-                    ) : (
-                        <Link
-                            className='link'
-                            to={'/login'}
-                        >
-                            <h6 className='nav-item'>login</h6>
-                        </Link>
-                    )} */}
                     <img
                         alt='profile icon'
                         src='/images/profile-icon.png'

@@ -36,7 +36,7 @@ const LoginForm = () => {
     return (
         <div className="container-fluid">
             <div className='row d-flex justify-content-center'>
-                <div className='col-sm-12 col-lg-4  d-flex justify-content-center'>
+                <div className='col-12 d-flex justify-content-center'>
                     <form
                         id='login-form'
                         onSubmit={handleSubmit}

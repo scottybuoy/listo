@@ -1,7 +1,7 @@
 .checklist-wrapper {
-    margin-bottom: 230px;
+    margin-bottom: 30px;
     position: relative;
-    top: 140px;
+    /* top: 140px; */
 }
 .todo-cont {
     padding: 20px;

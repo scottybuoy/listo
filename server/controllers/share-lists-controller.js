@@ -1,4 +1,4 @@
-const { User, List, Checklist } = require('../models');
+const { User, List, Checklist, Category } = require('../models');
 
 const sendList = async (req, res) => {
     let listToSend = null;
@@ -67,6 +67,7 @@ const saveReceivedList = async (req, res) => {
     let fieldToPullFrom = null;
     let listCopy = null;
 
+
     if (req.body.typeOfList === 'shoppingList') {
         updatedList = await List.findById(req.body.receivedListId);
     } else {
@@ -81,10 +82,23 @@ const saveReceivedList = async (req, res) => {
     updatedList.save();
     let obj = updatedList.toObject();
     delete obj._id;
+
+    // CREATE NEW CATEGORY INSTANCES FOR SHOPPING LIST COPY
+    if (req.body.typeOfList === 'shoppingList') {
+        let newCats = await Promise.all(obj.categories.map(async (categoryID) => {
+            const category = await Category.findById(categoryID);
+            let catObj = category.toObject();
+            let oldID = catObj._id;
+            delete catObj._id;
+            const categoryCopy = await Category.create(catObj);
+            console.log('COMPARE IDs', oldID, categoryCopy._id)
+            return categoryCopy._id;
+        }));
+        obj.categories = newCats;
+    }
+
+    console.log('OBJ', obj);
     req.body.typeOfList === 'shoppingList' ? listCopy = await List.create(obj) : listCopy = await Checklist.create(obj);
-
-    console.log('COMPARE', req.receivedListId, listCopy)
-
     req.body.typeOfList === 'shoppingList' ? fieldToUpdate = 'lists' : fieldToUpdate = 'checklists';
     req.body.typeOfList === 'shoppingList' ? fieldToPullFrom = 'receivedLists' : fieldToPullFrom = 'receivedChecklists';
 

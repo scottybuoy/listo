@@ -111,7 +111,6 @@ const Checklist = () => {
                     ) : (
                         checklistData.tasks.map((task) => (
                             <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
-                                {console.log(task._id)}
                                 <div className='d-flex justify-content-between todo-and-check'>
                                     <div className='checkbox-cont'>
                                         <input

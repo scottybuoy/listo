@@ -7,6 +7,8 @@ import Auth from '../../utils/Auth'
 const SignupForm = () => {
 
     const [userFormData, setUserFormData] = useState({ username: '', password: '' })
+    const [passwordVisibility, setPasswordVisibility] = useState(false);
+    const [authError, setAuthError] = useState({ok: true});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,6 +23,7 @@ const SignupForm = () => {
         }
         const response = await signup(userFormData);
         if (!response.ok) {
+            setAuthError({ok: false, message: 'User with that username already exists'})
             throw new Error('Failed to sign up :/')
         }
 
@@ -35,8 +38,13 @@ const SignupForm = () => {
 
     return (
         <div className="container-fluid">
+            <div className='row d-flex justify-content-center auth-form-anchor'>
+                <div className='auth-form-title-cont'>
+                    <h3 className='auth-form-title'>Sign up!</h3>
+                </div>
+            </div>
             <div className='row d-flex justify-content-center'>
-                <div className='col-sm-12 col-lg-4  d-flex justify-content-center'>
+                <div className='col-12 d-flex justify-content-center'>
                     <form
                         id='login-form'
                         onSubmit={handleSubmit}
@@ -51,17 +59,34 @@ const SignupForm = () => {
                         </div>
                         <div className='form-field'>
                             <label className='label'>password:</label>
-                            <input
-                                className='custom-input'
-                                name='password'
-                                onChange={handleChange}
-                            />
+                            <div className='input-cont'>
+                                <input
+                                    className='custom-input'
+                                    name='password'
+                                    type={passwordVisibility ? 'text' : 'password'}
+                                    onChange={handleChange}
+                                />
+                                <div id='mask-password-btn'>
+                                    <img
+                                        onClick={() => setPasswordVisibility(!passwordVisibility)}
+                                        alt='eye icon'
+                                        src={passwordVisibility ? '/images/eye-icon.png' : '/images/eye-icon-crossed.png'}
+                                        id='mask-password-icon'
+                                    />
+                                </div>
+
+                            </div>
                         </div>
+                        {!authError.ok && (
+                            <div className='auth-err-cont'>
+                                <p className='auth-err-msg'>{authError.message}</p>
+                            </div>
+                        )}
                         <div className='d-flex justify-content-around mt-3 form-buttons'>
                             <div className='align-items-center'>
                                 <h6 className='sign-up-prompt'>Already a user? </h6>
                                 <Link
-                                className='sign-up-link'
+                                    className='sign-up-link'
                                     to={`/`}
                                 >
                                     <h6>Log In</h6>

@@ -3,14 +3,18 @@ const { signToken } = require('../utils/auth');
 
 // create new user
 const createUser = async ({ body }, res) => {
-    const user = await User.create(body);
+    try {
+        const user = await User.create(body);
 
-    if (!user) {
-        return res.status(400).json({ message: 'Failed to create user' });
+        if (!user) {
+            return res.status(400).json({ message: 'Failed to create user' });
+        }
+        const token = signToken(user);
+        res.status(200).json({ token, user });
+    } catch (error){
+        return res.status(400).json(error)
     }
-    const token = signToken(user);
-    res.status(200).json({ token, user });
-};
+}
 
 // get user by id
 const getUser = async (req, res) => {

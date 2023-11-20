@@ -52,3 +52,37 @@ input[type="checkbox"]::before {
   -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
   filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
 }
+
+.task-notes-cont {
+    position: relative;
+    background-color: rgb(236, 236, 236);
+    width: 100%;
+    padding: 20px;
+    color: rgb(98, 98, 98);
+    font-style: italic;
+    animation-name: notesSlideIn;
+    animation-duration: .5s;
+}
+
+.checked-task-notes-cont {
+    position: relative;
+    background-color: rgb(247, 247, 247);
+    width: 100%;
+    padding: 20px;
+    color: rgb(203, 203, 203);
+    font-style: italic;
+    animation-name: notesSlideIn;
+    animation-duration: .5s;
+}
+
+@keyframes notesSlideIn {
+    from {
+        top: -30px;
+        opacity: 0%;
+    }
+
+    to {
+        top: 0px;
+        opacity: 100%;
+    }
+}

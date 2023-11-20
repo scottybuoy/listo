@@ -14,6 +14,7 @@ const Checklist = () => {
     const [newTaskFormData, setNewTaskFormData] = useState({});
     const [toggleEditTaskModal, setToggleEditTaskModal] = useState(false);
     const [taskForUpdate, setTaskForUpdate] = useState({});
+    const [taskNotesState, setTaskNotesState] = useState({});
     const { checklistId } = useParams();
     const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
 
@@ -56,6 +57,17 @@ const Checklist = () => {
     }
 
     useEffect(() => {
+
+        const taskNotes = () => {
+            let taskNotesObj = {};
+            if (checklistData.tasks?.length) {
+                for (const task of checklistData.tasks) {
+                    taskNotesObj[task._id] = { notesOpen: false };
+                }
+            }
+            setTaskNotesState(taskNotesObj);
+        }
+
         const getChecklist = async () => {
             const response = await getSingleChecklist(userId, checklistId);
             const checklist = await response.json();
@@ -63,6 +75,7 @@ const Checklist = () => {
         }
 
         getChecklist();
+        taskNotes();
     }, [checkListDataLength])
 
     return (
@@ -110,59 +123,73 @@ const Checklist = () => {
                 <div
                     className='row checklist-wrapper'
                     onClick={() => { if (toggleEditTaskModal) { setToggleEditTaskModal(!toggleEditTaskModal) } }}
-                    >
-                    <div className='col-12 my-4'>
+                >
+                    <div className='col-12 my-4 p-0'>
                         {!checklistData.tasks?.length ? (
                             <div className='empty-list'>Add some tasks!</div>
                         ) : (
                             checklistData.tasks.map((task) => (
-                                <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
-                                    <div className='d-flex justify-content-between todo-and-check'>
-                                        <div className='checkbox-cont'>
-                                            <input
-                                                className='checkbox'
-                                                type='checkbox'
-                                                value={task._id}
-                                                onChange={handleTaskCheck}
-                                                checked={task.checked ? 'checked' : ''}
+                                <div key={task._id}>
+                                    <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
+                                        <div className='d-flex justify-content-between todo-and-check'>
+                                            <div className='checkbox-cont'>
+                                                <input
+                                                    className='checkbox'
+                                                    type='checkbox'
+                                                    value={task._id}
+                                                    onChange={handleTaskCheck}
+                                                    checked={task.checked ? 'checked' : ''}
+                                                >
+                                                </input>
+                                            </div>
+                                            <div className='task-cont'>
+                                                <p className='task m-0'>{task.taskItem}</p>
+                                            </div>
+                                        </div>
+                                        <div className='todo-details-cont d-flex justify-content-between'>
+                                            {/* NOTES BUTTON */}
+
+                                            <img
+                                                className={task.notes ? `notes-icon ${checkedIconClass(task)}` : 'notes-icon-disabled'}
+                                                src='/images/notes-icon.png'
+                                                alt='notes icon'
+                                                onClick={() => {
+                                                    if (!task.notes?.length) {
+                                                        return;
+                                                    }
+                                                    setTaskNotesState({ ...taskNotesState, [task._id]: { notesOpen: !taskNotesState[task._id].notesOpen } })
+                                                }}
                                             >
-                                            </input>
-                                        </div>
-                                        <div className='task-cont'>
-                                            <p className='task m-0'>{task.taskItem}</p>
+                                            </img>
+
+                                            {/* EDIT BUTTON */}
+                                            <img
+                                                className={`edit-pencil ${checkedIconClass(task)}`}
+                                                src='/images/edit-pencil.png'
+                                                alt='edit icon'
+                                                onClick={() => {
+                                                    setToggleEditTaskModal(!toggleEditTaskModal);
+                                                    setTaskForUpdate({ taskId: task._id, notes: task.notes, taskItem: task.taskItem });
+                                                }}
+                                            >
+                                            </img>
+
+                                            {/* DELETE BUTTON */}
+                                            <img
+                                                className={`trash-can ${checkedIconClass(task)}`}
+                                                src='/images/trashCan.png'
+                                                alt='trash can icon'
+                                                onClick={() => { handleTaskDelete(task._id) }}
+                                            >
+                                            </img>
                                         </div>
                                     </div>
-                                    <div className='todo-details-cont d-flex justify-content-between'>
-                                        {/* NOTES BUTTON */}
 
-                                        <img
-                                            className={`notes-icon ${checkedIconClass(task)}`}
-                                            src='/images/notes-icon.png'
-                                            alt='notes icon'
-                                        >
-                                        </img>
+                                    {/* TASK NOTES */}
 
-                                        {/* EDIT BUTTON */}
-                                        <img
-                                            className={`edit-pencil ${checkedIconClass(task)}`}
-                                            src='/images/edit-pencil.png'
-                                            alt='edit icon'
-                                            onClick={() => {
-                                                setToggleEditTaskModal(!toggleEditTaskModal);
-                                                setTaskForUpdate({ taskId: task._id, notes: task.notes, taskItem: task.taskItem });
-                                            }}
-                                        >
-                                        </img>
-
-                                        {/* DELETE BUTTON */}
-                                        <img
-                                            className={`trash-can ${checkedIconClass(task)}`}
-                                            src='/images/trashCan.png'
-                                            alt='trash can icon'
-                                            onClick={() => { handleTaskDelete(task._id) }}
-                                        >
-                                        </img>
-                                    </div>
+                                    {taskNotesState[task._id]?.notesOpen && task.notes && (
+                                        <div className={task.checked ? 'checked-task-notes-cont' : 'task-notes-cont'}>{task.notes}</div>
+                                    )}
                                 </div>
                             ))
                         )}

@@ -211,6 +211,7 @@
 
 
 .items-container {
+    /* z-index: 5; */
     height: 50px;
     align-items: center;
     flex-wrap: wrap;
@@ -224,7 +225,7 @@
 }
 
 .item-notes {
-    z-index: -1;
+    /* z-index: -1; */
     position: relative;
     animation-duration: .5s;
     animation-name: notesSlideIn;
@@ -240,10 +241,12 @@
 @keyframes notesSlideIn {
     from {
         top: -30px;
+        opacity: 0%;
     }
 
     to {
         top: 0px;
+        opacity: 100%;
     }
 }
 

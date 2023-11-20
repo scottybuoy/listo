@@ -63,7 +63,7 @@ const SingleList = () => {
 
     const handleAddItemToCategoryChange = (e) => {
         const { name, value } = e.target;
-        setItemToCategoryData({...itemToCategoryData, [name]: value})
+        setItemToCategoryData({ ...itemToCategoryData, [name]: value })
     }
 
     const displayEmptyMessage = () => {
@@ -120,7 +120,7 @@ const SingleList = () => {
             const categories = await response.json();
             setListData(categories);
         }
-        
+
         findCategories();
         notesObjPromise();
         displayEmptyMessage();
@@ -130,155 +130,156 @@ const SingleList = () => {
 
         // HEADER
         <>
-        <div className='container-fluid stick-target'>
-            <div className='row sticky'>
-                <div className='col-12 lists-header d-flex justify-content-between align-items-center'>
-                    <div className='d-flex align-items-center'>
-                        <Link
-                            to={`/${userId}/my-lists`}
+            <div className='container-fluid stick-target'>
+                <div className='row sticky'>
+                    <div className='col-12 lists-header d-flex justify-content-between align-items-center'>
+                        <div className='d-flex align-items-center'>
+                            <Link
+                                to={`/${userId}/my-lists`}
+                            >
+                                <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                            </Link>
+                            <h3 className='list-title'>{listData.listTitle}</h3>
+                        </div>
+                        <button
+                            className='new-item-btn d-flex align-items-center justify-content-center'
+                            onClick={() => {
+                                setNewItemForm(!newItemForm)
+                            }}
                         >
-                            <img alt='back button' className='back-button' src='/images/back-button.png'></img>
-                        </Link>
-                        <h3 className='list-title'>{listData.listTitle}</h3>
+                            +
+                        </button>
                     </div>
-                    <button
-                        className='new-item-btn d-flex align-items-center justify-content-center'
-                        onClick={() => {
-                            setNewItemForm(!newItemForm)
-                        }}
-                    >
-                        +
-                    </button>
-                </div>
-            {newItemForm ? (
-                <div className='row new-item-form-cont'>
-                    <div className={`col-12 d-flex align-items-center justify-content-between ${newItemForm ? 'new-item-form' : 'new-item-form-closed'}`}>
-                        <input
-                            id='new-item-input'
-                            name='itemName'
-                            onChange={handleChange}
-                        >
-                        </input>
-                        <select id='category-menu' name='category' onChange={handleChange}>
-                            {allCategories.map((category) => (
-                                <option key={category}>{category}</option>
-                            ))}
-                        </select>
 
-                        <button id='new-item-btn' onClick={handleAddItemWithCategory}>add!</button>
-                    </div>
-                </div>
-            ) : (
-                null
-            )}
-            </div>
+                    {/* NEW ITEM FORM */}
 
-            {/* NEW ITEM FORM */}
+                    {newItemForm ? (
+                        <div className='row new-item-form-cont'>
+                            <div className={`col-12 d-flex align-items-center justify-content-between ${newItemForm ? 'new-item-form' : 'new-item-form-closed'}`}>
+                                <input
+                                    id='new-item-input'
+                                    name='itemName'
+                                    onChange={handleChange}
+                                >
+                                </input>
+                                <select id='category-menu' name='category' onChange={handleChange}>
+                                    {allCategories.map((category) => (
+                                        <option key={category}>{category}</option>
+                                    ))}
+                                </select>
 
-            {/* LIST CONTAINER */}
-
-            <div
-                className='row d-flex justify-content-center shopping-list-wrapper'
-                onClick={() => { if (toggleUpdateItemModal) { setToggleUpdateItemModal(!toggleUpdateItemModal) } }}
-            >
-                <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
-                    {emptyCategories && (
-                        <div className='empty-list'>Add some items!</div>
-                    )}
-                    {!listData.categories?.length ? (
-                        null
+                                <button id='new-item-btn' onClick={handleAddItemWithCategory}>add!</button>
+                            </div>
+                        </div>
                     ) : (
-                        // CATEGORIES
-                        listData.categories.map((category) => (
-                            category.items.length ? (
-                                <div key={category._id} id='category-cont'>
-                                    <div className='d-flex justify-content-between align-items-center category-header-cont'>
-                                        <div id='category-name-cont'>
-                                            <h3 id='category-name'>{category.categoryName}</h3>
-                                        </div>
-                                        <img
-                                            id='new-item-icon'
-                                            alt='add item icon'
-                                            src='/images/plus-icon-blue.png'
-                                            onClick={() => { handleAddItemClick(category._id) }}
-                                        >
-                                        </img>
-                                    </div>
-                                    <hr></hr>
-                                    {/* ADD ITEM TO EXISTING CATEGORY FORM */}
-                                    {
-                                        addToCategoryForm[category._id]?.formOpen && (
-                                            <div className='add-item-cont'>
-                                                <input id='new-item-input' name='itemName' onChange={handleAddItemToCategoryChange}></input>
-                                                <button id='new-item-btn' onClick={() => { handleAddItemToCategory(category._id) }}>add!</button>
-                                            </div>
-                                        )
-                                    }
-                                    {/* ITEMS */}
-                                    <div className='d-flex flex-column category-items-cont'>
-                                        {category.items.map((item) => (
-                                            < div key={item._id}>
-                                                <div key={item._id} className='d-flex justify-content-between item-container'>
-                                                    <p className='item-name' key={item._id}>{item.itemName}</p>
-                                                    <div className='d-flex item-details'>
-                                                        <p className='item-qty'>{item.quantity}</p>
-
-                                                        {/* NOTES BUTTON */}
-
-                                                        <img
-                                                            className={item.notes ? 'notes-icon' : 'notes-icon-disabled'}
-                                                            src='/images/notes-icon.png'
-                                                            alt='notes icon'
-                                                            onClick={() => setNotesObjState({ ...notesObjState, [item._id]: { notesOpen: !notesObjState[item._id].notesOpen } })}
-                                                        >
-                                                        </img>
-
-                                                        {/* EDIT BUTTON */}
-                                                        <img
-                                                            className='edit-pencil'
-                                                            src='/images/edit-pencil.png'
-                                                            alt='edit icon'
-                                                            onClick={() => {
-                                                                setToggleUpdateItemModal(!toggleUpdateItemModal);
-                                                                setItemForUpdate({ catId: category._id, itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
-                                                            }}>
-                                                        </img>
-
-                                                        {/* DELETE BUTTON */}
-                                                        <img
-                                                            className='trash-can'
-                                                            src='/images/trashCan.png'
-                                                            alt='trash can icon'
-                                                            onClick={() => { handleItemDelete(item._id, listId, category._id) }}>
-                                                        </img>
-                                                    </div>
-                                                </div>
-                                                {/* NOTES ELEMENT */}
-                                                {notesObjState && notesObjState[item._id].notesOpen && item.notes && (
-                                                    <div className='item-notes-container my-2'>
-                                                        <div className='item-notes'>{item.notes}</div>
-                                                    </div>
-
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                </div>
-                            ) : (
-                                null
-                            )
-
-                        ))
+                        null
                     )}
-
-
-
                 </div>
+
+                {/* LIST CONTAINER */}
+
+                <div
+                    className='row d-flex justify-content-center shopping-list-wrapper'
+                    onClick={() => { if (toggleUpdateItemModal) { setToggleUpdateItemModal(!toggleUpdateItemModal) } }}
+                >
+                    <div className='col-12 list-cont d-flex flex-column my-3 p-0'>
+                        {emptyCategories && (
+                            <div className='empty-list'>Add some items!</div>
+                        )}
+                        {!listData.categories?.length ? (
+                            null
+                        ) : (
+                            // CATEGORIES
+                            listData.categories.map((category) => (
+                                category.items.length ? (
+                                    <div key={category._id} id='category-cont'>
+                                        <div className='d-flex justify-content-between align-items-center category-header-cont'>
+                                            <div id='category-name-cont'>
+                                                <h3 id='category-name'>{category.categoryName}</h3>
+                                            </div>
+                                            <img
+                                                id='new-item-icon'
+                                                alt='add item icon'
+                                                src='/images/plus-icon-blue.png'
+                                                onClick={() => { handleAddItemClick(category._id) }}
+                                            >
+                                            </img>
+                                        </div>
+                                        <hr></hr>
+                                        {/* ADD ITEM TO EXISTING CATEGORY FORM */}
+                                        {
+                                            addToCategoryForm[category._id]?.formOpen && (
+                                                <div className='add-item-cont'>
+                                                    <input id='new-item-input' name='itemName' onChange={handleAddItemToCategoryChange}></input>
+                                                    <button id='new-item-btn' onClick={() => { handleAddItemToCategory(category._id) }}>add!</button>
+                                                </div>
+                                            )
+                                        }
+                                        {/* ITEMS */}
+                                        <div className='d-flex flex-column category-items-cont'>
+                                            {category.items.map((item) => (
+                                                < div key={item._id}>
+                                                    <div key={item._id} className='d-flex justify-content-between item-container'>
+                                                        <p className='item-name' key={item._id}>{item.itemName}</p>
+                                                        <div className='d-flex item-details'>
+                                                            <p className='item-qty'>{item.quantity}</p>
+
+                                                            {/* NOTES BUTTON */}
+
+                                                            <img
+                                                                className={item.notes ? 'notes-icon' : 'notes-icon-disabled'}
+                                                                src='/images/notes-icon.png'
+                                                                alt='notes icon'
+                                                                onClick={() => setNotesObjState({ ...notesObjState, [item._id]: { notesOpen: !notesObjState[item._id].notesOpen } })}
+                                                            >
+                                                            </img>
+
+                                                            {/* EDIT BUTTON */}
+                                                            <img
+                                                                className='edit-pencil'
+                                                                src='/images/edit-pencil.png'
+                                                                alt='edit icon'
+                                                                onClick={() => {
+                                                                    setToggleUpdateItemModal(!toggleUpdateItemModal);
+                                                                    setItemForUpdate({ catId: category._id, itemId: item._id, itemName: item.itemName, quantity: item.quantity, notes: item.notes })
+                                                                }}>
+                                                            </img>
+
+                                                            {/* DELETE BUTTON */}
+                                                            <img
+                                                                className='trash-can'
+                                                                src='/images/trashCan.png'
+                                                                alt='trash can icon'
+                                                                onClick={() => { handleItemDelete(item._id, listId, category._id) }}>
+                                                            </img>
+                                                        </div>
+                                                    </div>
+                                                    {/* NOTES ELEMENT */}
+                                                    {notesObjState && notesObjState[item._id].notesOpen && item.notes && (
+                                                        <div className='item-notes-container my-2'>
+                                                            <div className='item-notes'>{item.notes}</div>
+                                                        </div>
+
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                    </div>
+                                ) : (
+                                    null
+                                )
+
+                            ))
+                        )}
+
+
+
+                    </div>
+                </div>
+
+
             </div>
-
-
-        </div>
             {/* EDIT ITEM MODAL */}
 
             {toggleUpdateItemModal ? (

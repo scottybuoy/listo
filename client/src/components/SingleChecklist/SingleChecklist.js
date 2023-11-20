@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getSingleChecklist, addTaskToCheckList, deleteTaskFromChecklist, toggleItemCheck } from '../../utils/api';
+import EditTaskModal from './EditTaskModal/EditTaskModal';
 import Auth from '../../utils/Auth';
 import './singleChecklist.css';
 
@@ -11,6 +12,8 @@ const Checklist = () => {
     const [checklistData, setChecklistData] = useState({});
     const [newTaskForm, setNewTaskForm] = useState(false);
     const [newTaskFormData, setNewTaskFormData] = useState({});
+    const [toggleEditTaskModal, setToggleEditTaskModal] = useState(false);
+    const [taskForUpdate, setTaskForUpdate] = useState({});
     const { checklistId } = useParams();
     const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
 
@@ -65,100 +68,121 @@ const Checklist = () => {
     return (
 
         // HEADER
-
-        <div className='container-fluid'>
-            <div className='row sticky'>
-                <div className='col-12 lists-header d-flex justify-content-between align-items-center '>
-                    <div className='d-flex align-items-center'>
-                        <Link
-                            className='link'
-                            to={`/checklists`}
+        <>
+            <div className='container-fluid'>
+                <div className='row sticky'>
+                    <div className='col-12 lists-header d-flex justify-content-between align-items-center '>
+                        <div className='d-flex align-items-center'>
+                            <Link
+                                className='link'
+                                to={`/checklists`}
+                            >
+                                <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                            </Link>
+                            <h3 className='list-title'>{checklistData.listTitle}</h3>
+                        </div>
+                        <button
+                            className='new-item-btn d-flex align-items-center justify-content-center'
+                            onClick={() => {
+                                setNewTaskForm(!newTaskForm);
+                            }}
                         >
-                            <img alt='back button' className='back-button' src='/images/back-button.png'></img>
-                        </Link>
-                        <h3 className='list-title'>{checklistData.listTitle}</h3>
+                            +
+                        </button>
                     </div>
-                    <button
-                        className='new-item-btn d-flex align-items-center justify-content-center'
-                        onClick={() => {
-                            setNewTaskForm(!newTaskForm);
-                        }}
-                    >
-                        +
-                    </button>
-                </div>
-            {/* NEW TASK FORM */}
-            {newTaskForm && (
+                    {/* NEW TASK FORM */}
+                    {newTaskForm && (
 
-                <div className='row new-item-form-cont'>
-                    <div className='col-12 d-flex justify-content-between align-items-center new-item-form'>
-                        <input name='taskItem' id='new-list-input' onChange={handleFormChange}></input>
-                        <button id='new-list-btn' onClick={() => {
-                            handleFormSubmit();
-                            setNewTaskForm(!newTaskForm)
-                        }}>add!</button>
-                    </div>
-                </div>
-            )}
-            </div>
-
-            {/* TASKS */}
-
-            <div className='row checklist-wrapper'>
-                <div className='col-12 my-4'>
-                    {!checklistData.tasks?.length ? (
-                        <div className='empty-list'>Add some tasks!</div>
-                    ) : (
-                        checklistData.tasks.map((task) => (
-                            <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
-                                <div className='d-flex justify-content-between todo-and-check'>
-                                    <div className='checkbox-cont'>
-                                        <input
-                                            className='checkbox'
-                                            type='checkbox'
-                                            value={task._id}
-                                            onChange={handleTaskCheck}
-                                            checked={task.checked ? 'checked' : ''}
-                                        >
-                                        </input>
-                                    </div>
-                                    <div className='task-cont'>
-                                        <p className='task m-0'>{task.taskItem}</p>
-                                    </div>
-                                </div>
-                                <div className='todo-details-cont d-flex justify-content-between'>
-                                    {/* NOTES BUTTON */}
-
-                                    <img
-                                        className={`notes-icon ${checkedIconClass(task)}`}
-                                        src='/images/notes-icon.png'
-                                        alt='notes icon'
-                                    >
-                                    </img>
-
-                                    {/* EDIT BUTTON */}
-                                    <img
-                                        className={`edit-pencil ${checkedIconClass(task)}`}
-                                        src='/images/edit-pencil.png'
-                                        alt='edit icon'
-                                    >
-                                    </img>
-
-                                    {/* DELETE BUTTON */}
-                                    <img
-                                        className={`trash-can ${checkedIconClass(task)}`}
-                                        src='/images/trashCan.png'
-                                        alt='trash can icon'
-                                        onClick={() => { handleTaskDelete(task._id) }}
-                                    >
-                                    </img>
-                                </div>
+                        <div className='row new-item-form-cont'>
+                            <div className='col-12 d-flex justify-content-between align-items-center new-item-form'>
+                                <input name='taskItem' id='new-list-input' onChange={handleFormChange}></input>
+                                <button id='new-list-btn' onClick={() => {
+                                    handleFormSubmit();
+                                    setNewTaskForm(!newTaskForm)
+                                }}>add!</button>
                             </div>
-                        ))
+                        </div>
                     )}
                 </div>
+
+                {/* TASKS */}
+
+                <div
+                    className='row checklist-wrapper'
+                    onClick={() => { if (toggleEditTaskModal) { setToggleEditTaskModal(!toggleEditTaskModal) } }}
+                    >
+                    <div className='col-12 my-4'>
+                        {!checklistData.tasks?.length ? (
+                            <div className='empty-list'>Add some tasks!</div>
+                        ) : (
+                            checklistData.tasks.map((task) => (
+                                <div key={task._id} className={`todo-cont d-flex justify-content-between align-items-center ${checkedClass(task)}`}>
+                                    <div className='d-flex justify-content-between todo-and-check'>
+                                        <div className='checkbox-cont'>
+                                            <input
+                                                className='checkbox'
+                                                type='checkbox'
+                                                value={task._id}
+                                                onChange={handleTaskCheck}
+                                                checked={task.checked ? 'checked' : ''}
+                                            >
+                                            </input>
+                                        </div>
+                                        <div className='task-cont'>
+                                            <p className='task m-0'>{task.taskItem}</p>
+                                        </div>
+                                    </div>
+                                    <div className='todo-details-cont d-flex justify-content-between'>
+                                        {/* NOTES BUTTON */}
+
+                                        <img
+                                            className={`notes-icon ${checkedIconClass(task)}`}
+                                            src='/images/notes-icon.png'
+                                            alt='notes icon'
+                                        >
+                                        </img>
+
+                                        {/* EDIT BUTTON */}
+                                        <img
+                                            className={`edit-pencil ${checkedIconClass(task)}`}
+                                            src='/images/edit-pencil.png'
+                                            alt='edit icon'
+                                            onClick={() => {
+                                                setToggleEditTaskModal(!toggleEditTaskModal);
+                                                setTaskForUpdate({ taskId: task._id, notes: task.notes, taskItem: task.taskItem });
+                                            }}
+                                        >
+                                        </img>
+
+                                        {/* DELETE BUTTON */}
+                                        <img
+                                            className={`trash-can ${checkedIconClass(task)}`}
+                                            src='/images/trashCan.png'
+                                            alt='trash can icon'
+                                            onClick={() => { handleTaskDelete(task._id) }}
+                                        >
+                                        </img>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+
+
             </div>
-        </div>
+
+            {/* EDIT TASK MODAL */}
+
+            {toggleEditTaskModal && (
+                <EditTaskModal
+                    task={taskForUpdate}
+                    setChecklistData={setChecklistData}
+                    toggleEditTaskModal={toggleEditTaskModal}
+                    setToggleEditTaskModal={setToggleEditTaskModal}
+                />
+            )}
+        </>
     )
 }
 

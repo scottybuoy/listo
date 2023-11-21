@@ -1,6 +1,7 @@
 import React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { getUser } from '../../utils/api';
 import Auth from '../../utils/Auth';
 import ProfileModal from './ProfileModal/ProfileModal';
 import './nav.css';
@@ -8,18 +9,45 @@ import './nav.css';
 const Nav = () => {
 
     const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
-    // const userId = user.data._id;
     const [profileModal, setProfileModal] = useState(false);
+    const [receivedListData, setReceivedListData] = useState([])
+    const [receivedListNotification, setReceivedListNotification] = useState();
+    const receivedListLength = Object.keys(receivedListData).length;
 
+    useEffect(() => {
+        // const getReceivedLists = async () => {
+        //     const response = await getUser(userId);
+        //     const userData = await response.json();
+        //     console.log(userData.receivedLists.length);
+        //     setReceivedListData(userData.receivedLists)
+        // }
+
+        const getReceivedLists = () => {
+            if (!userId) {
+                return;
+            }
+            getUser(userId)
+                .then((response) => response.json())
+                .then((userData) => {
+                    setReceivedListData(userData.receivedLists);
+                    console.log(receivedListData)
+                })
+        }
+
+        getReceivedLists();
+    }, [receivedListLength]);
 
     return (
         <div className='container-fluid p-0 nav-cont'>
             <div className='col-12 nav'>
                 <div className='d-flex justify-content-between align-items-center inner-nav'>
-                    {/* <img alt='listo logo' id='logo' src='/images/listo-sm.png'></img> */}
+
+                    {/* SHARE LIST INDEX */}
+
                     <Link
                         to={`/share-lists`}
                     >
+                        <div className={receivedListData?.length > 0 ? 'received-list-notification': 'received-list-notification-hidden'}>{receivedListData?.length}</div>
                         <img
                             alt='messages icon'
                             src='/images/messages-icon.png'
@@ -28,26 +56,31 @@ const Nav = () => {
                         >
                         </img>
                     </Link>
+
+                    {/* HOME */}
+
                     <Link
                         className='link'
                         to='/'
                     >
-                        {/* <h6 className='nav-item'>my lists</h6> */}
                         <img
                             alt='home icon ok sheesh'
                             src='/images/home-icon.png'
                             id='home-icon'
                             className='nav-icon'
-                            onClick={() => {setProfileModal(false)}}
+                            onClick={() => { setProfileModal(false) }}
                         >
                         </img>
                     </Link>
+
+                    {/* PROFILE BUTTON */}
+
                     <img
                         alt='profile icon'
                         src='/images/profile-icon.png'
                         className='nav-icon'
                         id='profile-icon'
-                        onClick={() => {if (Auth.loggedIn()) {setProfileModal(!profileModal);}}}
+                        onClick={() => { if (Auth.loggedIn()) { setProfileModal(!profileModal); } }}
                     >
                     </img>
 

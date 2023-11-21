@@ -54,3 +54,21 @@
     color: white;
     text-decoration: none;
 }
+
+.received-list-notification {
+    position: absolute;
+    padding-top: 2px;
+    left: 65px;
+    top: 11px;
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: rgb(255, 106, 0);
+    color: white;
+    font-weight: 900;
+}
+
+.received-list-notification-hidden {
+    display: none;
+}

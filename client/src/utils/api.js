@@ -18,6 +18,15 @@ export const login = (userData) => {
     });
 };
 
+export const getUser = (userID) => {
+    return fetch(`/api/user/${userID}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+};
+
 export const getUserLists = (userId) => {
     return fetch(`/api/user/${userId}/lists`, {
         headers: {

@@ -8,13 +8,14 @@ import NewList from './components/NewList/NewList';
 import SingleChecklist from './components/SingleChecklist/SingleChecklist';
 import Checklists from './components/Checklists/Checklists';
 import ShareListIndex from './components/ShareListIndex/ShareListIndex';
+import { ReceivedListsProvider } from './utils/GlobalState';
 import './App.css';
 
 function App() {
   return (
     <div className='app-cont'>
       <Router>
-
+        <ReceivedListsProvider>
         <Routes>
           <Route
             path='/signup'
@@ -50,6 +51,7 @@ function App() {
           />
         </Routes>
         <Nav />
+        </ReceivedListsProvider>
       </Router>
 
     </div>

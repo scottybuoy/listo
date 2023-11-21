@@ -4,15 +4,18 @@ import { Link } from 'react-router-dom';
 import { getUser } from '../../utils/api';
 import Auth from '../../utils/Auth';
 import ProfileModal from './ProfileModal/ProfileModal';
+import { useReceivedListsContext } from '../../utils/GlobalState';
 import './nav.css';
 
 const Nav = () => {
+    const { receivedLists, setReceivedLists } = useReceivedListsContext();
+
 
     const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
     const [profileModal, setProfileModal] = useState(false);
     const [receivedListData, setReceivedListData] = useState([])
     const [receivedListNotification, setReceivedListNotification] = useState();
-    const receivedListLength = Object.keys(receivedListData).length;
+    const receivedListsLength = Object.keys(receivedLists).length;
 
     useEffect(() => {
         // const getReceivedLists = async () => {
@@ -29,13 +32,15 @@ const Nav = () => {
             getUser(userId)
                 .then((response) => response.json())
                 .then((userData) => {
-                    setReceivedListData(userData.receivedLists);
-                    console.log(receivedListData)
+                    const allReceivedLists = userData.receivedLists.concat(userData.receivedChecklists);
+                    setReceivedLists(allReceivedLists)
+                    // setReceivedListData(userData.receivedLists);
+                    console.log(receivedLists)
                 })
         }
 
         getReceivedLists();
-    }, [receivedListLength]);
+    }, [receivedListsLength]);
 
     return (
         <div className='container-fluid p-0 nav-cont'>
@@ -47,7 +52,7 @@ const Nav = () => {
                     <Link
                         to={`/share-lists`}
                     >
-                        <div className={receivedListData?.length > 0 ? 'received-list-notification': 'received-list-notification-hidden'}>{receivedListData?.length}</div>
+                        <div className={receivedLists?.length > 0 ? 'received-list-notification' : 'received-list-notification-hidden'}>{receivedLists?.length}</div>
                         <img
                             alt='messages icon'
                             src='/images/messages-icon.png'

@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../utils/Auth';
-import { getReceivedLists, searchForRecipient, saveReceivedList, deleteReceivedList, getListsToSend } from '../../utils/api';
+import { getReceivedLists, searchForRecipient, saveReceivedList, deleteReceivedList, getListsToSend, } from '../../utils/api';
 import SearchListsModal from './SearchListsModal/SearchListsModal';
 import MessageModal from '../MessageModal/MessageModal';
+import { useReceivedListsContext } from '../../utils/GlobalState';
 import './shareListIndex.css';
 
 
 const ShareListIndex = () => {
+    const {receivedLists, setReceivedLists} = useReceivedListsContext();
 
     const [receivedListData, setReceivedListData] = useState({});
     const [listData, setListData] = useState();
@@ -97,6 +99,7 @@ const ShareListIndex = () => {
             const receivedLists = await response.json();
             const allReceivedLists = receivedLists.receivedLists.concat(receivedLists.receivedChecklists)
             setReceivedListData(allReceivedLists);
+            setReceivedLists(allReceivedLists);
         }
         findReceivedLists();
     }, [receivedListDataLength])

@@ -1,20 +1,30 @@
+.logo-main {
+    width: 150px;
+}
+
 .auth-form-anchor {
     position: relative;
 }
 
 .auth-form-title-cont {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: baseline;
     width: 80% !important;
     position: absolute;
     top: 110px;
 }
 
 .auth-form-title {
-    font-size: 50px;
+    /* padding-left: 20px;
+    border-left: 3px solid rgb(186, 186, 186); */
+    position: relative;
+    bottom: 5px;
+    font-size: 38px;
     color: rgb(186, 186, 186);
     font-style: italic;
     font-weight: 700;
+    margin: 0;
 }
 
 #login-form {

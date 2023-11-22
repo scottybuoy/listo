@@ -73,33 +73,37 @@ const Lists = () => {
             <div className='row sticky'>
                 <div className='col-12 d-flex lists-header justify-content-between align-items-center'>
                     <div className='d-flex align-items-center'>
-                    <Link
-                        to={`/`}
-                    >
-                        <img alt='back button' className='back-button' src='/images/back-button.png'></img>
-                    </Link>
-                    <h3 className='list-title'>My Shopping Lists</h3>
+                        <Link
+                            to={`/`}
+                        >
+                            <img alt='back button' className='back-button' src='/images/back-button.png'></img>
+                        </Link>
+                        <h3 className='list-title'>My Shopping Lists</h3>
 
                     </div>
-                    <button className='new-list-btn' onClick={() => setNewListForm(!newListForm)}>+</button>
+                    <button className='new-list-btn' onClick={() => setNewListForm(!newListForm)}>
+                        <img alt='new item icon' src='/images/plus-icon-white.png' id='new-item-icon-sm'></img>
+                    </button>
                 </div>
-            {/* NEW LIST FORM */}
-            {newListForm && (
+                {/* NEW LIST FORM */}
+                {newListForm && (
 
-                <div className='row new-list-form-cont'>
-                    <div className='col-12 d-flex justify-content-between align-items-center new-item-form'>
-                        <input name='listTitle' id='new-list-input' onChange={handleChange}></input>
-                        <select name='listType' id='category-menu' onChange={handleChange}>
-                            {listCategories.map((category) => (
-                                <option key={category}>{category}</option>
-                            ))}
-                        </select>
-                        <button id='new-list-btn' onClick={() => {
-                            handleFormSubmit();
-                        }}>add!</button>
+                    <div className='row new-list-form-cont'>
+                        <div className='col-12 d-flex justify-content-between align-items-center new-item-form'>
+                            <input name='listTitle' id='new-list-input' onChange={handleChange}></input>
+                            <select name='listType' id='category-menu' onChange={handleChange}>
+                                {listCategories.map((category) => (
+                                    <option key={category}>{category}</option>
+                                ))}
+                            </select>
+                            <button id='new-list-btn' onClick={() => {
+                                handleFormSubmit();
+                            }}>
+                                <img alt='new item icon' src='/images/plus-icon-white.png' id='new-item-icon-sm'></img>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
             </div>
 
             {/* LISTS */}
@@ -127,7 +131,7 @@ const Lists = () => {
                                     className='trash-can'
                                     src='/images/trashCan.png'
                                     alt='trash can icon'
-                                    onClick={() => {handleListDelete(list._id)}}
+                                    onClick={() => { handleListDelete(list._id) }}
                                 >
                                 </img>
                             </div>

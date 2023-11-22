@@ -41,6 +41,10 @@
     animation-name: newListFormSlideIn;
 }
 
+#new-item-icon-sm {
+    width: 20px;
+}
+
 .new-list-form {
     z-index: 0;
     background-color: rgb(211, 245, 225);

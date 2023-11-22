@@ -112,6 +112,7 @@ const ShareListIndex = () => {
                     <h3 className='list-title'>Received Lists</h3>
                     <button
                         className='new-list-btn'
+                        id='send-list-form-button'
                         onClick={() => {
                             if (findlistModal) {
                                 setFindListModal(false);
@@ -122,7 +123,7 @@ const ShareListIndex = () => {
                             setRecipientData({})
                         }}
                     >
-                        +
+                        <img alt='send list icon' src='/images/send-list-icon.png' id='send-list-icon'></img>
                     </button>
                 </div>
             {/* SEND LIST FORM */}

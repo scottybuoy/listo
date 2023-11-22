@@ -13,8 +13,6 @@ const Nav = () => {
 
     const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
     const [profileModal, setProfileModal] = useState(false);
-    const [receivedListData, setReceivedListData] = useState([])
-    const [receivedListNotification, setReceivedListNotification] = useState();
     const receivedListsLength = Object.keys(receivedLists).length;
 
     useEffect(() => {
@@ -35,7 +33,6 @@ const Nav = () => {
                     const allReceivedLists = userData.receivedLists.concat(userData.receivedChecklists);
                     setReceivedLists(allReceivedLists)
                     // setReceivedListData(userData.receivedLists);
-                    console.log(receivedLists)
                 })
         }
 

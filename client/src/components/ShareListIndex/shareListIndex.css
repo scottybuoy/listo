@@ -49,6 +49,17 @@
     border-radius: 0px 15px 15px 0px
 }
 
+#send-list-form-button {
+    padding-left: 15px;
+    text-align: center;
+    font-size: 0px;
+
+}
+
+#send-list-icon {
+    width: 43px;
+}
+
 #search-icon {
     width: 18px;
 }

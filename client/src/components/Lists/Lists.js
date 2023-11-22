@@ -40,6 +40,22 @@ const Lists = () => {
         setListData(lists);
     }
 
+    const truncateListTitle = (listTitle) => {
+        if (listTitle?.length) {
+
+            if (listTitle.length > 10) {
+                let truncatedListTitle = '';
+                for (var i = 0; i < 9; i++) {
+                    truncatedListTitle += listTitle[i]
+                }
+                truncatedListTitle += '...';
+                return truncatedListTitle;
+            }
+        }
+
+        return listTitle;
+    };
+
     useEffect(() => {
         const findLists = async () => {
             const response = await getUserLists(userId);
@@ -101,7 +117,7 @@ const Lists = () => {
                                     to={`/${userId}/list/${list._id}`}
                                 >
                                     <button className='list-btn' key={list._id}>
-                                        {list.listTitle}
+                                        {truncateListTitle(list.listTitle)}
                                     </button>
                                 </ Link>
                                 <p className='list-info'>{list.listType}</p>

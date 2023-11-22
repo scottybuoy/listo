@@ -40,6 +40,7 @@ const SingleList = () => {
         const newItem = await response.json();
         setListData(newItem);
         setNewItemForm(!newItemForm);
+        setNewItemData({ category: 'Misc' })
     }
 
     const handleAddItemToCategory = async (categoryId) => {
@@ -142,12 +143,12 @@ const SingleList = () => {
                             <h3 className='list-title'>{listData.listTitle}</h3>
                         </div>
                         <button
-                            className='new-item-btn d-flex align-items-center justify-content-center'
+                            className='new-item-btn new-list-btn d-flex align-items-center justify-content-center'
                             onClick={() => {
                                 setNewItemForm(!newItemForm)
                             }}
                         >
-                            +
+                            <img alt='new item icon' src='/images/plus-icon-white.png' id='new-item-icon'></img>
                         </button>
                     </div>
 
@@ -168,7 +169,9 @@ const SingleList = () => {
                                     ))}
                                 </select>
 
-                                <button id='new-item-btn' onClick={handleAddItemWithCategory}>add!</button>
+                                <button id='new-item-btn' onClick={handleAddItemWithCategory}>
+                                    <img alt='new item icon' src='/images/plus-icon-white.png' id='new-item-icon-sm'></img>
+                                </button>
                             </div>
                         </div>
                     ) : (

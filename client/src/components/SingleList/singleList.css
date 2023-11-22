@@ -71,6 +71,20 @@
     padding: 20px 15px;
     display: flex;
     justify-content: space-between;
+    animation-name: addToCatSlideIn;
+    animation-duration: .5s;
+}
+
+@keyframes addToCatSlideIn {
+    from {
+        top: -30px;
+        opacity: 0%;
+    }
+
+    to {
+        top: -16px;
+        opacity: 100%;
+    }
 }
 
 #new-item-icon:hover {

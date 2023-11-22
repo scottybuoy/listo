@@ -8,7 +8,7 @@ const SignupForm = () => {
 
     const [userFormData, setUserFormData] = useState({ username: '', password: '' })
     const [passwordVisibility, setPasswordVisibility] = useState(false);
-    const [authError, setAuthError] = useState({ok: true});
+    const [authError, setAuthError] = useState({ ok: true });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,9 +21,17 @@ const SignupForm = () => {
         if (!userFormData.username || !userFormData.password) {
             return;
         }
+        if (userFormData.username.length < 5 || userFormData.username.length > 12) {
+            setAuthError({ ok: false, message: 'Username must be between 5 and 12 characters in length' })
+            return;
+        }
+        if (userFormData.password.length < 6 || userFormData.password.length > 20) {
+            setAuthError({ ok: false, message: 'Password must be between 5 and 12 characters in length' })
+            return;
+        }
         const response = await signup(userFormData);
         if (!response.ok) {
-            setAuthError({ok: false, message: 'User with that username already exists'})
+            setAuthError({ ok: false, message: 'User with that username already exists' })
             throw new Error('Failed to sign up :/')
         }
 
@@ -40,6 +48,7 @@ const SignupForm = () => {
         <div className="container-fluid">
             <div className='row d-flex justify-content-center auth-form-anchor'>
                 <div className='auth-form-title-cont'>
+                    <img alt='listo icon' className='logo-main' src='/images/listo-blue.png'></img>
                     <h3 className='auth-form-title'>Sign up!</h3>
                 </div>
             </div>

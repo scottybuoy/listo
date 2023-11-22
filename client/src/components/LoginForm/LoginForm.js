@@ -40,6 +40,7 @@ const LoginForm = () => {
         <div className="container-fluid">
             <div className='row d-flex justify-content-center auth-form-anchor'>
                 <div className='auth-form-title-cont'>
+                    <img alt='listo icon' className='logo-main' src='/images/listo-blue.png'></img>
                     <h3 className='auth-form-title'>Log in!</h3>
                 </div>
             </div>
